@@ -3,7 +3,7 @@ import {
   Send, Phone, Video, MoreVertical, CheckCircle2, ShoppingBag, 
   Truck, DollarSign, RefreshCw, PlusCircle, AlertCircle, 
   Check, X, FileText, ArrowRight, User, ShieldAlert, Award,
-  Edit2, Store, Lock, ChevronRight, MessageSquare, Shield
+  Edit2, Store, Lock, ChevronRight, MessageSquare, Shield, Menu
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LandingPage from './components/LandingPage';
@@ -15,6 +15,7 @@ function App() {
   const [view, setView] = useState('landing'); // 'landing' | 'demo'
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'vendor' | 'driver' | 'escrow' | 'admin'
   const [isMobile, setIsMobile] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   
   // Inline Price Editing State for Driver
   const [editingItemId, setEditingItemId] = useState(null);
@@ -24,14 +25,11 @@ function App() {
     const handleResize = () => {
       const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
-      if (!mobile && activeTab === 'chat') {
-        setActiveTab('vendor');
-      }
     };
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
-  }, [activeTab]);
+  }, []);
   
   // Data states
   const [orders, setOrders] = useState([]);
@@ -351,6 +349,13 @@ function App() {
       {/* Top Header */}
       <header className="bg-white border-b-4 border-slate-900 py-3 px-6 shrink-0 z-50 flex items-center justify-between">
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="lg:hidden p-1.5 border-2 border-slate-900 bg-white hover:bg-slate-50 text-slate-900 rounded-none shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
+            aria-label="Toggle Menu"
+          >
+            <Menu className="w-5 h-5" />
+          </button>
           <div className="w-9 h-9 rounded-none border-2 border-slate-900 bg-[#fbbf24] flex items-center justify-center shadow-[2px_2px_0px_0px_#111827] shrink-0">
             <ShoppingBag className="w-5 h-5 text-slate-900" />
           </div>
@@ -454,13 +459,112 @@ function App() {
       </div>
 
       {/* Main Container */}
-      <main className="flex-1 flex overflow-hidden relative pb-[64px] lg:pb-0">
+      <main className="flex-1 flex overflow-hidden relative pb-0">
         
-        {/* Left Side: WhatsApp Simulator */}
-        <section className={`
-          ${activeTab === 'chat' ? 'flex w-full' : 'hidden lg:flex lg:w-[40%]'} 
-          border-r-3 border-slate-900 flex flex-col bg-[#efeae2] h-full overflow-hidden shrink-0
+        {/* Sidebar Component */}
+        <aside className={`
+          fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r-4 border-slate-900 w-64 transform transition-transform duration-300 ease-in-out shrink-0 h-full
+          lg:static lg:translate-x-0
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
+          {/* Sidebar content: Branding / Header */}
+          <div className="p-4 border-b-3 border-slate-900 flex items-center justify-between bg-white shrink-0">
+            <span className="font-black text-sm tracking-tight text-slate-900">MENU UTAMA</span>
+            <button 
+              onClick={() => setIsSidebarOpen(false)}
+              className="lg:hidden p-1 border-2 border-slate-900 bg-white hover:bg-slate-50 text-slate-900 rounded-none shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Navigation Links */}
+          <nav className="flex-1 p-4 space-y-4 overflow-y-auto">
+            {/* User (Chat) */}
+            <button
+              onClick={() => {
+                setActiveTab('chat');
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+                activeTab === 'chat' ? 'bg-emerald-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>PELANGGAN (USER)</span>
+            </button>
+
+            {/* Seller */}
+            <button
+              onClick={() => {
+                setActiveTab('vendor');
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+                activeTab === 'vendor' ? 'bg-emerald-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <Store className="w-4 h-4" />
+              <span>MITRA (SELLER)</span>
+            </button>
+
+            {/* Driver */}
+            <button
+              onClick={() => {
+                setActiveTab('driver');
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+                activeTab === 'driver' ? 'bg-[#3b82f6] text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <Truck className="w-4 h-4" />
+              <span>KURIR (DRIVER)</span>
+            </button>
+
+            {/* Escrow */}
+            <button
+              onClick={() => {
+                setActiveTab('escrow');
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+                activeTab === 'escrow' ? 'bg-amber-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <DollarSign className="w-4 h-4" />
+              <span>BUKU REKBER (ESCROW)</span>
+            </button>
+
+            {/* Admin */}
+            <button
+              onClick={() => {
+                setActiveTab('admin');
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+                activeTab === 'admin' ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
+              }`}
+            >
+              <Shield className="w-4 h-4" />
+              <span>KAMUS & ADMIN</span>
+            </button>
+          </nav>
+        </aside>
+
+        {/* Backdrop for mobile */}
+        {isSidebarOpen && (
+          <div 
+            className="fixed inset-0 bg-slate-900/40 z-40 lg:hidden"
+            onClick={() => setIsSidebarOpen(false)}
+          />
+        )}
+
+        {/* Content Pane */}
+        <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#f3f4f6]">
+          {activeTab === 'chat' ? (
+            /* Left Side: WhatsApp Simulator */
+            <section className="flex-1 flex flex-col bg-[#efeae2] h-full overflow-hidden shrink-0">
           {/* WA Contact Header */}
           <div className="bg-white px-4 py-3 flex items-center justify-between border-b-3 border-slate-900 shrink-0 text-slate-900">
             <div className="flex items-center gap-3">
@@ -584,53 +688,9 @@ function App() {
             </button>
           </form>
         </section>
-
-        {/* Right Side: Actuator Dashboards */}
-        <section className={`
-          ${activeTab === 'chat' ? 'hidden' : 'flex w-full'} 
-          lg:flex lg:w-[60%] flex-col h-full bg-[#f3f4f6] overflow-hidden
-        `}>
-          
-          {/* Desktop Dashboard Navigation Menu */}
-          <nav className="hidden lg:flex border-b-3 border-slate-900 p-2 gap-2 bg-white shrink-0">
-            <button
-              onClick={() => setActiveTab('vendor')}
-              className={`flex-grow py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
-                activeTab === 'vendor' ? 'bg-emerald-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              <Store className="w-4 h-4" />
-              MITRA (SELLER)
-            </button>
-            <button
-              onClick={() => setActiveTab('driver')}
-              className={`flex-grow py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
-                activeTab === 'driver' ? 'bg-[#3b82f6] text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              <Truck className="w-4 h-4" />
-              KURIR (DRIVER)
-            </button>
-            <button
-              onClick={() => setActiveTab('escrow')}
-              className={`flex-grow py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
-                activeTab === 'escrow' ? 'bg-amber-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
-              }`}
-            >
-              <DollarSign className="w-4 h-4" />
-              REKENING BERSAMA / REKBER
-            </button>
-            <button
-              onClick={() => setActiveTab('admin')}
-              className={`px-4.5 py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
-                activeTab === 'admin' ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
-              }`}
-              title="Kamus & Debug"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
-          </nav>
-
+      ) : (
+        /* Right Side: Actuator Dashboards */
+        <section className="flex-grow flex flex-col h-full bg-[#f3f4f6] overflow-hidden">
           {/* Active View Content Container */}
           <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
             
@@ -1255,57 +1315,9 @@ function App() {
 
           </div>
         </section>
-
+      )}
+        </div>
       </main>
-
-      {/* Mobile Floating Bottom Navigation Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-4 border-slate-900 py-2 px-4 flex items-center justify-around z-50 shadow-none h-[64px]">
-        <button
-          onClick={() => setActiveTab('chat')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
-            activeTab === 'chat' ? 'text-slate-900 bg-emerald-400 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <MessageSquare className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Chat</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('vendor')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
-            activeTab === 'vendor' ? 'text-slate-900 bg-emerald-400 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <Store className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Mitra</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('driver')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
-            activeTab === 'driver' ? 'text-slate-900 bg-[#3b82f6] border-2 border-slate-900 text-white font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <Truck className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Kurir</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('escrow')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
-            activeTab === 'escrow' ? 'text-slate-900 bg-amber-400 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <DollarSign className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Rekber</span>
-        </button>
-        <button
-          onClick={() => setActiveTab('admin')}
-          className={`flex flex-col items-center gap-1 py-1 px-3 rounded-none transition-all cursor-pointer ${
-            activeTab === 'admin' ? 'text-white bg-slate-800 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
-          }`}
-        >
-          <RefreshCw className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Admin</span>
-        </button>
-      </nav>
 
     </div>
   );
