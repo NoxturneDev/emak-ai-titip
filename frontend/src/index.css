@@ -9,8 +9,8 @@
   --color-background: #f3f4f6;
   --color-card: #ffffff;
   --color-card-hover: #f9fafb;
-  --color-border: #111827;
-  --color-border-glow: #111827;
+  --color-border: #e2e8f0;
+  --color-border-glow: #f1f5f9;
   
   --color-primary: #10b981; /* Emerald/Mint */
   --color-primary-light: #059669;
@@ -41,77 +41,76 @@ body {
   margin: 0;
 }
 
-/* Flat Design Panel/Card utilities */
+/* Minimalist Flat Card & Panel Utilities */
 .glass-panel {
   background: #ffffff;
-  border: 3px solid #111827;
-  box-shadow: 4px 4px 0px 0px #111827;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   color: #111827;
+  border-radius: 8px;
 }
 
 .glass-card {
   background: #ffffff;
-  border: 2px solid #111827;
-  box-shadow: 3px 3px 0px 0px #111827;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   color: #111827;
-  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .glass-card:hover {
   background: #f9fafb;
-  transform: translate(-2px, -2px);
-  box-shadow: 5px 5px 0px 0px #111827;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
 }
 
 /* Custom scrollbars */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
   background: #f3f4f6;
-  border-left: 2px solid #111827;
+  border-left: 1px solid #e2e8f0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #e5e7eb;
-  border: 2px solid #111827;
-  border-radius: 4px;
+  background: #cbd5e1;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #cbd5e1;
+  background: #94a3b8;
 }
 
-/* Flat Drop Shadows representing legacy glow names */
+/* Soft shadows for status glows */
 .glow-green {
-  box-shadow: 4px 4px 0px 0px #10b981;
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.1);
 }
 
 .glow-blue {
-  box-shadow: 4px 4px 0px 0px #2563eb;
+  box-shadow: 0 0 12px rgba(37, 99, 235, 0.1);
 }
 
 .glow-violet {
-  box-shadow: 4px 4px 0px 0px #8b5cf6;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.1);
 }
 
-/* Custom WhatsApp message bubble design (Flat high contrast) */
+/* WhatsApp message bubble design - clean flat layout */
 .wa-bubble-in {
   background-color: #ffffff;
-  border: 2px solid #111827;
-  border-radius: 0px 12px 12px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px 8px 8px 0px;
   color: #111827;
-  box-shadow: 2px 2px 0px 0px #111827;
 }
 
 .wa-bubble-out {
   background-color: #d9fdd3;
-  border: 2px solid #111827;
-  border-radius: 12px 0px 12px 12px;
+  border: 1px solid #cce8ca;
+  border-radius: 8px 8px 0px 8px;
   color: #111827;
-  box-shadow: 2px 2px 0px 0px #111827;
 }
 
 /* Animation utilities */

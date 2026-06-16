@@ -347,21 +347,21 @@ function App() {
     <div className="h-screen bg-[#f3f4f6] text-slate-900 flex flex-col font-sans overflow-hidden select-none">
       
       {/* Top Header */}
-      <header className="bg-white border-b-4 border-slate-900 py-3 px-6 shrink-0 z-50 flex items-center justify-between">
+      <header className="bg-white border-b border-slate-200 py-3 px-6 shrink-0 z-50 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="lg:hidden p-1.5 border-2 border-slate-900 bg-white hover:bg-slate-50 text-slate-900 rounded-none shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
+            className="lg:hidden p-1.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-md shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
             aria-label="Toggle Menu"
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="w-9 h-9 rounded-none border-2 border-slate-900 bg-[#fbbf24] flex items-center justify-center shadow-[2px_2px_0px_0px_#111827] shrink-0">
+          <div className="w-9 h-9 rounded-md border border-slate-200 bg-[#fbbf24] flex items-center justify-center shadow-sm shrink-0">
             <ShoppingBag className="w-5 h-5 text-slate-900" />
           </div>
           <div>
             <h1 className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
-              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-none font-bold border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">PANEL KENDALI MVP</span>
+              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-md font-bold border border-slate-200 shadow-sm">PANEL KENDALI MVP</span>
             </h1>
             <p className="text-[10px] text-slate-600 hidden sm:block font-bold">Simulasi Integrasi Chatbot & Buku Kas Rekber</p>
           </div>
@@ -371,12 +371,12 @@ function App() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setView('landing')}
-            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-none border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] transition-all cursor-pointer"
+            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-md border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer"
           >
             ← Kembali ke Beranda
           </button>
           
-          <div className="hidden md:flex items-center gap-5 text-[11px] border-l-2 border-slate-900 pl-5 font-bold">
+          <div className="hidden md:flex items-center gap-5 text-[11px] border-l border-slate-200 pl-5 font-bold">
             <div className="text-left">
               <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Total Pesanan</span>
               <span className="font-black text-slate-900">{orders.length}</span>
@@ -401,7 +401,7 @@ function App() {
       </header>
 
       {/* Unified Global Active Order & Control Bar */}
-      <div className="bg-white border-b-3 border-slate-900 px-6 py-2 flex items-center justify-between gap-4 shrink-0 z-40 text-xs">
+      <div className="bg-white border-b border-slate-200 px-6 py-2 flex items-center justify-between gap-4 shrink-0 z-40 text-xs">
         <div className="flex items-center gap-2">
           <span className="text-slate-700 font-bold uppercase text-[10px]">Order Aktif:</span>
           {orders.length > 0 ? (
@@ -411,7 +411,7 @@ function App() {
                 setActiveOrderId(e.target.value);
                 setEditingItemId(null);
               }}
-              className="bg-white border-2 border-slate-900 text-slate-900 text-[11px] font-black rounded-none px-2.5 py-1 focus:outline-none cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
+              className="bg-white border border-slate-200 text-slate-900 text-[11px] font-black rounded-md px-2.5 py-1 focus:outline-none cursor-pointer shadow-sm"
             >
               {orders.map((ord) => (
                 <option key={ord.id} value={ord.id}>
@@ -450,7 +450,7 @@ function App() {
                 alert("Reset gagal.");
               }
             }}
-            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border-2 border-slate-900 font-black py-1 px-2.5 rounded-none flex items-center gap-1 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827]"
+            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border border-slate-200 font-black py-1 px-2.5 rounded-md flex items-center gap-1 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
           >
             <RefreshCw className="w-3 h-3" />
             Reset Data & Chat
@@ -463,16 +463,16 @@ function App() {
         
         {/* Sidebar Component */}
         <aside className={`
-          fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r-4 border-slate-900 w-64 transform transition-transform duration-300 ease-in-out shrink-0 h-full
+          fixed inset-y-0 left-0 z-50 flex flex-col bg-white border-r border-slate-200 w-64 transform transition-transform duration-300 ease-in-out shrink-0 h-full
           lg:static lg:translate-x-0
           ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
         `}>
           {/* Sidebar content: Branding / Header */}
-          <div className="p-4 border-b-3 border-slate-900 flex items-center justify-between bg-white shrink-0">
+          <div className="p-4 border-b border-slate-200 flex items-center justify-between bg-white shrink-0">
             <span className="font-black text-sm tracking-tight text-slate-900">MENU UTAMA</span>
             <button 
               onClick={() => setIsSidebarOpen(false)}
-              className="lg:hidden p-1 border-2 border-slate-900 bg-white hover:bg-slate-50 text-slate-900 rounded-none shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] cursor-pointer"
+              className="lg:hidden p-1 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-md shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -486,7 +486,7 @@ function App() {
                 setActiveTab('chat');
                 setIsSidebarOpen(false);
               }}
-              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+              className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
                 activeTab === 'chat' ? 'bg-emerald-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -500,7 +500,7 @@ function App() {
                 setActiveTab('vendor');
                 setIsSidebarOpen(false);
               }}
-              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+              className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
                 activeTab === 'vendor' ? 'bg-emerald-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -514,7 +514,7 @@ function App() {
                 setActiveTab('driver');
                 setIsSidebarOpen(false);
               }}
-              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+              className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
                 activeTab === 'driver' ? 'bg-[#3b82f6] text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -528,7 +528,7 @@ function App() {
                 setActiveTab('escrow');
                 setIsSidebarOpen(false);
               }}
-              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+              className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
                 activeTab === 'escrow' ? 'bg-amber-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -542,7 +542,7 @@ function App() {
                 setActiveTab('admin');
                 setIsSidebarOpen(false);
               }}
-              className={`w-full py-3 px-4 border-2 border-slate-900 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] ${
+              className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
                 activeTab === 'admin' ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
@@ -566,9 +566,9 @@ function App() {
             /* Left Side: WhatsApp Simulator */
             <section className="flex-1 flex flex-col bg-[#efeae2] h-full overflow-hidden shrink-0">
           {/* WA Contact Header */}
-          <div className="bg-white px-4 py-3 flex items-center justify-between border-b-3 border-slate-900 shrink-0 text-slate-900">
+          <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-slate-200 shrink-0 text-slate-900">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-none border-2 border-slate-900 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-[2px_2px_0px_0px_#111827]">
+              <div className="w-10 h-10 rounded-md border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
                 E
               </div>
               <div>
@@ -587,24 +587,24 @@ function App() {
           </div>
 
           {/* Quick Script Tag Carousel */}
-          <div className="bg-[#f3f4f6] border-b-2 border-slate-900/60 px-4 py-2.5 shrink-0">
+          <div className="bg-[#f3f4f6] border-b border-slate-200/60 px-4 py-2.5 shrink-0">
             <p className="text-[9px] text-slate-600 mb-2 font-bold uppercase tracking-wide">📋 KIRIM DRAFT BELANJA CEPAT:</p>
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
               <button 
                 onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
-                className="text-[11px] bg-white border-2 border-slate-900 text-slate-900 font-extrabold py-1.5 px-3 rounded-none hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
+                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
               >
                 🥕 Lodeh & Tempe
               </button>
               <button 
                 onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
-                className="text-[11px] bg-white border-2 border-slate-900 text-slate-900 font-extrabold py-1.5 px-3 rounded-none hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
+                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
               >
                 🍗 Sayuran & Ayam
               </button>
               <button 
                 onClick={() => runPresetScript("Tolong beliin kelapa parut 1 butir sama gula merah 250gr")}
-                className="text-[11px] bg-white border-2 border-slate-900 text-slate-900 font-extrabold py-1.5 px-3 rounded-none hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
+                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
               >
                 🥥 Kelapa & Gula Merah
               </button>
@@ -618,7 +618,7 @@ function App() {
                 key={msg.id}
                 className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}
               >
-                <div className={`p-3 rounded-none text-xs whitespace-pre-line relative ${
+                <div className={`p-3 rounded-md text-xs whitespace-pre-line relative ${
                   msg.sender === 'user' 
                     ? 'wa-bubble-out text-slate-900 font-bold' 
                     : 'wa-bubble-in text-slate-900 font-medium'
@@ -627,16 +627,16 @@ function App() {
                   
                   {/* WhatsApp Custom Interactive Buttons for Substitution */}
                   {msg.text.includes("BARANG KOSONG!") && activeOrder && activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                    <div className="mt-3 pt-2.5 border-t-2 border-slate-900/40 flex gap-2">
+                    <div className="mt-3 pt-2.5 border-t border-slate-200/40 flex gap-2">
                       <button
                         onClick={() => handleChatSubstitutionChoice(activeOrder.id, true)}
-                        className="flex-1 bg-emerald-400 border-2 border-slate-900 hover:bg-emerald-500 text-slate-900 font-black py-1.5 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
+                        className="flex-1 bg-emerald-400 border border-slate-200 hover:bg-emerald-500 text-slate-900 font-black py-1.5 rounded-md text-[10px] text-center shadow-sm cursor-pointer"
                       >
                         SETUJU
                       </button>
                       <button
                         onClick={() => handleChatSubstitutionChoice(activeOrder.id, false)}
-                        className="flex-1 bg-red-400 border-2 border-slate-900 hover:bg-red-500 text-slate-900 font-black py-1.5 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
+                        className="flex-1 bg-red-400 border border-slate-200 hover:bg-red-500 text-slate-900 font-black py-1.5 rounded-md text-[10px] text-center shadow-sm cursor-pointer"
                       >
                         BATAL
                       </button>
@@ -648,7 +648,7 @@ function App() {
                     <div className="mt-3">
                       <button
                         onClick={() => handleSimulatePayment(activeOrder.id)}
-                        className="w-full bg-sky-400 hover:bg-sky-500 border-2 border-slate-900 text-slate-900 font-black py-2 px-3 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-md text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                       >
                         <Lock className="w-3.5 h-3.5 text-slate-900" />
                         Bayar Deposit Rekber
@@ -671,18 +671,18 @@ function App() {
               e.preventDefault();
               handleSendMessage();
             }}
-            className="p-3 bg-white flex items-center gap-2 shrink-0 border-t-3 border-slate-900"
+            className="p-3 bg-white flex items-center gap-2 shrink-0 border-t border-slate-200"
           >
             <input 
               type="text" 
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               placeholder="Tulis pesan belanjaan..."
-              className="flex-1 bg-slate-50 border-2 border-slate-900 rounded-none px-4 py-2 text-xs text-slate-900 focus:outline-none"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-4 py-2 text-xs text-slate-900 focus:outline-none"
             />
             <button 
               type="submit" 
-              className="w-8 h-8 border-2 border-slate-900 bg-emerald-400 hover:bg-emerald-500 text-slate-900 flex items-center justify-center transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
+              className="w-8 h-8 border border-slate-200 bg-emerald-400 hover:bg-emerald-500 text-slate-900 flex items-center justify-center transition-all cursor-pointer shadow-sm"
             >
               <Send className="w-4 h-4" />
             </button>
@@ -713,10 +713,10 @@ function App() {
                 className="space-y-6"
               >
                 {/* Store Header */}
-                <div className="glass-card rounded-none p-5 bg-white">
-                  <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-4">
+                <div className="glass-card rounded-md p-5 bg-white">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 border-2 border-slate-900 bg-emerald-100 flex items-center justify-center shadow-[1px_1px_0px_0px_#111827]">
+                      <div className="w-10 h-10 border border-slate-200 bg-emerald-100 flex items-center justify-center shadow-sm">
                         <Store className="w-5 h-5 text-emerald-600" />
                       </div>
                       <div>
@@ -724,7 +724,7 @@ function App() {
                         <h3 className="text-base font-extrabold font-display text-slate-900 mt-0.5">Stall Sayur Segar - Ibu Aminah</h3>
                       </div>
                     </div>
-                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-900 bg-emerald-400 border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827] px-2.5 py-0.5">
+                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-900 bg-emerald-400 border border-slate-200 shadow-sm px-2.5 py-0.5">
                       <span className="w-1.5 h-1.5 bg-slate-900 rounded-full animate-ping"></span>
                       Stall Buka
                     </span>
@@ -732,13 +732,13 @@ function App() {
 
                   {/* Packing Progress Bar */}
                   {activeOrder.status === 'MITRA_PREPPING' && (
-                    <div className="mb-5 bg-slate-50 p-3.5 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
+                    <div className="mb-5 bg-slate-50 p-3.5 border border-slate-200 shadow-sm">
                       <div className="flex justify-between text-xs mb-1.5 font-bold">
                         <span className="text-slate-700">Progress Pengemasan Barang</span>
                         <span className="text-emerald-600">100% Ready</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-200 border-2 border-slate-900 rounded-none overflow-hidden">
-                        <div className="h-full bg-emerald-400 rounded-none w-full transition-all duration-500"></div>
+                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-md overflow-hidden">
+                        <div className="h-full bg-emerald-400 rounded-md w-full transition-all duration-500"></div>
                       </div>
                     </div>
                   )}
@@ -748,9 +748,9 @@ function App() {
                     <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wide">Daftar Barang Belanjaan:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {activeOrder.items && activeOrder.items.map((item) => (
-                        <div key={item.id} className="bg-slate-50 border-2 border-slate-900 p-3.5 rounded-none flex items-center justify-between gap-3 shadow-[2px_2px_0px_0px_#111827]">
+                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-md flex items-center justify-between gap-3 shadow-sm">
                           <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 border-2 border-slate-900 flex items-center justify-center text-xs font-black shadow-[1px_1px_0px_0px_#111827] ${
+                            <div className={`w-8 h-8 border border-slate-200 flex items-center justify-center text-xs font-black shadow-sm ${
                               item.category === 'Bumbu' ? 'bg-amber-100 text-amber-600' :
                               item.category === 'Sayuran' ? 'bg-emerald-100 text-emerald-600' :
                               item.category === 'Daging' ? 'bg-red-100 text-red-600' :
@@ -772,10 +772,10 @@ function App() {
                   </div>
 
                   {/* Action Section */}
-                  <div className="mt-6 pt-5 border-t-2 border-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="mt-6 pt-5 border-t border-slate-200/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <span className="text-[9px] text-slate-500 block uppercase font-bold">Status Pemesanan</span>
-                      <span className="text-xs font-black text-slate-900 mt-0.5 inline-block bg-amber-300 border-2 border-slate-900 px-2 py-0.5 uppercase shadow-[1px_1px_0px_0px_#111827]">
+                      <span className="text-xs font-black text-slate-900 mt-0.5 inline-block bg-amber-300 border border-slate-200 px-2 py-0.5 uppercase shadow-sm">
                         {activeOrder.status}
                       </span>
                     </div>
@@ -797,13 +797,13 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-emerald-400 border-2 border-slate-900 text-slate-900 font-black py-2.5 px-5 rounded-none text-xs flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
+                        className="bg-emerald-400 border border-slate-200 text-slate-900 font-black py-2.5 px-5 rounded-md text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         Selesai Packing & Serahkan Kurir
                       </button>
                     ) : (
-                      <div className="text-[10px] text-slate-600 font-bold bg-slate-50 p-3 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
+                      <div className="text-[10px] text-slate-600 font-bold bg-slate-50 p-3 border border-slate-200 shadow-sm">
                         {activeOrder.status === 'AWAITING_PAYMENT' 
                           ? '⏳ Menunggu deposit dana Rekber dibayarkan oleh Pengguna.' 
                           : '🚀 Pesanan sudah diserahkan ke Kurir untuk belanja dan pengantaran.'}
@@ -822,26 +822,26 @@ function App() {
                 className="space-y-6"
               >
                 {/* Mobile Smartphone Frame Wrapper */}
-                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border-4 border-slate-900 rounded-none shadow-[4px_4px_0px_0px_#111827] p-4">
+                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-md shadow-sm p-4">
                   
                   {/* Phone Screen body */}
                   <div className="bg-[#f3f4f6] p-4 flex flex-col justify-between text-xs min-h-[500px]">
                     
                     {/* Header */}
-                    <div className="flex justify-between items-center pb-3 border-b-2 border-slate-900">
+                    <div className="flex justify-between items-center pb-3 border-b border-slate-200">
                       <div>
                         <span className="text-[9px] text-slate-500 font-black uppercase tracking-wider block">Emak Kurir App</span>
                         <h4 className="font-extrabold text-slate-900 text-sm">Order ID: {activeOrder.id.substring(4)}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="px-2 py-0.5 text-[9px] font-bold bg-[#3b82f6] text-white border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">
+                        <span className="px-2 py-0.5 text-[9px] font-bold bg-[#3b82f6] text-white border border-slate-200 shadow-sm">
                           DRIVER ACTIVE
                         </span>
                       </div>
                     </div>
 
                     {/* Delivery Info */}
-                    <div className="bg-white p-3 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] my-3 flex items-center justify-between text-[11px] font-semibold">
+                    <div className="bg-white p-3 border border-slate-200 shadow-sm my-3 flex items-center justify-between text-[11px] font-semibold">
                       <div>
                         <span className="text-slate-500 block text-[9px] font-bold uppercase">Tujuan Pengiriman</span>
                         <span className="font-extrabold text-slate-900">Perumahan Indah Asri Blok C/15</span>
@@ -872,7 +872,7 @@ function App() {
                               return (
                                 <div 
                                   key={item.id} 
-                                  className={`p-2.5 border-2 border-slate-900 flex flex-col gap-2 transition-all shadow-[2px_2px_0px_0px_#111827] ${
+                                  className={`p-2.5 border border-slate-200 flex flex-col gap-2 transition-all shadow-sm ${
                                     isFulfilled ? 'bg-emerald-50 opacity-90' :
                                     isOOS ? 'bg-red-50 opacity-70' :
                                     'bg-white'
@@ -889,7 +889,7 @@ function App() {
                                             type="number"
                                             value={editingPrice}
                                             onChange={(e) => setEditingPrice(e.target.value)}
-                                            className="bg-slate-50 border-2 border-slate-900 rounded-none px-2 py-1 text-slate-900 text-xs w-24 outline-none"
+                                            className="bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-900 text-xs w-24 outline-none"
                                             placeholder="Harga..."
                                             autoFocus
                                           />
@@ -898,14 +898,14 @@ function App() {
                                       <div className="flex gap-1 shrink-0 mt-3">
                                         <button 
                                           onClick={() => handleSaveItemPrice(item.id)}
-                                          className="p-1.5 bg-emerald-400 border-2 border-slate-900 text-slate-900 rounded-none hover:bg-emerald-500 cursor-pointer shadow-[1px_1px_0px_0px_#111827]"
+                                          className="p-1.5 bg-emerald-400 border border-slate-200 text-slate-900 rounded-md hover:bg-emerald-500 cursor-pointer shadow-sm"
                                           title="Simpan"
                                         >
                                           <Check className="w-3.5 h-3.5" />
                                         </button>
                                         <button 
                                           onClick={() => setEditingItemId(null)}
-                                          className="p-1.5 bg-slate-200 border-2 border-slate-900 text-slate-900 rounded-none hover:bg-slate-350 cursor-pointer shadow-[1px_1px_0px_0px_#111827]"
+                                          className="p-1.5 bg-slate-200 border border-slate-200 text-slate-900 rounded-md hover:bg-slate-350 cursor-pointer shadow-sm"
                                           title="Batal"
                                         >
                                           <X className="w-3.5 h-3.5" />
@@ -934,7 +934,7 @@ function App() {
                                               fetchActiveOrderDetails();
                                             } catch (e) {}
                                           }}
-                                          className={`w-5 h-5 border-2 border-slate-900 flex items-center justify-center transition-all cursor-pointer ${
+                                          className={`w-5 h-5 border border-slate-200 flex items-center justify-center transition-all cursor-pointer ${
                                             isFulfilled ? 'bg-emerald-400 text-slate-900' : 'bg-white hover:bg-slate-50'
                                           }`}
                                         >
@@ -970,7 +970,7 @@ function App() {
                                                 fetchActiveOrderDetails();
                                               } catch (e) {}
                                             }}
-                                            className="bg-red-100 hover:bg-red-200 text-red-600 border-2 border-slate-900 font-bold px-2 py-0.5 rounded-none text-[9px] cursor-pointer shadow-[1px_1px_0px_0px_#111827]"
+                                            className="bg-red-100 hover:bg-red-200 text-red-600 border border-slate-200 font-bold px-2 py-0.5 rounded-md text-[9px] cursor-pointer shadow-sm"
                                           >
                                             Habis
                                           </button>
@@ -990,7 +990,7 @@ function App() {
                                           {/* Price Edit Icon */}
                                           <button 
                                             onClick={() => handleStartEditing(item)}
-                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-none cursor-pointer"
+                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-md cursor-pointer"
                                           >
                                             <Edit2 className="w-3 h-3" />
                                           </button>
@@ -1006,7 +1006,7 @@ function App() {
                       ) : activeOrder.status === 'COMPLETED' ? (
                         /* Delivery Complete phone state */
                         <div className="text-center py-6 space-y-3">
-                          <div className="w-12 h-12 border-2 border-slate-900 bg-emerald-400 flex items-center justify-center mx-auto shadow-[2px_2px_0px_0px_#111827]">
+                          <div className="w-12 h-12 border border-slate-200 bg-emerald-400 flex items-center justify-center mx-auto shadow-sm">
                             <CheckCircle2 className="w-7 h-7 text-slate-900" />
                           </div>
                           <div>
@@ -1016,8 +1016,8 @@ function App() {
                             </p>
                           </div>
                           
-                          <div className="bg-white border-2 border-slate-900 p-3.5 rounded-none text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-[3px_3px_0px_0px_#111827]">
-                            <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b-2 border-slate-900 pb-1 mb-1.5">Rincian Pencairan Dana:</p>
+                          <div className="bg-white border border-slate-200 p-3.5 rounded-md text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
+                            <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b border-slate-200 pb-1 mb-1.5">Rincian Pencairan Dana:</p>
                             <div className="flex justify-between font-bold">
                               <span className="text-slate-500">Pembayaran ke Mitra Pasar:</span>
                               <span className="text-slate-900 font-black">Rp {formatMoney(activeOrder.total_actual)}</span>
@@ -1026,7 +1026,7 @@ function App() {
                               <span className="text-slate-500">Biaya Antar Kurir:</span>
                               <span className="text-slate-900 font-black">Rp 10.000</span>
                             </div>
-                            <div className="flex justify-between border-t-2 border-slate-900/60 pt-1.5 mt-1.5 font-bold">
+                            <div className="flex justify-between border-t border-slate-200/60 pt-1.5 mt-1.5 font-bold">
                               <span className="text-emerald-600">Uang Kembalian (Pengguna):</span>
                               <span className="text-emerald-600 font-black">Rp {formatMoney(activeOrder.refund_amount)}</span>
                             </div>
@@ -1044,10 +1044,10 @@ function App() {
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-white border-2 border-slate-900 p-3 rounded-none shadow-[2px_2px_0px_0px_#111827] mt-4"
+                          className="bg-white border border-slate-200 p-3 rounded-md shadow-sm mt-4"
                         >
                           <span className="text-[9px] font-bold text-slate-600 block uppercase tracking-wide">📄 NOTA BELANJA GENERATED:</span>
-                          <div className="border-2 border-dashed border-slate-900 rounded-none p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
+                          <div className="border-2 border-dashed border-slate-900 rounded-md p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
                             <FileText className="w-6 h-6 text-slate-700" />
                             <span className="text-[10px] text-slate-900 font-bold">Mock_Invoice_Pasar.pdf</span>
                             <div className="text-[9px] text-slate-600 font-bold">
@@ -1059,7 +1059,7 @@ function App() {
                     </div>
 
                     {/* Footer Buttons */}
-                    <div className="pt-3 border-t-2 border-slate-900 mt-3">
+                    <div className="pt-3 border-t border-slate-200 mt-3">
                       {activeOrder.status === 'MITRA_PREPPING' && (
                         <button
                           onClick={async () => {
@@ -1077,7 +1077,7 @@ function App() {
                               console.error(e);
                             }
                           }}
-                          className="w-full bg-[#3b82f6] border-2 border-slate-900 text-white font-black py-3 rounded-none flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
+                          className="w-full bg-[#3b82f6] border border-slate-200 text-white font-black py-3 rounded-md flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                         >
                           <Truck className="w-4 h-4 text-white" />
                           Mulai Belanja (Kurir Jalan)
@@ -1100,7 +1100,7 @@ function App() {
                               }
                             } catch (e) {}
                           }}
-                          className="w-full bg-emerald-400 border-2 border-slate-900 text-slate-900 font-black py-3 rounded-none flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
+                          className="w-full bg-emerald-400 border border-slate-200 text-slate-900 font-black py-3 rounded-md flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                         >
                           <CheckCircle2 className="w-4 h-4" />
                           Selesai & Selesaikan Transaksi Rekber
@@ -1108,7 +1108,7 @@ function App() {
                       )}
 
                       {activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-none border-2 border-slate-900 text-center animate-pulse-soft font-extrabold text-[10px] shadow-[2px_2px_0px_0px_#111827]">
+                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-md border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm">
                           ⏳ Menunggu tanggapan alternatif barang dari WhatsApp Ibu...
                         </div>
                       )}
@@ -1129,7 +1129,7 @@ function App() {
                 {/* Financial Wallet cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Ledger metric 1 */}
-                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Saldo Rekber</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-slate-900 mt-1">
@@ -1142,7 +1142,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 2 */}
-                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Belanja Real</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-emerald-600 mt-1">
@@ -1153,7 +1153,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 3 */}
-                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Refund Pembeli</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-amber-500 mt-1">
@@ -1164,7 +1164,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 4 */}
-                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Biaya Jasa</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-blue-600 mt-1">
@@ -1176,8 +1176,8 @@ function App() {
                 </div>
 
                 {/* Audit Ledger List */}
-                <div className="glass-card rounded-none p-5 bg-white">
-                  <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-4">
+                <div className="glass-card rounded-md p-5 bg-white">
+                  <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div>
                       <h3 className="text-base font-black font-display text-slate-900">Riwayat Mutasi Rekber</h3>
                       <p className="text-xs text-slate-600 mt-0.5 font-semibold">Riwayat audit dari pembukuan relasional SQLite</p>
@@ -1188,7 +1188,7 @@ function App() {
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs text-left border-collapse">
                       <thead>
-                        <tr className="border-b-2 border-slate-900 bg-slate-50 text-slate-700 uppercase tracking-wider text-[9px] font-bold">
+                        <tr className="border-b border-slate-200 bg-slate-50 text-slate-700 uppercase tracking-wider text-[9px] font-bold">
                           <th className="py-2 pb-3">Tipe</th>
                           <th className="py-2 pb-3">Deskripsi Transaksi</th>
                           <th className="py-2 pb-3 text-right">Nilai Rupiah</th>
@@ -1200,7 +1200,7 @@ function App() {
                           activeOrder.ledger.map((entry) => (
                             <tr key={entry.id} className="hover:bg-slate-50 transition-colors text-slate-900">
                               <td className="py-3">
-                                <span className={`px-2 py-0.5 rounded-none text-[9px] font-extrabold border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827] ${
+                                <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold border border-slate-200 shadow-sm ${
                                   entry.type === 'CREDIT_PAYMENT' ? 'bg-emerald-400 text-slate-900' :
                                   entry.type === 'DEBIT_REFUND' ? 'bg-[#8b5cf6]/10 text-[#8b5cf6]' :
                                   entry.type === 'DEBIT_DRIVER_FEE' ? 'bg-blue-100 text-blue-600' :
@@ -1229,23 +1229,23 @@ function App() {
                 </div>
 
                 {/* Saga Flow visualization */}
-                <div className="bg-white border-2 border-slate-900 p-4 rounded-none shadow-[3px_3px_0px_0px_#111827] space-y-3">
+                <div className="bg-white border border-slate-200 p-4 rounded-md shadow-sm space-y-3">
                   <h4 className="text-[11px] font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
                     <ShieldAlert className="w-4 h-4 text-slate-800" />
                     Alur Transaksi Saga Terdistribusi
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-center text-[10px] text-slate-700 leading-relaxed font-semibold">
-                    <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
+                    <div className="bg-white border border-slate-200 p-2.5 shadow-sm">
                       <span className="block font-black text-slate-900 mb-1">1. Deposit Dikunci</span>
                       Estimasi + 15% buffer saldo diamankan di Rekber
                     </div>
                     <div className="hidden sm:flex items-center justify-center"><ChevronRight className="w-4 h-4 text-slate-900" /></div>
-                    <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
+                    <div className="bg-white border border-slate-200 p-2.5 shadow-sm">
                       <span className="block font-black text-slate-900 mb-1">2. Cek Harga</span>
                       Kurir mencocokkan harga asli pasar dan nota belanja
                     </div>
                     <div className="hidden sm:flex items-center justify-center"><ChevronRight className="w-4 h-4 text-slate-900" /></div>
-                    <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
+                    <div className="bg-white border border-slate-200 p-2.5 shadow-sm">
                       <span className="block font-black text-slate-900 mb-1">3. Pembayaran Otomatis</span>
                       Pencairan dana: Kurir, Pedagang, sisa ditransfer balik ke Pengguna
                     </div>
@@ -1261,8 +1261,8 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <div className="glass-card rounded-none p-5 bg-white">
-                  <div className="border-b-2 border-slate-900 pb-3 mb-4">
+                <div className="glass-card rounded-md p-5 bg-white">
+                  <div className="border-b border-slate-200 pb-3 mb-4">
                     <h3 className="text-base font-black text-slate-900">Presenter Admin Control</h3>
                     <p className="text-xs text-slate-500 font-semibold mt-0.5">Daftar harga kamus referensi database pasar tradisional</p>
                   </div>
@@ -1272,7 +1272,7 @@ function App() {
                     <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">📚 Target Fuzzy Matching Referensi Barang & Harga:</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[200px] overflow-y-auto pr-1">
                       {dictionary.map(dict => (
-                        <div key={dict.id} className="bg-slate-50 border-2 border-slate-900 p-2 rounded-none text-[10px] font-bold shadow-[1px_1px_0px_0px_#111827]">
+                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-md text-[10px] font-bold shadow-sm">
                           <span className="font-extrabold text-slate-950 block truncate">{dict.name}</span>
                           <span className="text-slate-500 block text-[9px] mt-0.5 font-semibold">{dict.category}</span>
                           <span className="text-emerald-600 font-extrabold mt-1 block">Rp {formatMoney(dict.estimated_price)} / {dict.unit}</span>
@@ -1282,7 +1282,7 @@ function App() {
                   </div>
 
                   {/* Admin State controller shortcuts */}
-                  <div className="pt-5 border-t-2 border-slate-900/60 mt-5 space-y-3">
+                  <div className="pt-5 border-t border-slate-200/60 mt-5 space-y-3">
                     <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">⚙️ Shortcut State Control:</h4>
                     <div className="flex flex-wrap gap-2.5">
                       <button
@@ -1302,7 +1302,7 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-white hover:bg-slate-50 border-2 border-slate-900 text-slate-900 font-black py-2 px-3.5 rounded-none text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827]"
+                        className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black py-2 px-3.5 rounded-md text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
                       >
                         <Truck className="w-3.5 h-3.5" />
                         Posisikan Order Terpilih: ON_DELIVERY
