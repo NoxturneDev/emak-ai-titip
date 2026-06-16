@@ -346,19 +346,19 @@ function App() {
   }
 
   return (
-    <div className="h-screen bg-background text-gray-100 flex flex-col font-sans overflow-hidden select-none">
+    <div className="h-screen bg-[#f3f4f6] text-slate-900 flex flex-col font-sans overflow-hidden select-none">
       
       {/* Top Header */}
-      <header className="glass-panel border-b border-border py-3 px-6 shrink-0 z-50 flex items-center justify-between">
+      <header className="bg-white border-b-4 border-slate-900 py-3 px-6 shrink-0 z-50 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-primary to-secondary flex items-center justify-center glow-green shrink-0">
-            <ShoppingBag className="w-5 h-5 text-white" />
+          <div className="w-9 h-9 rounded-none border-2 border-slate-900 bg-[#fbbf24] flex items-center justify-center shadow-[2px_2px_0px_0px_#111827] shrink-0">
+            <ShoppingBag className="w-5 h-5 text-slate-900" />
           </div>
           <div>
-            <h1 className="text-base font-bold font-display tracking-tight text-white flex items-center gap-2">
-              Emak AI Titip <span className="text-[10px] bg-primary/20 text-primary-light px-2 py-0.5 rounded-full font-sans border border-primary/30">MVP Control Center</span>
+            <h1 className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
+              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-none font-bold border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">MVP CONTROL PANEL</span>
             </h1>
-            <p className="text-[10px] text-gray-400 hidden sm:block">Conversational Webhook & Escrow Ledger Simulation</p>
+            <p className="text-[10px] text-slate-600 hidden sm:block font-bold">Conversational Webhook & Escrow Ledger Simulation</p>
           </div>
         </div>
 
@@ -366,26 +366,26 @@ function App() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setView('landing')}
-            className="text-[11px] bg-white/5 hover:bg-white/10 text-slate-300 font-semibold py-1.5 px-3 rounded-lg border border-white/10 transition-all cursor-pointer"
+            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-none border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827] transition-all cursor-pointer"
           >
             ← Kembali ke Beranda
           </button>
           
-          <div className="hidden md:flex items-center gap-5 text-[11px] border-l border-border pl-5">
+          <div className="hidden md:flex items-center gap-5 text-[11px] border-l-2 border-slate-900 pl-5 font-bold">
             <div className="text-left">
-              <span className="text-gray-400 block text-[9px] uppercase tracking-wider">Total Orders</span>
-              <span className="font-bold text-white">{orders.length}</span>
+              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Total Orders</span>
+              <span className="font-black text-slate-900">{orders.length}</span>
             </div>
             <div className="text-left">
-              <span className="text-gray-400 block text-[9px] uppercase tracking-wider">Active Status</span>
-              <span className="font-bold text-primary-light flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Active Status</span>
+              <span className="font-black text-emerald-600 flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
                 {activeOrder ? activeOrder.status : 'None'}
               </span>
             </div>
             <div className="text-left">
-              <span className="text-gray-400 block text-[9px] uppercase tracking-wider">Escrow Vault</span>
-              <span className="font-bold text-accent-light">
+              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Escrow Vault</span>
+              <span className="font-black text-secondary">
                 Rp {activeOrder && activeOrder.ledger 
                   ? formatMoney(activeOrder.ledger.reduce((acc, curr) => curr.type === 'CREDIT_PAYMENT' ? acc + curr.amount : acc - curr.amount, 0))
                   : 0}
@@ -396,9 +396,9 @@ function App() {
       </header>
 
       {/* Unified Global Active Order & Control Bar */}
-      <div className="bg-[#11131d] border-b border-border px-6 py-2 flex items-center justify-between gap-4 shrink-0 z-40 text-xs">
+      <div className="bg-white border-b-3 border-slate-900 px-6 py-2 flex items-center justify-between gap-4 shrink-0 z-40 text-xs">
         <div className="flex items-center gap-2">
-          <span className="text-gray-400 font-medium">Order Aktif:</span>
+          <span className="text-slate-700 font-bold uppercase text-[10px]">Order Aktif:</span>
           {orders.length > 0 ? (
             <select
               value={activeOrderId || ''}
@@ -406,7 +406,7 @@ function App() {
                 setActiveOrderId(e.target.value);
                 setEditingItemId(null);
               }}
-              className="bg-[#171a26] border border-border text-white text-[11px] font-bold rounded-lg px-2.5 py-1 focus:outline-none focus:border-primary cursor-pointer"
+              className="bg-white border-2 border-slate-900 text-slate-900 text-[11px] font-black rounded-none px-2.5 py-1 focus:outline-none cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
             >
               {orders.map((ord) => (
                 <option key={ord.id} value={ord.id}>
@@ -415,7 +415,7 @@ function App() {
               ))}
             </select>
           ) : (
-            <span className="text-gray-500 italic text-[11px]">Belum ada order. Silakan kirim pesan chat di simulator.</span>
+            <span className="text-slate-500 italic text-[11px] font-semibold">Belum ada order. Silakan kirim pesan chat di simulator.</span>
           )}
         </div>
 
@@ -445,7 +445,7 @@ function App() {
                 alert("Reset gagal.");
               }
             }}
-            className="text-[10px] bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 font-bold py-1 px-2.5 rounded-lg flex items-center gap-1 transition-colors cursor-pointer"
+            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border-2 border-slate-900 font-black py-1 px-2.5 rounded-none flex items-center gap-1 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827]"
           >
             <RefreshCw className="w-3 h-3" />
             Reset Data & Chat
@@ -459,48 +459,48 @@ function App() {
         {/* Left Side: WhatsApp Simulator */}
         <section className={`
           ${activeTab === 'chat' ? 'flex w-full' : 'hidden lg:flex lg:w-[40%]'} 
-          border-r border-border flex flex-col bg-whatsapp-bg h-full overflow-hidden shrink-0
+          border-r-3 border-slate-900 flex flex-col bg-[#efeae2] h-full overflow-hidden shrink-0
         `}>
           {/* WA Contact Header */}
-          <div className="bg-[#202c33] px-4 py-3 flex items-center justify-between border-b border-[#2e3b43] shrink-0">
+          <div className="bg-white px-4 py-3 flex items-center justify-between border-b-3 border-slate-900 shrink-0 text-slate-900">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-whatsapp-green to-whatsapp-dark flex items-center justify-center text-white font-bold text-sm shadow-md">
+              <div className="w-10 h-10 rounded-none border-2 border-slate-900 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-[2px_2px_0px_0px_#111827]">
                 E
               </div>
               <div>
-                <h3 className="font-semibold text-white text-sm">Emak AI Bot (Jastip)</h3>
-                <span className="text-[11px] text-whatsapp-green flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 bg-whatsapp-green rounded-full animate-pulse"></span>
+                <h3 className="font-extrabold text-slate-900 text-sm">Emak AI Bot (Jastip)</h3>
+                <span className="text-[11px] text-emerald-600 flex items-center gap-1 font-bold">
+                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
                   online (System Simulator)
                 </span>
               </div>
             </div>
-            <div className="flex items-center gap-4 text-gray-400 text-xs">
-              <Phone className="w-4 h-4 cursor-pointer hover:text-white" />
-              <Video className="w-4 h-4 cursor-pointer hover:text-white" />
-              <MoreVertical className="w-4 h-4 cursor-pointer hover:text-white" />
+            <div className="flex items-center gap-4 text-slate-700 text-xs">
+              <Phone className="w-4 h-4 cursor-pointer hover:text-slate-900" />
+              <Video className="w-4 h-4 cursor-pointer hover:text-slate-900" />
+              <MoreVertical className="w-4 h-4 cursor-pointer hover:text-slate-900" />
             </div>
           </div>
 
           {/* Quick Script Tag Carousel */}
-          <div className="bg-[#182229] border-b border-[#222d34] px-4 py-2.5 shrink-0">
-            <p className="text-[10px] text-slate-400 mb-2 font-medium tracking-wide">📋 KIRIM DRAFT BELANJA CEPAT:</p>
+          <div className="bg-[#f3f4f6] border-b-2 border-slate-900/60 px-4 py-2.5 shrink-0">
+            <p className="text-[9px] text-slate-600 mb-2 font-bold uppercase tracking-wide">📋 KIRIM DRAFT BELANJA CEPAT:</p>
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
               <button 
                 onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
-                className="text-[11px] bg-primary/10 border border-primary/20 text-primary-light py-1.5 px-3 rounded-lg hover:bg-primary/20 shrink-0 transition-all cursor-pointer"
+                className="text-[11px] bg-white border-2 border-slate-900 text-slate-900 font-extrabold py-1.5 px-3 rounded-none hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
               >
                 🥕 Lodeh & Tempe
               </button>
               <button 
                 onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
-                className="text-[11px] bg-secondary/10 border border-secondary/20 text-secondary-light py-1.5 px-3 rounded-lg hover:bg-secondary/20 shrink-0 transition-all cursor-pointer"
+                className="text-[11px] bg-white border-2 border-slate-900 text-slate-900 font-extrabold py-1.5 px-3 rounded-none hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
               >
                 🍗 Sayuran & Ayam
               </button>
               <button 
                 onClick={() => runPresetScript("Tolong beliin kelapa parut 1 butir sama gula merah 250gr")}
-                className="text-[11px] bg-accent/10 border border-accent/20 text-accent-light py-1.5 px-3 rounded-lg hover:bg-accent/20 shrink-0 transition-all cursor-pointer"
+                className="text-[11px] bg-white border-2 border-slate-900 text-slate-900 font-extrabold py-1.5 px-3 rounded-none hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
               >
                 🥥 Kelapa & Gula Merah
               </button>
@@ -508,31 +508,31 @@ function App() {
           </div>
 
           {/* WA Chat Feed */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-[url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png')] bg-repeat">
+          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
             {chatMessages.map((msg) => (
               <div 
                 key={msg.id}
                 className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}
               >
-                <div className={`p-2.5 rounded-lg text-xs whitespace-pre-line shadow-sm relative ${
+                <div className={`p-3 rounded-none text-xs whitespace-pre-line relative ${
                   msg.sender === 'user' 
-                    ? 'wa-bubble-out text-slate-100 font-medium' 
-                    : 'wa-bubble-in text-slate-200'
+                    ? 'wa-bubble-out text-slate-900 font-bold' 
+                    : 'wa-bubble-in text-slate-900 font-medium'
                 }`}>
                   {msg.text}
                   
                   {/* WhatsApp Custom Interactive Buttons for Substitution */}
                   {msg.text.includes("BARANG KOSONG!") && activeOrder && activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                    <div className="mt-3 pt-2.5 border-t border-white/5 flex gap-2">
+                    <div className="mt-3 pt-2.5 border-t-2 border-slate-900/40 flex gap-2">
                       <button
                         onClick={() => handleChatSubstitutionChoice(activeOrder.id, true)}
-                        className="flex-1 bg-whatsapp-green hover:bg-[#20ba5a] text-white font-bold py-1.5 rounded text-[10px] text-center shadow-md cursor-pointer"
+                        className="flex-1 bg-emerald-400 border-2 border-slate-900 hover:bg-emerald-500 text-slate-900 font-black py-1.5 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
                       >
                         SETUJU
                       </button>
                       <button
                         onClick={() => handleChatSubstitutionChoice(activeOrder.id, false)}
-                        className="flex-1 bg-red-500 hover:bg-red-600 text-white font-bold py-1.5 rounded text-[10px] text-center shadow-md cursor-pointer"
+                        className="flex-1 bg-red-400 border-2 border-slate-900 hover:bg-red-500 text-slate-900 font-black py-1.5 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
                       >
                         BATAL
                       </button>
@@ -544,17 +544,17 @@ function App() {
                     <div className="mt-3">
                       <button
                         onClick={() => handleSimulatePayment(activeOrder.id)}
-                        className="w-full bg-[#3b82f6] hover:bg-blue-600 text-white font-bold py-2 px-3 rounded-lg text-[10px] text-center shadow flex items-center justify-center gap-1 transition-all cursor-pointer"
+                        className="w-full bg-sky-400 hover:bg-sky-500 border-2 border-slate-900 text-slate-900 font-black py-2 px-3 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                       >
-                        <Lock className="w-3.5 h-3.5" />
+                        <Lock className="w-3.5 h-3.5 text-slate-900" />
                         Bayar Deposit Escrow
                       </button>
                     </div>
                   )}
                 </div>
-                <span className={`text-[9px] text-slate-500 mt-1 flex items-center gap-1 ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
+                <span className={`text-[9px] text-slate-500 mt-1 flex items-center gap-1 font-bold ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
                   {msg.timestamp}
-                  {msg.sender === 'bot' && <span className="text-sky-400 font-bold">✓✓</span>}
+                  {msg.sender === 'bot' && <span className="text-emerald-600 font-black">✓✓</span>}
                 </span>
               </div>
             ))}
@@ -567,18 +567,18 @@ function App() {
               e.preventDefault();
               handleSendMessage();
             }}
-            className="p-3 bg-[#1f2c34] flex items-center gap-2 shrink-0 border-t border-[#2e3b43]"
+            className="p-3 bg-white flex items-center gap-2 shrink-0 border-t-3 border-slate-900"
           >
             <input 
               type="text" 
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               placeholder="Tulis pesan belanjaan..."
-              className="flex-1 bg-[#2a3942] text-slate-200 rounded-lg px-4 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-whatsapp-green"
+              className="flex-1 bg-slate-50 border-2 border-slate-900 rounded-none px-4 py-2 text-xs text-slate-900 focus:outline-none"
             />
             <button 
               type="submit" 
-              className="w-8 h-8 rounded-full bg-whatsapp-green hover:bg-[#20ba5a] text-white flex items-center justify-center transition-all cursor-pointer"
+              className="w-8 h-8 border-2 border-slate-900 bg-emerald-400 hover:bg-emerald-500 text-slate-900 flex items-center justify-center transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827]"
             >
               <Send className="w-4 h-4" />
             </button>
@@ -588,15 +588,15 @@ function App() {
         {/* Right Side: Actuator Dashboards */}
         <section className={`
           ${activeTab === 'chat' ? 'hidden' : 'flex w-full'} 
-          lg:flex lg:w-[60%] flex-col h-full bg-background overflow-hidden
+          lg:flex lg:w-[60%] flex-col h-full bg-[#f3f4f6] overflow-hidden
         `}>
           
           {/* Desktop Dashboard Navigation Menu */}
-          <nav className="hidden lg:flex glass-panel border-b border-border p-2 gap-1 bg-[#10131e]/50 shrink-0">
+          <nav className="hidden lg:flex border-b-3 border-slate-900 p-2 gap-2 bg-white shrink-0">
             <button
               onClick={() => setActiveTab('vendor')}
-              className={`flex-1 py-2 rounded-lg font-display font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                activeTab === 'vendor' ? 'bg-primary text-white shadow-lg glow-green' : 'text-gray-400 hover:text-gray-200 hover:bg-[#1a1e2e]/40'
+              className={`flex-grow py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
+                activeTab === 'vendor' ? 'bg-emerald-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
               <Store className="w-4 h-4" />
@@ -604,8 +604,8 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('driver')}
-              className={`flex-1 py-2 rounded-lg font-display font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                activeTab === 'driver' ? 'bg-secondary text-white shadow-lg glow-blue' : 'text-gray-400 hover:text-gray-200 hover:bg-[#1a1e2e]/40'
+              className={`flex-grow py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
+                activeTab === 'driver' ? 'bg-[#3b82f6] text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
               <Truck className="w-4 h-4" />
@@ -613,8 +613,8 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('escrow')}
-              className={`flex-1 py-2 rounded-lg font-display font-semibold text-xs flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                activeTab === 'escrow' ? 'bg-accent text-white shadow-lg glow-violet' : 'text-gray-400 hover:text-gray-200 hover:bg-[#1a1e2e]/40'
+              className={`flex-grow py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
+                activeTab === 'escrow' ? 'bg-amber-400 text-slate-900' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
               <DollarSign className="w-4 h-4" />
@@ -622,8 +622,8 @@ function App() {
             </button>
             <button
               onClick={() => setActiveTab('admin')}
-              className={`px-3 py-2 rounded-lg font-semibold text-xs flex items-center justify-center transition-all cursor-pointer ${
-                activeTab === 'admin' ? 'bg-gray-700 text-white' : 'text-gray-400 hover:text-gray-200 hover:bg-[#1a1e2e]/40'
+              className={`px-4.5 py-2.5 border-2 border-slate-900 font-black text-xs flex items-center justify-center transition-all cursor-pointer shadow-[2px_2px_0px_0px_#111827] hover:translate-y-[-1px] active:translate-y-[1px] ${
+                activeTab === 'admin' ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
               title="Kamus & Debug"
             >
@@ -639,8 +639,8 @@ function App() {
               <div className="h-64 flex flex-col items-center justify-center text-center gap-3">
                 <AlertCircle className="w-10 h-10 text-slate-500 animate-pulse" />
                 <div>
-                  <h4 className="text-sm font-bold text-gray-400">Tidak Ada Order Aktif</h4>
-                  <p className="text-xs text-gray-500 mt-1 max-w-xs">Gunakan Chat Simulator di sebelah kiri untuk memasukkan daftar belanjaan pertama Ibu.</p>
+                  <h4 className="text-sm font-bold text-slate-800">Tidak Ada Order Aktif</h4>
+                  <p className="text-xs text-slate-500 mt-1 max-w-xs font-semibold">Gunakan Chat Simulator di sebelah kiri untuk memasukkan daftar belanjaan pertama Ibu.</p>
                 </div>
               </div>
             )}
@@ -653,57 +653,57 @@ function App() {
                 className="space-y-6"
               >
                 {/* Store Header */}
-                <div className="glass-card rounded-2xl p-5 border border-border">
-                  <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
+                <div className="glass-card rounded-none p-5 bg-white">
+                  <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-4">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-xl bg-primary/10 text-primary-light flex items-center justify-center">
-                        <Store className="w-5 h-5" />
+                      <div className="w-10 h-10 border-2 border-slate-900 bg-emerald-100 flex items-center justify-center shadow-[1px_1px_0px_0px_#111827]">
+                        <Store className="w-5 h-5 text-emerald-600" />
                       </div>
                       <div>
-                        <span className="text-[10px] text-primary-light font-bold uppercase tracking-wider">Dashboard Toko Mitra</span>
-                        <h3 className="text-base font-bold font-display text-white mt-0.5">Stall Sayur Segar - Ibu Aminah</h3>
+                        <span className="text-[9px] text-slate-500 font-extrabold uppercase tracking-wider block">Dashboard Toko Mitra</span>
+                        <h3 className="text-base font-extrabold font-display text-slate-900 mt-0.5">Stall Sayur Segar - Ibu Aminah</h3>
                       </div>
                     </div>
-                    <span className="flex items-center gap-1.5 text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full">
-                      <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-ping"></span>
+                    <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-900 bg-emerald-400 border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827] px-2.5 py-0.5">
+                      <span className="w-1.5 h-1.5 bg-slate-900 rounded-full animate-ping"></span>
                       Stall Buka
                     </span>
                   </div>
 
                   {/* Packing Progress Bar */}
                   {activeOrder.status === 'MITRA_PREPPING' && (
-                    <div className="mb-5 bg-[#151824] p-3.5 rounded-xl border border-border/80">
-                      <div className="flex justify-between text-xs mb-1.5">
-                        <span className="text-gray-400 font-medium">Progress Pengemasan Barang</span>
-                        <span className="text-primary-light font-bold">100% Ready</span>
+                    <div className="mb-5 bg-slate-50 p-3.5 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
+                      <div className="flex justify-between text-xs mb-1.5 font-bold">
+                        <span className="text-slate-700">Progress Pengemasan Barang</span>
+                        <span className="text-emerald-600">100% Ready</span>
                       </div>
-                      <div className="w-full h-2 bg-slate-800 rounded-full overflow-hidden">
-                        <div className="h-full bg-primary rounded-full w-full transition-all duration-500"></div>
+                      <div className="w-full h-3 bg-slate-200 border-2 border-slate-900 rounded-none overflow-hidden">
+                        <div className="h-full bg-emerald-400 rounded-none w-full transition-all duration-500"></div>
                       </div>
                     </div>
                   )}
 
                   {/* Order Item Tickets */}
                   <div className="space-y-2.5">
-                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wide">Daftar Barang Belanjaan:</p>
+                    <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wide">Daftar Barang Belanjaan:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {activeOrder.items && activeOrder.items.map((item) => (
-                        <div key={item.id} className="bg-[#151824] border border-border p-3.5 rounded-xl flex items-center justify-between gap-3">
+                        <div key={item.id} className="bg-slate-50 border-2 border-slate-900 p-3.5 rounded-none flex items-center justify-between gap-3 shadow-[2px_2px_0px_0px_#111827]">
                           <div className="flex items-center gap-3">
-                            <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold ${
-                              item.category === 'Bumbu' ? 'bg-amber-500/10 text-amber-400' :
-                              item.category === 'Sayuran' ? 'bg-emerald-500/10 text-emerald-400' :
-                              item.category === 'Daging' ? 'bg-red-500/10 text-red-400' :
-                              'bg-blue-500/10 text-sky-400'
+                            <div className={`w-8 h-8 border-2 border-slate-900 flex items-center justify-center text-xs font-black shadow-[1px_1px_0px_0px_#111827] ${
+                              item.category === 'Bumbu' ? 'bg-amber-100 text-amber-600' :
+                              item.category === 'Sayuran' ? 'bg-emerald-100 text-emerald-600' :
+                              item.category === 'Daging' ? 'bg-red-100 text-red-600' :
+                              'bg-blue-100 text-blue-600'
                             }`}>
                               {item.name[0].toUpperCase()}
                             </div>
                             <div>
-                              <span className="font-bold text-white text-xs block">{item.name}</span>
-                              <span className="text-[10px] text-gray-400">{item.quantity} {item.unit} • {item.category}</span>
+                              <span className="font-extrabold text-slate-900 text-xs block">{item.name}</span>
+                              <span className="text-[10px] text-slate-600 font-semibold">{item.quantity} {item.unit} • {item.category}</span>
                             </div>
                           </div>
-                          <span className="text-[11px] font-bold text-slate-300">
+                          <span className="text-[11px] font-black text-slate-700">
                             Rp {formatMoney(item.estimated_price)}
                           </span>
                         </div>
@@ -712,10 +712,10 @@ function App() {
                   </div>
 
                   {/* Action Section */}
-                  <div className="mt-6 pt-5 border-t border-border flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="mt-6 pt-5 border-t-2 border-slate-900/60 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
-                      <span className="text-[10px] text-gray-500 block uppercase">Status Pemesanan</span>
-                      <span className="text-xs font-bold text-slate-200 mt-0.5 inline-block bg-white/5 border border-white/10 px-2 py-0.5 rounded uppercase">
+                      <span className="text-[9px] text-slate-500 block uppercase font-bold">Status Pemesanan</span>
+                      <span className="text-xs font-black text-slate-900 mt-0.5 inline-block bg-amber-300 border-2 border-slate-900 px-2 py-0.5 uppercase shadow-[1px_1px_0px_0px_#111827]">
                         {activeOrder.status}
                       </span>
                     </div>
@@ -737,13 +737,13 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-primary hover:bg-primary-light text-white font-bold py-2.5 px-5 rounded-xl text-xs flex items-center justify-center gap-1.5 transition-all shadow-lg glow-green cursor-pointer"
+                        className="bg-emerald-400 border-2 border-slate-900 text-slate-900 font-black py-2.5 px-5 rounded-none text-xs flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
                       >
                         <CheckCircle2 className="w-4 h-4" />
-                        Selesai Packing & Panggil Kurir
+                        Selesai Packing & Serahkan Kurir
                       </button>
                     ) : (
-                      <div className="text-[10px] text-gray-400 italic bg-[#151824] p-3 rounded-lg border border-border">
+                      <div className="text-[10px] text-slate-600 font-bold bg-slate-50 p-3 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
                         {activeOrder.status === 'AWAITING_PAYMENT' 
                           ? '⏳ Menunggu deposit dana escrow dibayarkan oleh Pengguna.' 
                           : '🚀 Pesanan sudah diserahkan ke Kurir untuk belanja dan pengantaran.'}
@@ -762,33 +762,33 @@ function App() {
                 className="space-y-6"
               >
                 {/* Mobile Smartphone Frame Wrapper */}
-                <div className="w-full max-w-[440px] mx-auto bg-[#07090f] rounded-[40px] border-4 border-slate-800 shadow-2xl relative overflow-hidden">
+                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border-4 border-slate-900 rounded-none shadow-[4px_4px_0px_0px_#111827] p-4">
                   
                   {/* Phone Screen body */}
-                  <div className="bg-[#0e111a] p-4 flex flex-col justify-between text-xs min-h-[520px]">
+                  <div className="bg-[#f3f4f6] p-4 flex flex-col justify-between text-xs min-h-[500px]">
                     
                     {/* Header */}
-                    <div className="flex justify-between items-center pb-3 border-b border-border/80">
+                    <div className="flex justify-between items-center pb-3 border-b-2 border-slate-900">
                       <div>
-                        <span className="text-[10px] text-secondary-light font-bold uppercase tracking-wider block">Emak Kurir App</span>
-                        <h4 className="font-bold text-white text-sm">Order ID: {activeOrder.id.substring(4)}</h4>
+                        <span className="text-[9px] text-slate-500 font-black uppercase tracking-wider block">Emak Kurir App</span>
+                        <h4 className="font-extrabold text-slate-900 text-sm">Order ID: {activeOrder.id.substring(4)}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="px-2 py-0.5 rounded-full text-[9px] font-semibold bg-secondary/15 text-secondary-light border border-secondary/20">
+                        <span className="px-2 py-0.5 text-[9px] font-bold bg-[#3b82f6] text-white border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">
                           DRIVER ACTIVE
                         </span>
                       </div>
                     </div>
 
                     {/* Delivery Info */}
-                    <div className="bg-[#151824] p-3 rounded-xl border border-border/60 my-3 flex items-center justify-between text-[11px]">
+                    <div className="bg-white p-3 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827] my-3 flex items-center justify-between text-[11px] font-semibold">
                       <div>
-                        <span className="text-gray-400 block text-[9px]">Tujuan Pengiriman</span>
-                        <span className="font-bold text-white">Perumahan Indah Asri Blok C/15</span>
+                        <span className="text-slate-500 block text-[9px] font-bold uppercase">Tujuan Pengiriman</span>
+                        <span className="font-extrabold text-slate-900">Perumahan Indah Asri Blok C/15</span>
                       </div>
                       <div className="text-right">
-                        <span className="text-gray-400 block text-[9px]">Ongkos Kirim</span>
-                        <span className="font-bold text-secondary-light">Rp 10.000 (Flat)</span>
+                        <span className="text-slate-500 block text-[9px] font-bold uppercase">Ongkos Kirim</span>
+                        <span className="font-extrabold text-blue-600">Rp 10.000 (Flat)</span>
                       </div>
                     </div>
 
@@ -799,11 +799,11 @@ function App() {
                       {activeOrder.status === 'MITRA_PREPPING' || activeOrder.status === 'ON_DELIVERY' || activeOrder.status === 'AWAITING_SUBSTITUTION' ? (
                         <div className="space-y-3">
                           <div className="flex justify-between items-center">
-                            <span className="text-slate-400 font-bold uppercase text-[10px] tracking-wide">Checklist Pembelian Barang:</span>
-                            <span className="text-[10px] text-gray-500 italic">(Ketuk checklist/pencil untuk input harga)</span>
+                            <span className="text-slate-700 font-bold uppercase text-[9px] tracking-wide">Checklist Pembelian Barang:</span>
+                            <span className="text-[9px] text-slate-500 italic font-semibold">(Ketuk checklist/pencil untuk input harga)</span>
                           </div>
                           
-                          <div className="space-y-2 max-h-[300px] overflow-y-auto pr-1">
+                          <div className="space-y-2.5 max-h-[280px] overflow-y-auto pr-1">
                             {activeOrder.items && activeOrder.items.map((item) => {
                               const isFulfilled = item.status === 'FULFILLED' || item.status === 'SUBSTITUTED';
                               const isOOS = item.status === 'OUT_OF_STOCK';
@@ -812,25 +812,25 @@ function App() {
                               return (
                                 <div 
                                   key={item.id} 
-                                  className={`p-2.5 rounded-xl border flex flex-col gap-2 transition-all ${
-                                    isFulfilled ? 'bg-primary/5 border-primary/20 opacity-90' :
-                                    isOOS ? 'bg-red-500/5 border-red-500/20 opacity-70' :
-                                    'bg-[#161a26] border-border'
+                                  className={`p-2.5 border-2 border-slate-900 flex flex-col gap-2 transition-all shadow-[2px_2px_0px_0px_#111827] ${
+                                    isFulfilled ? 'bg-emerald-50 opacity-90' :
+                                    isOOS ? 'bg-red-50 opacity-70' :
+                                    'bg-white'
                                   }`}
                                 >
                                   {isEditing ? (
                                     /* Inline Price Input mode */
                                     <div className="flex items-center justify-between gap-2 py-1">
                                       <div className="flex-1">
-                                        <span className="text-[10px] text-gray-400 block mb-1">Actual Harga: {item.name}</span>
+                                        <span className="text-[9px] text-slate-600 font-bold block mb-1">Actual Harga: {item.name}</span>
                                         <div className="flex items-center gap-1.5">
-                                          <span className="text-xs font-semibold text-slate-300">Rp</span>
+                                          <span className="text-xs font-bold text-slate-700">Rp</span>
                                           <input 
                                             type="number"
                                             value={editingPrice}
                                             onChange={(e) => setEditingPrice(e.target.value)}
-                                            className="bg-[#1e2333] border border-border rounded px-2 py-1 text-white text-xs w-24 outline-none focus:border-primary"
-                                            placeholder="Tulis harga..."
+                                            className="bg-slate-50 border-2 border-slate-900 rounded-none px-2 py-1 text-slate-900 text-xs w-24 outline-none"
+                                            placeholder="Harga..."
                                             autoFocus
                                           />
                                         </div>
@@ -838,14 +838,14 @@ function App() {
                                       <div className="flex gap-1 shrink-0 mt-3">
                                         <button 
                                           onClick={() => handleSaveItemPrice(item.id)}
-                                          className="p-1.5 bg-primary text-white rounded-lg hover:bg-primary-light cursor-pointer"
+                                          className="p-1.5 bg-emerald-400 border-2 border-slate-900 text-slate-900 rounded-none hover:bg-emerald-500 cursor-pointer shadow-[1px_1px_0px_0px_#111827]"
                                           title="Simpan"
                                         >
                                           <Check className="w-3.5 h-3.5" />
                                         </button>
                                         <button 
                                           onClick={() => setEditingItemId(null)}
-                                          className="p-1.5 bg-slate-700 text-white rounded-lg hover:bg-slate-600 cursor-pointer"
+                                          className="p-1.5 bg-slate-200 border-2 border-slate-900 text-slate-900 rounded-none hover:bg-slate-350 cursor-pointer shadow-[1px_1px_0px_0px_#111827]"
                                           title="Batal"
                                         >
                                           <X className="w-3.5 h-3.5" />
@@ -874,18 +874,18 @@ function App() {
                                               fetchActiveOrderDetails();
                                             } catch (e) {}
                                           }}
-                                          className={`w-5 h-5 rounded-md border flex items-center justify-center transition-all cursor-pointer ${
-                                            isFulfilled ? 'bg-primary border-primary text-white' : 'border-gray-500 hover:border-primary-light'
+                                          className={`w-5 h-5 border-2 border-slate-900 flex items-center justify-center transition-all cursor-pointer ${
+                                            isFulfilled ? 'bg-emerald-400 text-slate-900' : 'bg-white hover:bg-slate-50'
                                           }`}
                                         >
-                                          {isFulfilled && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                                          {isFulfilled && <Check className="w-3.5 h-3.5 stroke-[3] text-slate-900" />}
                                         </button>
 
                                         <div>
-                                          <span className={`font-semibold text-white block ${isFulfilled ? 'line-through text-gray-500' : ''}`}>
+                                          <span className={`font-extrabold text-slate-900 block ${isFulfilled ? 'line-through text-slate-400 font-medium' : ''}`}>
                                             {item.name}
                                           </span>
-                                          <span className="text-[10px] text-gray-400">{item.quantity} {item.unit}</span>
+                                          <span className="text-[10px] text-slate-500 font-semibold">{item.quantity} {item.unit}</span>
                                         </div>
                                       </div>
 
@@ -910,7 +910,7 @@ function App() {
                                                 fetchActiveOrderDetails();
                                               } catch (e) {}
                                             }}
-                                            className="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 font-bold px-2 py-1 rounded text-[9px] cursor-pointer"
+                                            className="bg-red-100 hover:bg-red-200 text-red-600 border-2 border-slate-900 font-bold px-2 py-0.5 rounded-none text-[9px] cursor-pointer shadow-[1px_1px_0px_0px_#111827]"
                                           >
                                             Habis
                                           </button>
@@ -919,10 +919,10 @@ function App() {
                                         {/* Price indicator & edit trigger */}
                                         <div className="flex items-center gap-1.5">
                                           <div className="text-right">
-                                            <span className="text-[10px] font-bold block text-gray-200">
+                                            <span className="text-[10px] font-black block text-slate-900">
                                               Rp {isFulfilled ? formatMoney(item.actual_price) : formatMoney(item.estimated_price)}
                                             </span>
-                                            <span className="text-[8px] text-gray-400 uppercase tracking-wide block">
+                                            <span className="text-[8px] text-slate-500 uppercase tracking-wide block font-bold">
                                               {isFulfilled ? 'Aktual' : 'Estimasi'}
                                             </span>
                                           </div>
@@ -930,7 +930,7 @@ function App() {
                                           {/* Price Edit Icon */}
                                           <button 
                                             onClick={() => handleStartEditing(item)}
-                                            className="text-gray-400 hover:text-white p-1 rounded hover:bg-white/5 cursor-pointer"
+                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-none cursor-pointer"
                                           >
                                             <Edit2 className="w-3 h-3" />
                                           </button>
@@ -946,34 +946,34 @@ function App() {
                       ) : activeOrder.status === 'COMPLETED' ? (
                         /* Delivery Complete phone state */
                         <div className="text-center py-6 space-y-3">
-                          <div className="w-12 h-12 rounded-full bg-primary/10 text-primary flex items-center justify-center mx-auto">
-                            <CheckCircle2 className="w-7 h-7" />
+                          <div className="w-12 h-12 border-2 border-slate-900 bg-emerald-400 flex items-center justify-center mx-auto shadow-[2px_2px_0px_0px_#111827]">
+                            <CheckCircle2 className="w-7 h-7 text-slate-900" />
                           </div>
                           <div>
-                            <h5 className="font-bold text-white text-sm">Delivery Sukses!</h5>
-                            <p className="text-gray-400 text-[11px] mt-1 max-w-[240px] mx-auto">
+                            <h5 className="font-black text-slate-900 text-sm">Delivery Sukses!</h5>
+                            <p className="text-slate-600 text-[11px] mt-1 max-w-[240px] mx-auto font-semibold">
                               Pesanan telah diterima dan dana escrow berhasil dicairkan secara transaksional.
                             </p>
                           </div>
                           
-                          <div className="bg-[#151824] border border-border p-3.5 rounded-xl text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto">
-                            <p className="text-gray-400 font-bold uppercase text-[9px] border-b border-border pb-1 mb-1.5">Rincian Settlement:</p>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">Merchant Payout:</span>
-                              <span className="font-bold text-white">Rp {formatMoney(activeOrder.total_actual)}</span>
+                          <div className="bg-white border-2 border-slate-900 p-3.5 rounded-none text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-[3px_3px_0px_0px_#111827]">
+                            <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b-2 border-slate-900 pb-1 mb-1.5">Rincian Settlement:</p>
+                            <div className="flex justify-between font-bold">
+                              <span className="text-slate-500">Merchant Payout:</span>
+                              <span className="text-slate-900 font-black">Rp {formatMoney(activeOrder.total_actual)}</span>
                             </div>
-                            <div className="flex justify-between">
-                              <span className="text-slate-400">Driver Delivery Fee:</span>
-                              <span className="font-bold text-white">Rp 10.000</span>
+                            <div className="flex justify-between font-bold">
+                              <span className="text-slate-500">Driver Delivery Fee:</span>
+                              <span className="text-slate-900 font-black">Rp 10.000</span>
                             </div>
-                            <div className="flex justify-between border-t border-border/40 pt-1.5 mt-1.5">
-                              <span className="text-primary-light font-semibold">Uang Kembali (User):</span>
-                              <span className="font-bold text-primary-light">Rp {formatMoney(activeOrder.refund_amount)}</span>
+                            <div className="flex justify-between border-t-2 border-slate-900/60 pt-1.5 mt-1.5 font-bold">
+                              <span className="text-emerald-600">Uang Kembali (User):</span>
+                              <span className="text-emerald-600 font-black">Rp {formatMoney(activeOrder.refund_amount)}</span>
                             </div>
                           </div>
                         </div>
                       ) : (
-                        <div className="text-center py-16 text-gray-500 italic text-[11px]">
+                        <div className="text-center py-16 text-slate-500 italic text-[11px] font-bold">
                           Menunggu pembayaran deposit order dilepaskan oleh pembeli sebelum merilis checklist belanja.
                         </div>
                       )}
@@ -984,13 +984,13 @@ function App() {
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-[#10141f] border border-border p-3 rounded-xl space-y-2 mt-4"
+                          className="bg-white border-2 border-slate-900 p-3 rounded-none shadow-[2px_2px_0px_0px_#111827] mt-4"
                         >
-                          <span className="text-[9px] font-bold text-secondary-light block uppercase tracking-wide">📄 NOTA BELANJA GENERATED:</span>
-                          <div className="border border-dashed border-border/80 rounded-lg p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-[#161a26]/40">
-                            <FileText className="w-6 h-6 text-gray-400" />
-                            <span className="text-[10px] text-gray-200 font-bold">Mock_Invoice_Pasar.pdf</span>
-                            <div className="text-[8px] text-slate-500">
+                          <span className="text-[9px] font-bold text-slate-600 block uppercase tracking-wide">📄 NOTA BELANJA GENERATED:</span>
+                          <div className="border-2 border-dashed border-slate-900 rounded-none p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
+                            <FileText className="w-6 h-6 text-slate-700" />
+                            <span className="text-[10px] text-slate-900 font-bold">Mock_Invoice_Pasar.pdf</span>
+                            <div className="text-[9px] text-slate-600 font-bold">
                               Realisasi Belanja: Rp {formatMoney(activeOrder.items.reduce((acc, curr) => curr.status === 'FULFILLED' || curr.status === 'SUBSTITUTED' ? acc + curr.actual_price : acc, 0))}
                             </div>
                           </div>
@@ -999,7 +999,7 @@ function App() {
                     </div>
 
                     {/* Footer Buttons */}
-                    <div className="pt-3 border-t border-border/80 mt-3">
+                    <div className="pt-3 border-t-2 border-slate-900 mt-3">
                       {activeOrder.status === 'MITRA_PREPPING' && (
                         <button
                           onClick={async () => {
@@ -1017,10 +1017,10 @@ function App() {
                               console.error(e);
                             }
                           }}
-                          className="w-full bg-secondary hover:bg-sky-400 text-white font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-lg glow-blue cursor-pointer"
+                          className="w-full bg-[#3b82f6] border-2 border-slate-900 text-white font-black py-3 rounded-none flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
                         >
-                          <Truck className="w-4 h-4" />
-                          Kurir Mulai Belanja di Pasar
+                          <Truck className="w-4 h-4 text-white" />
+                          Mulai Belanja (Kurir Jalan)
                         </button>
                       )}
 
@@ -1040,7 +1040,7 @@ function App() {
                               }
                             } catch (e) {}
                           }}
-                          className="w-full bg-primary hover:bg-primary-light text-white font-bold py-3 rounded-xl flex items-center justify-center gap-1.5 transition-colors shadow-lg glow-green cursor-pointer"
+                          className="w-full bg-emerald-400 border-2 border-slate-900 text-slate-900 font-black py-3 rounded-none flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
                         >
                           <CheckCircle2 className="w-4 h-4" />
                           Selesai & Settle Ledger Escrow
@@ -1048,7 +1048,7 @@ function App() {
                       )}
 
                       {activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                        <div className="bg-amber-500/10 text-amber-400 p-2.5 rounded-xl border border-amber-500/20 text-center animate-pulse-soft font-semibold text-[10px]">
+                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-none border-2 border-slate-900 text-center animate-pulse-soft font-extrabold text-[10px] shadow-[2px_2px_0px_0px_#111827]">
                           ⏳ Menunggu tanggapan alternatif barang dari WhatsApp Ibu...
                         </div>
                       )}
@@ -1069,96 +1069,96 @@ function App() {
                 {/* Financial Wallet cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Ledger metric 1 */}
-                  <div className="bg-[#151824] border border-border p-4 rounded-2xl flex flex-col justify-between min-h-[90px]">
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Escrow Balance</span>
+                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                    <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Escrow Balance</span>
                     <div>
-                      <h4 className="text-xl font-bold font-display text-white mt-1">
+                      <h4 className="text-xl font-black font-display text-slate-900 mt-1">
                         Rp {activeOrder.ledger 
                           ? formatMoney(activeOrder.ledger.reduce((acc, curr) => curr.type === 'CREDIT_PAYMENT' ? acc + curr.amount : acc - curr.amount, 0))
                           : 0}
                       </h4>
-                      <p className="text-[9px] text-slate-500 mt-1">Held securely in ledger</p>
+                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Held securely in ledger</p>
                     </div>
                   </div>
 
                   {/* Ledger metric 2 */}
-                  <div className="bg-[#151824] border border-border p-4 rounded-2xl flex flex-col justify-between min-h-[90px]">
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Belanja Real</span>
+                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                    <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Belanja Real</span>
                     <div>
-                      <h4 className="text-xl font-bold font-display text-primary-light mt-1">
+                      <h4 className="text-xl font-black font-display text-emerald-600 mt-1">
                         Rp {formatMoney(activeOrder.total_actual || activeOrder.items.reduce((acc, curr) => curr.status === 'FULFILLED' || curr.status === 'SUBSTITUTED' ? acc + curr.actual_price : acc, 0))}
                       </h4>
-                      <p className="text-[9px] text-slate-500 mt-1">Est: Rp {formatMoney(activeOrder.total_estimated)}</p>
+                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Est: Rp {formatMoney(activeOrder.total_estimated)}</p>
                     </div>
                   </div>
 
                   {/* Ledger metric 3 */}
-                  <div className="bg-[#151824] border border-border p-4 rounded-2xl flex flex-col justify-between min-h-[90px]">
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Refund Pembeli</span>
+                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                    <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Refund Pembeli</span>
                     <div>
-                      <h4 className="text-xl font-bold font-display text-accent-light mt-1">
+                      <h4 className="text-xl font-black font-display text-amber-500 mt-1">
                         Rp {formatMoney(activeOrder.refund_amount)}
                       </h4>
-                      <p className="text-[9px] text-slate-500 mt-1">Buffer 15%: Rp {formatMoney(activeOrder.buffer_amount)}</p>
+                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Buffer 15%: Rp {formatMoney(activeOrder.buffer_amount)}</p>
                     </div>
                   </div>
 
                   {/* Ledger metric 4 */}
-                  <div className="bg-[#151824] border border-border p-4 rounded-2xl flex flex-col justify-between min-h-[90px]">
-                    <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Biaya Jasa</span>
+                  <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
+                    <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Biaya Jasa</span>
                     <div>
-                      <h4 className="text-xl font-bold font-display text-secondary-light mt-1">
+                      <h4 className="text-xl font-black font-display text-blue-600 mt-1">
                         Rp {activeOrder.status === 'COMPLETED' ? '10.000' : '0'}
                       </h4>
-                      <p className="text-[9px] text-slate-500 mt-1">Flat driver shipping</p>
+                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Flat driver shipping</p>
                     </div>
                   </div>
                 </div>
 
                 {/* Audit Ledger List */}
-                <div className="glass-card rounded-2xl p-5 border border-border">
-                  <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
+                <div className="glass-card rounded-none p-5 bg-white">
+                  <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-4">
                     <div>
-                      <h3 className="text-base font-bold font-display text-white">Mutasi Escrow Ledger</h3>
-                      <p className="text-xs text-gray-400 mt-0.5">Audit log dari ledger relasional SQLite</p>
+                      <h3 className="text-base font-black font-display text-slate-900">Mutasi Escrow Ledger</h3>
+                      <p className="text-xs text-slate-600 mt-0.5 font-semibold">Audit log dari ledger relasional SQLite</p>
                     </div>
-                    <Shield className="w-5 h-5 text-accent-light opacity-50 shrink-0" />
+                    <Shield className="w-5 h-5 text-slate-800 opacity-70 shrink-0" />
                   </div>
 
                   <div className="overflow-x-auto">
                     <table className="w-full text-xs text-left border-collapse">
                       <thead>
-                        <tr className="border-b border-border/60 text-slate-400 uppercase tracking-wider text-[9px] font-bold">
+                        <tr className="border-b-2 border-slate-900 bg-slate-50 text-slate-700 uppercase tracking-wider text-[9px] font-bold">
                           <th className="py-2 pb-3">Tipe</th>
                           <th className="py-2 pb-3">Deskripsi Transaksi</th>
                           <th className="py-2 pb-3 text-right">Nilai Rupiah</th>
                           <th className="py-2 pb-3 text-right">Waktu</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-border/40 font-mono text-[11px]">
+                      <tbody className="divide-y divide-border/60 font-mono text-[11px] font-bold">
                         {activeOrder.ledger && activeOrder.ledger.length > 0 ? (
                           activeOrder.ledger.map((entry) => (
-                            <tr key={entry.id} className="hover:bg-white/5 transition-colors">
+                            <tr key={entry.id} className="hover:bg-slate-50 transition-colors text-slate-900">
                               <td className="py-3">
-                                <span className={`px-2 py-0.5 rounded text-[9px] font-bold border ${
-                                  entry.type === 'CREDIT_PAYMENT' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' :
-                                  entry.type === 'DEBIT_REFUND' ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20' :
-                                  entry.type === 'DEBIT_DRIVER_FEE' ? 'bg-blue-500/10 text-sky-400 border-blue-500/20' :
-                                  'bg-red-500/10 text-red-400 border-red-500/20'
+                                <span className={`px-2 py-0.5 rounded-none text-[9px] font-extrabold border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827] ${
+                                  entry.type === 'CREDIT_PAYMENT' ? 'bg-emerald-400 text-slate-900' :
+                                  entry.type === 'DEBIT_REFUND' ? 'bg-[#8b5cf6]/10 text-[#8b5cf6]' :
+                                  entry.type === 'DEBIT_DRIVER_FEE' ? 'bg-blue-100 text-blue-600' :
+                                  'bg-red-100 text-red-600'
                                 }`}>
                                   {entry.type}
                                 </span>
                               </td>
-                              <td className="py-3 text-slate-300 font-sans">{entry.description}</td>
-                              <td className={`py-3 text-right font-bold font-mono ${entry.type === 'CREDIT_PAYMENT' ? 'text-emerald-400' : 'text-slate-300'}`}>
+                              <td className="py-3 text-slate-800 font-sans">{entry.description}</td>
+                              <td className={`py-3 text-right font-black ${entry.type === 'CREDIT_PAYMENT' ? 'text-emerald-600' : 'text-slate-800'}`}>
                                 {entry.type === 'CREDIT_PAYMENT' ? '+' : '-'} Rp {formatMoney(entry.amount)}
                               </td>
-                              <td className="py-3 text-right text-gray-500 font-sans">{formatDate(entry.created_at)}</td>
+                              <td className="py-3 text-right text-slate-500 font-sans">{formatDate(entry.created_at)}</td>
                             </tr>
                           ))
                         ) : (
                           <tr>
-                            <td colSpan="4" className="py-8 text-center text-gray-500 italic font-sans">
+                            <td colSpan="4" className="py-8 text-center text-slate-500 italic font-sans font-bold">
                               Belum ada catatan transaksi terekam pada database escrow.
                             </td>
                           </tr>
@@ -1169,24 +1169,24 @@ function App() {
                 </div>
 
                 {/* Saga Flow visualization */}
-                <div className="bg-[#151824] p-4 rounded-xl border border-border/80 space-y-3">
-                  <h4 className="text-[11px] font-bold text-gray-400 flex items-center gap-1.5 uppercase tracking-wide">
-                    <ShieldAlert className="w-4 h-4 text-accent-light" />
+                <div className="bg-white border-2 border-slate-900 p-4 rounded-none shadow-[3px_3px_0px_0px_#111827] space-y-3">
+                  <h4 className="text-[11px] font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
+                    <ShieldAlert className="w-4 h-4 text-slate-800" />
                     Distributed Saga Transaction Pipeline
                   </h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-center text-[10px] text-gray-400 leading-relaxed font-sans">
-                    <div className="bg-card border border-border p-2.5 rounded-xl">
-                      <span className="block font-bold text-white mb-1">1. Deposit Locked</span>
+                  <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-center text-[10px] text-slate-700 leading-relaxed font-semibold">
+                    <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
+                      <span className="block font-black text-slate-900 mb-1">1. Deposit Locked</span>
                       Estimasi + 15% buffer saldo diamankan di escrow
                     </div>
-                    <div className="hidden sm:flex items-center justify-center"><ArrowRight className="w-4 h-4 text-gray-600" /></div>
-                    <div className="bg-card border border-border p-2.5 rounded-xl">
-                      <span className="block font-bold text-white mb-1">2. Price Checklist</span>
+                    <div className="hidden sm:flex items-center justify-center"><ChevronRight className="w-4 h-4 text-slate-900" /></div>
+                    <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
+                      <span className="block font-black text-slate-900 mb-1">2. Price Checklist</span>
                       Driver mencocokkan harga riil pasar dan nota belanja
                     </div>
-                    <div className="hidden sm:flex items-center justify-center"><ArrowRight className="w-4 h-4 text-gray-600" /></div>
-                    <div className="bg-card border border-border p-2.5 rounded-xl">
-                      <span className="block font-bold text-white mb-1">3. Atomic Payout</span>
+                    <div className="hidden sm:flex items-center justify-center"><ChevronRight className="w-4 h-4 text-slate-900" /></div>
+                    <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
+                      <span className="block font-black text-slate-900 mb-1">3. Atomic Payout</span>
                       Pecahan dana dilepaskan: Kurir, Pedagang, sisa ditransfer balik
                     </div>
                   </div>
@@ -1201,29 +1201,29 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <div className="glass-card rounded-2xl p-5 border border-border">
-                  <div className="border-b border-border pb-3 mb-4">
-                    <h3 className="text-base font-bold font-display text-white">Presenter Admin Control</h3>
-                    <p className="text-xs text-gray-400 mt-0.5">Daftar harga kamus referensi database pasar tradisional</p>
+                <div className="glass-card rounded-none p-5 bg-white">
+                  <div className="border-b-2 border-slate-900 pb-3 mb-4">
+                    <h3 className="text-base font-black text-slate-900">Presenter Admin Control</h3>
+                    <p className="text-xs text-slate-500 font-semibold mt-0.5">Daftar harga kamus referensi database pasar tradisional</p>
                   </div>
 
                   {/* Seed Price dictionary listing */}
                   <div className="space-y-3">
-                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">📚 Target Fuzzy Matching Referensi Barang & Harga:</h4>
+                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">📚 Target Fuzzy Matching Referensi Barang & Harga:</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[200px] overflow-y-auto pr-1">
                       {dictionary.map(dict => (
-                        <div key={dict.id} className="bg-[#151824] border border-border p-2 rounded-xl text-[10px]">
-                          <span className="font-bold text-white block truncate">{dict.name}</span>
-                          <span className="text-gray-400 block text-[9px] mt-0.5">{dict.category}</span>
-                          <span className="text-primary-light font-bold mt-1 block">Rp {formatMoney(dict.estimated_price)} / {dict.unit}</span>
+                        <div key={dict.id} className="bg-slate-50 border-2 border-slate-900 p-2 rounded-none text-[10px] font-bold shadow-[1px_1px_0px_0px_#111827]">
+                          <span className="font-extrabold text-slate-950 block truncate">{dict.name}</span>
+                          <span className="text-slate-500 block text-[9px] mt-0.5 font-semibold">{dict.category}</span>
+                          <span className="text-emerald-600 font-extrabold mt-1 block">Rp {formatMoney(dict.estimated_price)} / {dict.unit}</span>
                         </div>
                       ))}
                     </div>
                   </div>
 
                   {/* Admin State controller shortcuts */}
-                  <div className="pt-5 border-t border-border mt-5 space-y-3">
-                    <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wide">⚙️ Shortcut State Control:</h4>
+                  <div className="pt-5 border-t-2 border-slate-900/60 mt-5 space-y-3">
+                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">⚙️ Shortcut State Control:</h4>
                     <div className="flex flex-wrap gap-2.5">
                       <button
                         onClick={async () => {
@@ -1242,7 +1242,7 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-secondary/10 hover:bg-secondary/25 text-secondary-light border border-secondary/25 font-bold py-2 px-3.5 rounded-xl text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer"
+                        className="bg-white hover:bg-slate-50 border-2 border-slate-900 text-slate-900 font-black py-2 px-3.5 rounded-none text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-[2px_2px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#111827]"
                       >
                         <Truck className="w-3.5 h-3.5" />
                         Posisikan Order Terpilih: ON_DELIVERY
@@ -1259,51 +1259,51 @@ function App() {
       </main>
 
       {/* Mobile Floating Bottom Navigation Bar */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-[#0e111a]/95 backdrop-blur-xl border-t border-border py-2 px-4 flex items-center justify-around z-50 shadow-2xl h-[64px]">
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t-4 border-slate-900 py-2 px-4 flex items-center justify-around z-50 shadow-none h-[64px]">
         <button
           onClick={() => setActiveTab('chat')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-xl transition-all cursor-pointer ${
-            activeTab === 'chat' ? 'text-whatsapp-green bg-whatsapp-green/10 font-bold' : 'text-gray-400 hover:text-gray-200'
+          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
+            activeTab === 'chat' ? 'text-slate-900 bg-emerald-400 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <MessageSquare className="w-5 h-5" />
-          <span className="text-[9px] font-sans">Chat Simulator</span>
+          <span className="text-[9px] font-sans font-bold">Chat</span>
         </button>
         <button
           onClick={() => setActiveTab('vendor')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-xl transition-all cursor-pointer ${
-            activeTab === 'vendor' ? 'text-primary-light bg-primary/10 font-bold' : 'text-gray-400 hover:text-gray-200'
+          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
+            activeTab === 'vendor' ? 'text-slate-900 bg-emerald-400 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <Store className="w-5 h-5" />
-          <span className="text-[9px] font-sans">Toko Mitra</span>
+          <span className="text-[9px] font-sans font-bold">Mitra</span>
         </button>
         <button
           onClick={() => setActiveTab('driver')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-xl transition-all cursor-pointer ${
-            activeTab === 'driver' ? 'text-secondary-light bg-secondary/10 font-bold' : 'text-gray-400 hover:text-gray-200'
+          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
+            activeTab === 'driver' ? 'text-slate-900 bg-[#3b82f6] border-2 border-slate-900 text-white font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <Truck className="w-5 h-5" />
-          <span className="text-[9px] font-sans">Kurir Driver</span>
+          <span className="text-[9px] font-sans font-bold">Driver</span>
         </button>
         <button
           onClick={() => setActiveTab('escrow')}
-          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-xl transition-all cursor-pointer ${
-            activeTab === 'escrow' ? 'text-accent-light bg-accent/10 font-bold' : 'text-gray-400 hover:text-gray-200'
+          className={`flex flex-col items-center gap-1 py-1 px-3.5 rounded-none transition-all cursor-pointer ${
+            activeTab === 'escrow' ? 'text-slate-900 bg-amber-400 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <DollarSign className="w-5 h-5" />
-          <span className="text-[9px] font-sans">Escrow Ledger</span>
+          <span className="text-[9px] font-sans font-bold">Escrow</span>
         </button>
         <button
           onClick={() => setActiveTab('admin')}
-          className={`flex flex-col items-center gap-1 py-1 px-3 rounded-xl transition-all cursor-pointer ${
-            activeTab === 'admin' ? 'text-slate-300 bg-white/5 font-bold' : 'text-gray-400 hover:text-gray-200'
+          className={`flex flex-col items-center gap-1 py-1 px-3 rounded-none transition-all cursor-pointer ${
+            activeTab === 'admin' ? 'text-white bg-slate-800 border-2 border-slate-900 font-bold shadow-[2px_2px_0px_0px_#111827]' : 'text-slate-600 hover:text-slate-900'
           }`}
         >
           <RefreshCw className="w-5 h-5" />
-          <span className="text-[9px] font-sans">Admin Control</span>
+          <span className="text-[9px] font-sans font-bold">Admin</span>
         </button>
       </nav>
 
