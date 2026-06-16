@@ -32,9 +32,9 @@ export default function LandingPage({ onLaunchDemo }) {
           <nav className="hidden md:flex items-center gap-8 font-semibold">
             <a href="#fitur" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Fitur Utama</a>
             <a href="#cara-kerja" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Cara Kerja</a>
-            <a href="#escrow" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Keamanan Escrow</a>
+            <a href="#escrow" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Keamanan Rekber</a>
             <a href="#arsitektur" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Arsitektur</a>
-            <button onClick={onLaunchDemo} className="text-sm text-emerald-600 hover:text-emerald-800 hover:underline transition-all cursor-pointer">Interactive Demo</button>
+            <button onClick={onLaunchDemo} className="text-sm text-emerald-600 hover:text-emerald-800 hover:underline transition-all cursor-pointer">Demo Interaktif</button>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
@@ -87,7 +87,7 @@ export default function LandingPage({ onLaunchDemo }) {
                   onClick={() => setMobileMenuOpen(false)}
                   className="text-slate-700 hover:text-slate-950 py-1"
                 >
-                  Keamanan Escrow
+                  Keamanan Rekber
                 </a>
                 <a 
                   href="#arsitektur" 
@@ -130,7 +130,7 @@ export default function LandingPage({ onLaunchDemo }) {
                 </span>
               </h1>
               <p className="text-slate-700 text-base sm:text-lg font-semibold leading-relaxed max-w-xl mb-8">
-                Tulis atau kirim voice note daftar belanjaan secara bebas. AI kami mendeteksi item, mencocokkan harga pasar secara real-time, mengamankan dana dengan Escrow, dan memandu kurir memproses pesanan.
+                Tulis atau kirim voice note daftar belanjaan secara bebas. AI kami mendeteksi item, mencocokkan harga pasar secara real-time, mengamankan dana dengan Rekber, dan memandu kurir memproses pesanan.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
@@ -206,11 +206,11 @@ export default function LandingPage({ onLaunchDemo }) {
                   <div className="grid grid-cols-2 gap-4">
                     <div className="border-2 border-slate-900 p-3 bg-amber-100 flex flex-col justify-between shadow-[2px_2px_0px_0px_#111827]">
                       <span className="font-extrabold text-xs block mb-1">SQLite DB</span>
-                      <span className="text-[9px] text-slate-700 font-semibold font-mono">Locks Order Checklist</span>
+                      <span className="text-[9px] text-slate-700 font-semibold font-mono">Mengunci Daftar Belanja</span>
                     </div>
                     <div className="border-2 border-slate-900 p-3 bg-violet-100 flex flex-col justify-between shadow-[2px_2px_0px_0px_#111827]">
-                      <span className="font-extrabold text-xs block mb-1">Escrow Wallet</span>
-                      <span className="text-[9px] text-slate-700 font-semibold font-mono">Secures Client Deposit</span>
+                      <span className="font-extrabold text-xs block mb-1">Dompet Rekber</span>
+                      <span className="text-[9px] text-slate-700 font-semibold font-mono">Mengamankan Dana Pembeli</span>
                     </div>
                   </div>
 
@@ -222,7 +222,7 @@ export default function LandingPage({ onLaunchDemo }) {
                   <div className="border-2 border-slate-900 p-3 bg-rose-100 flex items-center justify-between shadow-[2px_2px_0px_0px_#111827]">
                     <div className="flex items-center gap-2">
                       <Truck className="w-4 h-4 text-rose-600" />
-                      <span className="font-extrabold text-xs">Courier App (Driver Checklist)</span>
+                      <span className="font-extrabold text-xs">Aplikasi Kurir (Daftar Belanja)</span>
                     </div>
                     <span className="text-[10px] font-mono bg-white border-2 border-slate-900 px-1.5 font-bold">3. DISPATCH</span>
                   </div>
@@ -272,9 +272,9 @@ export default function LandingPage({ onLaunchDemo }) {
               <div className="w-12 h-12 rounded-none bg-sky-100 border-2 border-slate-900 flex items-center justify-center text-slate-900 mb-6 shadow-[2px_2px_0px_0px_#111827]">
                 <ShieldCheck className="w-6 h-6 text-sky-600" />
               </div>
-              <h3 className="text-lg font-black text-slate-900 mb-3">Escrow Balance Secure</h3>
+              <h3 className="text-lg font-black text-slate-900 mb-3">Keamanan Saldo Rekber</h3>
               <p className="text-slate-600 text-sm font-semibold leading-relaxed flex-grow">
-                Dana ditampung sementara di rekening bersama (Escrow) beserta tambahan 15% buffer saldo belanja. Melindungi pembeli dari kecurangan dan memberikan jaminan dana untuk driver sebelum jalan.
+                Dana ditampung sementara di rekening bersama (Rekber) beserta tambahan 15% buffer saldo belanja. Melindungi pembeli dari kecurangan dan memberikan jaminan dana untuk kurir sebelum jalan.
               </p>
             </div>
 
@@ -283,7 +283,7 @@ export default function LandingPage({ onLaunchDemo }) {
               <div className="w-12 h-12 rounded-none bg-rose-100 border-2 border-slate-900 flex items-center justify-center text-slate-900 mb-6 shadow-[2px_2px_0px_0px_#111827]">
                 <Truck className="w-6 h-6 text-rose-600" />
               </div>
-              <h3 className="text-lg font-black text-slate-900 mb-3">Driver Check-off & Substitution</h3>
+              <h3 className="text-lg font-black text-slate-900 mb-3">Daftar Centang & Penggantian Barang Kurir</h3>
               <p className="text-slate-600 text-sm font-semibold leading-relaxed flex-grow">
                 Aplikasi driver menyediakan daftar centang belanja interaktif. Ketika barang kosong, sistem webhook secara otomatis menawarkan alternatif pengganti langsung ke WhatsApp pembeli secara instan.
               </p>
@@ -327,9 +327,9 @@ export default function LandingPage({ onLaunchDemo }) {
               <div className="w-10 h-10 rounded-none bg-sky-100 border-2 border-slate-900 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-[2px_2px_0px_0px_#111827]">
                 2
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Pembayaran Escrow</h4>
+              <h4 className="text-sm font-black text-slate-900 mb-2">Pembayaran Rekber</h4>
               <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Pembeli mentransfer estimasi total biaya ditambah 15% buffer untuk fluktuasi harga pasar ke Escrow.
+                Pembeli mentransfer estimasi total biaya ditambah 15% buffer untuk fluktuasi harga pasar ke Rekber.
               </p>
             </div>
 
@@ -339,9 +339,9 @@ export default function LandingPage({ onLaunchDemo }) {
               <div className="w-10 h-10 rounded-none bg-amber-100 border-2 border-slate-900 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-[2px_2px_0px_0px_#111827]">
                 3
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Vendor & Driver</h4>
+              <h4 className="text-sm font-black text-slate-900 mb-2">Mitra & Kurir</h4>
               <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Mitra menyiapkan barang dan Driver berbelanja dengan checklist digital real-time di pasar rakyat.
+                Mitra menyiapkan barang dan Kurir berbelanja dengan daftar belanja digital real-time di pasar rakyat.
               </p>
             </div>
 
@@ -388,12 +388,12 @@ export default function LandingPage({ onLaunchDemo }) {
                       <Coins className="w-5 h-5 text-sky-600" />
                     </div>
                     <div>
-                      <h4 className="text-xs font-black text-slate-900">Dompet Escrow Bersama</h4>
+                      <h4 className="text-xs font-black text-slate-900">Dompet Rekber Bersama</h4>
                       <p className="text-[10px] text-slate-500 font-mono font-bold">SYSTEM_ACCOUNT_SECURE</p>
                     </div>
                   </div>
                   <span className="px-2.5 py-0.5 rounded-none text-[9px] font-bold bg-emerald-400 border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">
-                    PROTECTED
+                    TERLINDUNGI
                   </span>
                 </div>
 
@@ -436,7 +436,7 @@ export default function LandingPage({ onLaunchDemo }) {
             <div className="lg:col-span-6 flex flex-col">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-none bg-sky-100 border-2 border-slate-900 text-slate-900 text-xs font-extrabold mb-6 self-start shadow-[2px_2px_0px_0px_#111827]">
                 <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-                <span>ESCROW TRANSAKSI TRANSPARAN</span>
+                <span>REKBER TRANSAKSI TRANSPARAN</span>
               </div>
               <h3 className="font-display font-black text-3xl text-slate-900 mb-6">
                 Bebas Khawatir Salah Harga & Penipuan
@@ -450,7 +450,7 @@ export default function LandingPage({ onLaunchDemo }) {
                   <div>
                     <h5 className="text-sm font-black text-slate-900 mb-1">Deposit Aman</h5>
                     <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                      Semua transaksi diawali dengan penguncian dana di Escrow Ledger. Driver tidak perlu menalangi belanjaan dengan uang pribadi, dan pembeli terbebas dari markup sepihak.
+                      Semua transaksi diawali dengan penguncian dana di Rekber. Kurir tidak perlu menalangi belanjaan dengan uang pribadi, dan pembeli terbebas dari markup sepihak.
                     </p>
                   </div>
                 </div>
@@ -460,7 +460,7 @@ export default function LandingPage({ onLaunchDemo }) {
                     <RefreshCw className="w-4 h-4 text-sky-600" />
                   </div>
                   <div>
-                    <h5 className="text-sm font-black text-slate-900 mb-1">Instant Refund System</h5>
+                    <h5 className="text-sm font-black text-slate-900 mb-1">Sistem Pengembalian Dana Instan</h5>
                     <p className="text-slate-600 text-xs font-semibold leading-relaxed">
                       Sistem menghitung selisih realisasi belanja di pasar tradisional dengan deposit awal. Refund secara otomatis dikirim balik tanpa proses klaim manual yang melelahkan.
                     </p>
@@ -505,7 +505,7 @@ export default function LandingPage({ onLaunchDemo }) {
               </div>
               <h4 className="text-sm font-black text-slate-900 mb-2">SQLite Database</h4>
               <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Penyimpanan lokal relasional untuk menyimpan pesanan, item belanjaan detail, kamus harga pasar, dan ledger escrow secara transaksional.
+                Penyimpanan lokal relasional untuk menyimpan pesanan, item belanjaan detail, kamus harga pasar, dan buku kas Rekber secara transaksional.
               </p>
             </div>
 
@@ -533,9 +533,9 @@ export default function LandingPage({ onLaunchDemo }) {
               <div className="w-10 h-10 rounded-none bg-emerald-100 border-2 border-slate-900 flex items-center justify-center mb-4 shadow-[2px_2px_0px_0px_#111827]">
                 <UserCheck className="w-5 h-5 text-emerald-600" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">React Multi-Role View</h4>
+              <h4 className="text-sm font-black text-slate-900 mb-2">Tampilan Multi-Peran React</h4>
               <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Panel kendali terpadu yang menyajikan simulator chat, panel pedagang, centang driver, dan pembukuan escrow secara sinkron dan real-time.
+                Panel kendali terpadu yang menyajikan simulator chat, panel pedagang, centang kurir, dan pembukuan Rekber secara sinkron dan real-time.
               </p>
             </div>
           </div>
@@ -550,7 +550,7 @@ export default function LandingPage({ onLaunchDemo }) {
               Siap Menjelajahi Sistem Secara Live?
             </h2>
             <p className="text-slate-800 text-sm sm:text-base font-bold max-w-2xl mx-auto mb-8 leading-relaxed">
-              Buka panel simulator untuk menyaksikan interaksi chatbot WhatsApp AI, memproses belanjaan di dashboard pedagang pasar tradisional, mencentang barang di sisi driver, hingga memantau catatan escrow.
+              Buka panel simulator untuk menyaksikan interaksi chatbot WhatsApp AI, memproses belanjaan di dashboard pedagang pasar tradisional, mencentang barang di sisi kurir, hingga memantau catatan Rekber.
             </p>
 
             <button

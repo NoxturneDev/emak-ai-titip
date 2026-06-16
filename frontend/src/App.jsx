@@ -143,7 +143,7 @@ function App() {
     let messageText = "";
     
     if (current === 'MITRA_PREPPING') {
-      messageText = `*Pembayaran Berhasil!* \n\nDana sebesar *Rp ${formatMoney(order.total_estimated + order.buffer_amount)}* (Estimasi + 15% Buffer) telah kami amankan di rekening bersama (Escrow).\n\nMitra Pasar kami sedang menyiapkan belanjaan Anda. Kurir driver akan segera menuju toko Mitra.`;
+      messageText = `*Pembayaran Berhasil!* \n\nDana sebesar *Rp ${formatMoney(order.total_estimated + order.buffer_amount)}* (Estimasi + 15% Buffer) telah kami amankan di rekening bersama (Rekber).\n\nMitra Pasar kami sedang menyiapkan belanjaan Anda. Kurir akan segera menuju toko Mitra.`;
     } else if (current === 'ON_DELIVERY') {
       if (prev === 'AWAITING_SUBSTITUTION') {
         return; // Handled individually
@@ -356,9 +356,9 @@ function App() {
           </div>
           <div>
             <h1 className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
-              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-none font-bold border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">MVP CONTROL PANEL</span>
+              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-none font-bold border-2 border-slate-900 shadow-[1px_1px_0px_0px_#111827]">PANEL KENDALI MVP</span>
             </h1>
-            <p className="text-[10px] text-slate-600 hidden sm:block font-bold">Conversational Webhook & Escrow Ledger Simulation</p>
+            <p className="text-[10px] text-slate-600 hidden sm:block font-bold">Simulasi Integrasi Chatbot & Buku Kas Rekber</p>
           </div>
         </div>
 
@@ -373,18 +373,18 @@ function App() {
           
           <div className="hidden md:flex items-center gap-5 text-[11px] border-l-2 border-slate-900 pl-5 font-bold">
             <div className="text-left">
-              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Total Orders</span>
+              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Total Pesanan</span>
               <span className="font-black text-slate-900">{orders.length}</span>
             </div>
             <div className="text-left">
-              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Active Status</span>
+              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Status Aktif</span>
               <span className="font-black text-emerald-600 flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                {activeOrder ? activeOrder.status : 'None'}
+                {activeOrder ? activeOrder.status : 'Kosong'}
               </span>
             </div>
             <div className="text-left">
-              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Escrow Vault</span>
+              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Saldo Rekber</span>
               <span className="font-black text-secondary">
                 Rp {activeOrder && activeOrder.ledger 
                   ? formatMoney(activeOrder.ledger.reduce((acc, curr) => curr.type === 'CREDIT_PAYMENT' ? acc + curr.amount : acc - curr.amount, 0))
@@ -547,7 +547,7 @@ function App() {
                         className="w-full bg-sky-400 hover:bg-sky-500 border-2 border-slate-900 text-slate-900 font-black py-2 px-3 rounded-none text-[10px] text-center shadow-[2px_2px_0px_0px_#111827] flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                       >
                         <Lock className="w-3.5 h-3.5 text-slate-900" />
-                        Bayar Deposit Escrow
+                        Bayar Deposit Rekber
                       </button>
                     </div>
                   )}
@@ -618,7 +618,7 @@ function App() {
               }`}
             >
               <DollarSign className="w-4 h-4" />
-              ESCROW (LEDGER)
+              REKENING BERSAMA / REKBER
             </button>
             <button
               onClick={() => setActiveTab('admin')}
@@ -745,7 +745,7 @@ function App() {
                     ) : (
                       <div className="text-[10px] text-slate-600 font-bold bg-slate-50 p-3 border-2 border-slate-900 shadow-[2px_2px_0px_0px_#111827]">
                         {activeOrder.status === 'AWAITING_PAYMENT' 
-                          ? '⏳ Menunggu deposit dana escrow dibayarkan oleh Pengguna.' 
+                          ? '⏳ Menunggu deposit dana Rekber dibayarkan oleh Pengguna.' 
                           : '🚀 Pesanan sudah diserahkan ke Kurir untuk belanja dan pengantaran.'}
                       </div>
                     )}
@@ -952,22 +952,22 @@ function App() {
                           <div>
                             <h5 className="font-black text-slate-900 text-sm">Delivery Sukses!</h5>
                             <p className="text-slate-600 text-[11px] mt-1 max-w-[240px] mx-auto font-semibold">
-                              Pesanan telah diterima dan dana escrow berhasil dicairkan secara transaksional.
+                              Pesanan telah diterima dan dana Rekber berhasil dicairkan secara transaksional.
                             </p>
                           </div>
                           
                           <div className="bg-white border-2 border-slate-900 p-3.5 rounded-none text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-[3px_3px_0px_0px_#111827]">
-                            <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b-2 border-slate-900 pb-1 mb-1.5">Rincian Settlement:</p>
+                            <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b-2 border-slate-900 pb-1 mb-1.5">Rincian Pencairan Dana:</p>
                             <div className="flex justify-between font-bold">
-                              <span className="text-slate-500">Merchant Payout:</span>
+                              <span className="text-slate-500">Pembayaran ke Mitra Pasar:</span>
                               <span className="text-slate-900 font-black">Rp {formatMoney(activeOrder.total_actual)}</span>
                             </div>
                             <div className="flex justify-between font-bold">
-                              <span className="text-slate-500">Driver Delivery Fee:</span>
+                              <span className="text-slate-500">Biaya Antar Kurir:</span>
                               <span className="text-slate-900 font-black">Rp 10.000</span>
                             </div>
                             <div className="flex justify-between border-t-2 border-slate-900/60 pt-1.5 mt-1.5 font-bold">
-                              <span className="text-emerald-600">Uang Kembali (User):</span>
+                              <span className="text-emerald-600">Uang Kembalian (Pengguna):</span>
                               <span className="text-emerald-600 font-black">Rp {formatMoney(activeOrder.refund_amount)}</span>
                             </div>
                           </div>
@@ -1043,7 +1043,7 @@ function App() {
                           className="w-full bg-emerald-400 border-2 border-slate-900 text-slate-900 font-black py-3 rounded-none flex items-center justify-center gap-1.5 transition-all shadow-[3px_3px_0px_0px_#111827] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#111827] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[2px_2px_0px_0px_#111827] cursor-pointer"
                         >
                           <CheckCircle2 className="w-4 h-4" />
-                          Selesai & Settle Ledger Escrow
+                          Selesai & Selesaikan Transaksi Rekber
                         </button>
                       )}
 
@@ -1070,14 +1070,14 @@ function App() {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Ledger metric 1 */}
                   <div className="bg-white border-2 border-slate-900 p-4 rounded-none flex flex-col justify-between min-h-[90px] shadow-[3px_3px_0px_0px_#111827] text-slate-900">
-                    <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Escrow Balance</span>
+                    <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Saldo Rekber</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-slate-900 mt-1">
                         Rp {activeOrder.ledger 
                           ? formatMoney(activeOrder.ledger.reduce((acc, curr) => curr.type === 'CREDIT_PAYMENT' ? acc + curr.amount : acc - curr.amount, 0))
                           : 0}
                       </h4>
-                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Held securely in ledger</p>
+                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Tersimpan aman di Rekber</p>
                     </div>
                   </div>
 
@@ -1110,7 +1110,7 @@ function App() {
                       <h4 className="text-xl font-black font-display text-blue-600 mt-1">
                         Rp {activeOrder.status === 'COMPLETED' ? '10.000' : '0'}
                       </h4>
-                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Flat driver shipping</p>
+                      <p className="text-[9px] text-slate-500 mt-1 font-bold">Tarif kurir flat</p>
                     </div>
                   </div>
                 </div>
@@ -1119,8 +1119,8 @@ function App() {
                 <div className="glass-card rounded-none p-5 bg-white">
                   <div className="flex items-center justify-between border-b-2 border-slate-900 pb-4 mb-4">
                     <div>
-                      <h3 className="text-base font-black font-display text-slate-900">Mutasi Escrow Ledger</h3>
-                      <p className="text-xs text-slate-600 mt-0.5 font-semibold">Audit log dari ledger relasional SQLite</p>
+                      <h3 className="text-base font-black font-display text-slate-900">Riwayat Mutasi Rekber</h3>
+                      <p className="text-xs text-slate-600 mt-0.5 font-semibold">Riwayat audit dari pembukuan relasional SQLite</p>
                     </div>
                     <Shield className="w-5 h-5 text-slate-800 opacity-70 shrink-0" />
                   </div>
@@ -1159,7 +1159,7 @@ function App() {
                         ) : (
                           <tr>
                             <td colSpan="4" className="py-8 text-center text-slate-500 italic font-sans font-bold">
-                              Belum ada catatan transaksi terekam pada database escrow.
+                              Belum ada catatan transaksi terekam pada database Rekber.
                             </td>
                           </tr>
                         )}
@@ -1172,22 +1172,22 @@ function App() {
                 <div className="bg-white border-2 border-slate-900 p-4 rounded-none shadow-[3px_3px_0px_0px_#111827] space-y-3">
                   <h4 className="text-[11px] font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
                     <ShieldAlert className="w-4 h-4 text-slate-800" />
-                    Distributed Saga Transaction Pipeline
+                    Alur Transaksi Saga Terdistribusi
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-5 gap-3 text-center text-[10px] text-slate-700 leading-relaxed font-semibold">
                     <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
-                      <span className="block font-black text-slate-900 mb-1">1. Deposit Locked</span>
-                      Estimasi + 15% buffer saldo diamankan di escrow
+                      <span className="block font-black text-slate-900 mb-1">1. Deposit Dikunci</span>
+                      Estimasi + 15% buffer saldo diamankan di Rekber
                     </div>
                     <div className="hidden sm:flex items-center justify-center"><ChevronRight className="w-4 h-4 text-slate-900" /></div>
                     <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
-                      <span className="block font-black text-slate-900 mb-1">2. Price Checklist</span>
-                      Driver mencocokkan harga riil pasar dan nota belanja
+                      <span className="block font-black text-slate-900 mb-1">2. Cek Harga</span>
+                      Kurir mencocokkan harga asli pasar dan nota belanja
                     </div>
                     <div className="hidden sm:flex items-center justify-center"><ChevronRight className="w-4 h-4 text-slate-900" /></div>
                     <div className="bg-white border-2 border-slate-900 p-2.5 shadow-[2px_2px_0px_0px_#111827]">
-                      <span className="block font-black text-slate-900 mb-1">3. Atomic Payout</span>
-                      Pecahan dana dilepaskan: Kurir, Pedagang, sisa ditransfer balik
+                      <span className="block font-black text-slate-900 mb-1">3. Pembayaran Otomatis</span>
+                      Pencairan dana: Kurir, Pedagang, sisa ditransfer balik ke Pengguna
                     </div>
                   </div>
                 </div>
@@ -1285,7 +1285,7 @@ function App() {
           }`}
         >
           <Truck className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Driver</span>
+          <span className="text-[9px] font-sans font-bold">Kurir</span>
         </button>
         <button
           onClick={() => setActiveTab('escrow')}
@@ -1294,7 +1294,7 @@ function App() {
           }`}
         >
           <DollarSign className="w-5 h-5" />
-          <span className="text-[9px] font-sans font-bold">Escrow</span>
+          <span className="text-[9px] font-sans font-bold">Rekber</span>
         </button>
         <button
           onClick={() => setActiveTab('admin')}
