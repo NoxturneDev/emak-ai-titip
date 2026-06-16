@@ -20,7 +20,7 @@ Sistem ini diimplementasikan sebagai arsitektur decoupled monolitik sederhana de
   - Animasi: `framer-motion`
   - Ikon: `lucide-react`
 * **Orkestrasi:**
-  - Script startup bash (`start.sh`) untuk menjalankan backend (port 8080) dan dev server frontend (port 5173) secara paralel.
+  - Script startup bash (`start.sh`) untuk menjalankan backend (port 8081) dan dev server frontend (port 5175) secara paralel.
 
 ## 3. Struktur Direktori (Project Structure)
 

@@ -41,7 +41,7 @@ func main() {
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8081"
 	}
 
 	log.Printf("Emak AI Titip backend server running on port %s...", port)
@@ -231,7 +231,7 @@ func handleWhatsAppWebhook(w http.ResponseWriter, r *http.Request) {
 		itemsText = append(itemsText, fmt.Sprintf("%d. %s %.1f %s - Rp %s%s", idx+1, item.RawName, item.Quantity, item.Unit, formatMoney(item.EstimatedIDR), notePart))
 	}
 
-	checkoutURL := fmt.Sprintf("http://localhost:5173/checkout/%s", orderID) // Local UI routing
+	checkoutURL := fmt.Sprintf("http://localhost:5175/checkout/%s", orderID) // Local UI routing
 	reply := fmt.Sprintf("Halo Ibu! Pesanan Anda berhasil dicatat.\n\n*Daftar Belanja:*\n%s\n\n*Total Estimasi:* Rp %s\n*Dana Talangan (15%% Buffer):* Rp %s\n*Total yang Perlu Dibayar:* Rp %s\n\nSilakan selesaikan pembayaran agar kurir kami bisa langsung berangkat ke pasar:\n%s",
 		strings.Join(itemsText, "\n"),
 		formatMoney(totalEst),

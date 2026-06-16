@@ -22,14 +22,14 @@ if [ ! -f "backend/emak-ai-backend" ]; then
   (cd backend && go build -o emak-ai-backend)
 fi
 
-echo "🚀 Starting Go Backend Server (port 8080)..."
+echo "🚀 Starting Go Backend Server (port 8081)..."
 (cd backend && ./emak-ai-backend) &
 
-echo "🚀 Starting React Frontend Dev Server (port 5173)..."
+echo "🚀 Starting React Frontend Dev Server (port 5175)..."
 (cd frontend && bun run dev) &
 
 echo ""
-echo "👉 control panel URL: http://localhost:5173"
+echo "👉 control panel URL: http://localhost:5175"
 echo "👉 Press Ctrl+C to terminate both servers"
 echo "======================================================="
 
