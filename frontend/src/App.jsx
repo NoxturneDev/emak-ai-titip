@@ -16,6 +16,7 @@ function App() {
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'vendor' | 'driver' | 'escrow' | 'admin'
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [userSubTab, setUserSubTab] = useState('chat'); // 'chat' | 'dashboard'
   
   // Inline Price Editing State for Driver
   const [editingItemId, setEditingItemId] = useState(null);
@@ -563,132 +564,310 @@ function App() {
         {/* Content Pane */}
         <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#f3f4f6]">
           {activeTab === 'chat' ? (
-            /* Left Side: WhatsApp Simulator */
-            <section className="flex-1 flex flex-col bg-[#efeae2] h-full overflow-hidden shrink-0">
-          {/* WA Contact Header */}
-          <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-slate-200 shrink-0 text-slate-900">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
-                E
+            <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#f3f4f6]">
+              {/* Mobile subtabs switcher inside User view */}
+              <div className="lg:hidden flex border-b border-slate-200 bg-white p-2 gap-2 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setUserSubTab('chat')}
+                  className={`flex-grow py-2 rounded-full font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    userSubTab === 'chat' ? 'bg-emerald-400 text-slate-900 border border-slate-200' : 'bg-slate-50 text-slate-600'
+                  }`}
+                >
+                  <MessageSquare className="w-3.5 h-3.5" />
+                  Chat Simulator
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setUserSubTab('dashboard')}
+                  className={`flex-grow py-2 rounded-full font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                    userSubTab === 'dashboard' ? 'bg-emerald-400 text-slate-900 border border-slate-200' : 'bg-slate-50 text-slate-600'
+                  }`}
+                >
+                  <User className="w-3.5 h-3.5" />
+                  Dashboard Pelanggan
+                </button>
               </div>
-              <div>
-                <h3 className="font-extrabold text-slate-900 text-sm">Emak AI Bot (Jastip)</h3>
-                <span className="text-[11px] text-emerald-600 flex items-center gap-1 font-bold">
-                  <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
-                  online (System Simulator)
-                </span>
-              </div>
-            </div>
-            <div className="flex items-center gap-4 text-slate-700 text-xs">
-              <Phone className="w-4 h-4 cursor-pointer hover:text-slate-900" />
-              <Video className="w-4 h-4 cursor-pointer hover:text-slate-900" />
-              <MoreVertical className="w-4 h-4 cursor-pointer hover:text-slate-900" />
-            </div>
-          </div>
 
-          {/* Quick Script Tag Carousel */}
-          <div className="bg-[#f3f4f6] border-b border-slate-200/60 px-4 py-2.5 shrink-0">
-            <p className="text-[9px] text-slate-600 mb-2 font-bold uppercase tracking-wide">📋 KIRIM DRAFT BELANJA CEPAT:</p>
-            <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
-              <button 
-                onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
-                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
-              >
-                🥕 Lodeh & Tempe
-              </button>
-              <button 
-                onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
-                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
-              >
-                🍗 Sayuran & Ayam
-              </button>
-              <button 
-                onClick={() => runPresetScript("Tolong beliin kelapa parut 1 butir sama gula merah 250gr")}
-                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
-              >
-                🥥 Kelapa & Gula Merah
-              </button>
-            </div>
-          </div>
+              {/* Main content split view */}
+              <div className="flex-1 flex overflow-hidden">
+                {/* Left Side: WhatsApp Simulator */}
+                <section className={`
+                  flex-1 flex flex-col bg-[#efeae2] h-full overflow-hidden shrink-0
+                  ${userSubTab === 'chat' ? 'flex' : 'hidden lg:flex lg:w-[60%]'}
+                `}>
+                  {/* WA Contact Header */}
+                  <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-slate-200 shrink-0 text-slate-900">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
+                        E
+                      </div>
+                      <div>
+                        <h3 className="font-extrabold text-slate-900 text-sm">Emak AI Bot (Jastip)</h3>
+                        <span className="text-[11px] text-emerald-600 flex items-center gap-1 font-bold">
+                          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
+                          online (System Simulator)
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 text-slate-700 text-xs">
+                      <Phone className="w-4 h-4 cursor-pointer hover:text-slate-900" />
+                      <Video className="w-4 h-4 cursor-pointer hover:text-slate-900" />
+                      <MoreVertical className="w-4 h-4 cursor-pointer hover:text-slate-900" />
+                    </div>
+                  </div>
 
-          {/* WA Chat Feed */}
-          <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
-            {chatMessages.map((msg) => (
-              <div 
-                key={msg.id}
-                className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}
-              >
-                <div className={`p-3 rounded-full text-xs whitespace-pre-line relative ${
-                  msg.sender === 'user' 
-                    ? 'wa-bubble-out text-slate-900 font-bold' 
-                    : 'wa-bubble-in text-slate-900 font-medium'
-                }`}>
-                  {msg.text}
-                  
-                  {/* WhatsApp Custom Interactive Buttons for Substitution */}
-                  {msg.text.includes("BARANG KOSONG!") && activeOrder && activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                    <div className="mt-3 pt-2.5 border-t border-slate-200/40 flex gap-2">
-                      <button
-                        onClick={() => handleChatSubstitutionChoice(activeOrder.id, true)}
-                        className="flex-1 bg-emerald-400 border border-slate-200 hover:bg-emerald-500 text-slate-900 font-black py-1.5 rounded-full text-[10px] text-center shadow-sm cursor-pointer"
+                  {/* Quick Script Tag Carousel */}
+                  <div className="bg-[#f3f4f6] border-b border-slate-200 px-4 py-2.5 shrink-0">
+                    <p className="text-[9px] text-slate-600 mb-2 font-bold uppercase tracking-wide">📋 KIRIM DRAFT BELANJA CEPAT:</p>
+                    <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
+                      <button 
+                        type="button"
+                        onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
                       >
-                        SETUJU
+                        🥕 Lodeh & Tempe
                       </button>
-                      <button
-                        onClick={() => handleChatSubstitutionChoice(activeOrder.id, false)}
-                        className="flex-1 bg-red-400 border border-slate-200 hover:bg-red-500 text-slate-900 font-black py-1.5 rounded-full text-[10px] text-center shadow-sm cursor-pointer"
+                      <button 
+                        type="button"
+                        onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
                       >
-                        BATAL
+                        🍗 Sayuran & Ayam
+                      </button>
+                      <button 
+                        type="button"
+                        onClick={() => runPresetScript("Beli bawang merah 1/2 kg, bawang putih 1/4 kg, cabai rawit 100gr")}
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                      >
+                        🌶️ Bawang & Cabai
                       </button>
                     </div>
-                  )}
+                  </div>
 
-                  {/* Payment Button Simulation inside Chat */}
-                  {msg.text.includes("Silakan klik link berikut untuk melanjutkan pembayaran") && activeOrder && activeOrder.status === 'AWAITING_PAYMENT' && (
-                    <div className="mt-3">
-                      <button
-                        onClick={() => handleSimulatePayment(activeOrder.id)}
-                        className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-full text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                  {/* WA Messages History Area */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {chatMessages.map((msg) => (
+                      <div 
+                        key={msg.id}
+                        className={`flex flex-col max-w-[85%] ${
+                          msg.sender === 'user' ? 'self-end ml-auto' : 'self-start mr-auto'
+                        }`}
                       >
-                        <Lock className="w-3.5 h-3.5 text-slate-900" />
-                        Bayar Deposit Rekber
-                      </button>
-                    </div>
-                  )}
-                </div>
-                <span className={`text-[9px] text-slate-500 mt-1 flex items-center gap-1 font-bold ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
-                  {msg.timestamp}
-                  {msg.sender === 'bot' && <span className="text-emerald-600 font-black">✓✓</span>}
-                </span>
-              </div>
-            ))}
-            <div ref={chatEndRef} />
-          </div>
+                        <div className={`p-3 text-xs leading-relaxed ${
+                          msg.sender === 'user' ? 'wa-bubble-out' : 'wa-bubble-in'
+                        }`}>
+                          <p className="whitespace-pre-line font-medium text-slate-800">{msg.text}</p>
+                          
+                          {/* Payment Button Simulation inside Chat */}
+                          {msg.text.includes("Silakan klik link berikut untuk melanjutkan pembayaran") && activeOrder && activeOrder.status === 'AWAITING_PAYMENT' && (
+                            <div className="mt-3">
+                              <button
+                                type="button"
+                                onClick={() => handleSimulatePayment(activeOrder.id)}
+                                className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-full text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                              >
+                                <Lock className="w-3.5 h-3.5 text-slate-900" />
+                                Bayar Deposit Rekber
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <span className={`text-[9px] text-slate-500 mt-1 flex items-center gap-1 font-bold ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
+                          {msg.timestamp}
+                          {msg.sender === 'bot' && <span className="text-emerald-600 font-black">✓✓</span>}
+                        </span>
+                      </div>
+                    ))}
+                    <div ref={chatEndRef} />
+                  </div>
 
-          {/* WA Message Input */}
-          <form 
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSendMessage();
-            }}
-            className="p-3 bg-white flex items-center gap-2 shrink-0 border-t border-slate-200"
-          >
-            <input 
-              type="text" 
-              value={textInput}
-              onChange={(e) => setTextInput(e.target.value)}
-              placeholder="Tulis pesan belanjaan..."
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-900 focus:outline-none"
-            />
-            <button 
-              type="submit" 
-              className="w-8 h-8 border border-slate-200 bg-emerald-400 hover:bg-emerald-500 text-slate-900 flex items-center justify-center transition-all cursor-pointer shadow-sm"
-            >
-              <Send className="w-4 h-4" />
-            </button>
-          </form>
-        </section>
-      ) : (
+                  {/* WA Message Input */}
+                  <form 
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleSendMessage();
+                    }}
+                    className="p-3 bg-white flex items-center gap-2 shrink-0 border-t border-slate-200"
+                  >
+                    <input 
+                      type="text" 
+                      value={textInput}
+                      onChange={(e) => setTextInput(e.target.value)}
+                      placeholder="Tulis pesan belanjaan..."
+                      className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-900 focus:outline-none"
+                    />
+                    <button 
+                      type="submit" 
+                      className="w-8 h-8 border border-slate-200 bg-emerald-400 hover:bg-emerald-500 text-slate-900 flex items-center justify-center transition-all cursor-pointer shadow-sm"
+                    >
+                      <Send className="w-4 h-4" />
+                    </button>
+                  </form>
+                </section>
+
+                {/* Right Side: User Dashboard (Delivery Tracking & Order History) */}
+                <section className={`
+                  flex-col h-full bg-[#f8fafc] overflow-y-auto p-4 md:p-6 space-y-6 shrink-0
+                  ${userSubTab === 'dashboard' ? 'flex w-full' : 'hidden lg:flex lg:w-[40%] border-l border-slate-200'}
+                `}>
+                  {/* Section 1: Lacak Kiriman (Delivery Tracking) */}
+                  <div className="glass-card rounded-xl p-5 bg-white shadow-sm">
+                    <h3 className="text-sm font-extrabold font-display text-slate-900 mb-4 flex items-center gap-2">
+                      <Truck className="w-4 h-4 text-emerald-600" />
+                      Lacak Kiriman
+                    </h3>
+                    
+                    {activeOrder ? (
+                      <div className="space-y-4">
+                        {/* Order info */}
+                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs font-semibold">
+                          <div>
+                            <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Order Terpilih</span>
+                            <span className="font-extrabold text-slate-800">ID: {activeOrder.id.substring(4)}</span>
+                          </div>
+                          <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold text-slate-900 border border-slate-200 shadow-sm ${
+                            activeOrder.status === 'DONE' ? 'bg-emerald-400' :
+                            activeOrder.status === 'ON_DELIVERY' ? 'bg-blue-400 text-white border-blue-500' :
+                            'bg-amber-400'
+                          }`}>
+                            {activeOrder.status}
+                          </span>
+                        </div>
+
+                        {/* Timeline */}
+                        <div className="relative pl-6 border-l border-slate-200 space-y-5 py-2">
+                          {/* Step 1: Diterima */}
+                          <div className="relative">
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                              ['DRAFT', 'AWAITING_PAYMENT', 'MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status)
+                                ? 'bg-emerald-400 border-emerald-500 text-slate-900'
+                                : 'bg-white border-slate-300 text-slate-400'
+                            }`}>
+                              ✓
+                            </span>
+                            <h4 className="text-xs font-bold text-slate-800">Order Diterima</h4>
+                            <p className="text-[10px] text-slate-500 font-semibold">Belanjaan telah diterima dan dianalisis AI.</p>
+                          </div>
+
+                          {/* Step 2: Pengemasan */}
+                          <div className="relative">
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                              ['MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status)
+                                ? 'bg-emerald-400 border-emerald-500 text-slate-900'
+                                : 'bg-white border-slate-300 text-slate-400'
+                            }`}>
+                              {['MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status) ? '✓' : '2'}
+                            </span>
+                            <h4 className="text-xs font-bold text-slate-800">Pengemasan oleh Mitra</h4>
+                            <p className="text-[10px] text-slate-500 font-semibold">Toko mitra sedang menyiapkan dan mengemas pesanan belanja.</p>
+                          </div>
+
+                          {/* Step 3: Pengiriman */}
+                          <div className="relative">
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                              ['ON_DELIVERY', 'DONE'].includes(activeOrder.status)
+                                ? 'bg-emerald-400 border-emerald-500 text-slate-900'
+                                : 'bg-white border-slate-300 text-slate-400'
+                            }`}>
+                              {['ON_DELIVERY', 'DONE'].includes(activeOrder.status) ? '✓' : '3'}
+                            </span>
+                            <h4 className="text-xs font-bold text-slate-800">Dalam Pengiriman</h4>
+                            <p className="text-[10px] text-slate-500 font-semibold">Pesanan sedang diantar oleh kurir ke alamat tujuan.</p>
+                          </div>
+
+                          {/* Step 4: Selesai */}
+                          <div className="relative">
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                              activeOrder.status === 'DONE'
+                                ? 'bg-emerald-400 border-emerald-500 text-slate-900'
+                                : 'bg-white border-slate-300 text-slate-400'
+                            }`}>
+                              {activeOrder.status === 'DONE' ? '✓' : '4'}
+                            </span>
+                            <h4 className="text-xs font-bold text-slate-800">Selesai</h4>
+                            <p className="text-[10px] text-slate-500 font-semibold">Order selesai dan dana escrow diteruskan ke mitra.</p>
+                          </div>
+                        </div>
+
+                        {/* Courier Details */}
+                        {activeOrder.driver && (
+                          <div className="bg-blue-50/60 p-3 rounded-xl border border-blue-100 flex items-center gap-3 text-xs font-semibold">
+                            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black">
+                              K
+                            </div>
+                            <div>
+                              <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Kurir Pengirim</span>
+                              <span className="font-extrabold text-slate-800">{activeOrder.driver.name || 'Pak Budi (Kurir)'}</span>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="text-center py-6">
+                        <AlertCircle className="w-8 h-8 text-slate-400 mx-auto mb-2 animate-pulse-soft" />
+                        <p className="text-xs text-slate-500 font-semibold">Tidak ada order aktif untuk dilacak.</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Section 2: Riwayat Belanja (Order History) */}
+                  <div className="glass-card rounded-xl p-5 bg-white shadow-sm flex-1 flex flex-col min-h-0">
+                    <h3 className="text-sm font-extrabold font-display text-slate-900 mb-4 flex items-center gap-2 shrink-0">
+                      <FileText className="w-4 h-4 text-emerald-600" />
+                      Riwayat Belanja
+                    </h3>
+
+                    <div className="space-y-3 overflow-y-auto flex-1 pr-1">
+                      {orders.length > 0 ? (
+                        orders.map((ord) => {
+                          const isSelected = activeOrderId === ord.id;
+                          const totalAmt = ord.items 
+                            ? ord.items.reduce((sum, item) => sum + (item.price || 0) * (item.quantity || 1), 0)
+                            : 0;
+
+                          return (
+                            <button
+                              type="button"
+                              key={ord.id}
+                              onClick={() => {
+                                setActiveOrderId(ord.id);
+                                setEditingItemId(null);
+                              }}
+                              className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                                isSelected 
+                                  ? 'bg-emerald-50/60 border-emerald-400 shadow-sm' 
+                                  : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
+                              }`}
+                            >
+                              <div>
+                                <span className="text-[10px] text-slate-500 font-bold block">{formatDate(ord.createdAt)}</span>
+                                <span className="text-xs font-black text-slate-800">ID: {ord.id.substring(4)}</span>
+                                <span className="text-[10px] text-slate-500 font-bold block mt-1">
+                                  {ord.items ? ord.items.length : 0} item • Rp {formatMoney(totalAmt)}
+                                </span>
+                              </div>
+                              <span className={`px-2 py-0.5 rounded-full text-[8px] font-bold text-slate-900 border border-slate-200 ${
+                                ord.status === 'DONE' ? 'bg-emerald-300' :
+                                ord.status === 'ON_DELIVERY' ? 'bg-blue-300' :
+                                'bg-amber-300'
+                              }`}>
+                                {ord.status}
+                              </span>
+                            </button>
+                          );
+                        })
+                      ) : (
+                        <div className="text-center py-12">
+                          <p className="text-xs text-slate-500 font-semibold italic">Belum ada transaksi.</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          ) : (
         /* Right Side: Actuator Dashboards */
         <section className="flex-grow flex flex-col h-full bg-[#f3f4f6] overflow-hidden">
           {/* Active View Content Container */}
