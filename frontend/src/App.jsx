@@ -1,11 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { 
-  Send, Phone, Video, MoreVertical, CheckCircle2, ShoppingBag, 
-  Truck, DollarSign, RefreshCw, PlusCircle, AlertCircle, 
-  Check, X, FileText, ArrowRight, User, ShieldAlert, Award,
-  Edit2, Store, Lock, ChevronRight, MessageSquare, Shield, Menu,
-  Clock, ArrowLeft, Settings, BookOpen
-} from 'lucide-react';
+import { AlertTriangle, Apple, Banknote, Beef, Bike, Bot, Briefcase, Carrot, CheckCircle, ChefHat, Circle, ClipboardList, Coins, CreditCard, Fish, Flame, Leaf, MapPin, MessageSquare, Mic, Package, PartyPopper, Receipt, Search, Shield, ShoppingCart, Star, ThumbsUp, TrendingUp, Truck, User, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LandingPage from './components/LandingPage';
 
@@ -162,13 +156,13 @@ function App() {
           altPrice = parseInt(parts[1].replace(/[^0-9]/g, ''), 10);
         }
         
-        messageText = `⚠️ *BARANG KOSONG!* \n\nIbu, untuk barang *"${outOfStockItem.name}"* di pasar sedang kosong.\n\nDriver kami menyarankan pengganti: *${altName}* seharga *Rp ${formatMoney(altPrice)}*.\n\nApakah Ibu setuju? \n\n_(Balas *SETUJU* atau *BATAL*)_`;
+        messageText = ` *BARANG KOSONG!* \n\nIbu, untuk barang *"${outOfStockItem.name}"* di pasar sedang kosong.\n\nDriver kami menyarankan pengganti: *${altName}* seharga *Rp ${formatMoney(altPrice)}*.\n\nApakah Ibu setuju? \n\n_(Balas *SETUJU* atau *BATAL*)_`;
       } else {
-        messageText = `⚠️ *Ada barang kosong!* \n\nDriver menyarankan penggantian barang. Apakah Ibu setuju? (Balas YA/SETUJU atau TIDAK/BATAL)`;
+        messageText = ` *Ada barang kosong!* \n\nDriver menyarankan penggantian barang. Apakah Ibu setuju? (Balas YA/SETUJU atau TIDAK/BATAL)`;
       }
     } else if (current === 'COMPLETED') {
       const driverFee = 10000;
-      messageText = `🎉 *Belanjaan Selesai diAntar!* \n\nDriver telah mengunggah nota pasar dan menyerahkan pesanan di rumah Ibu.\n\n*Rincian Finansial Akhir:*\n- Total Belanja Riil: *Rp ${formatMoney(order.total_actual)}*\n- Ongkos Kirim: *Rp ${formatMoney(driverFee)}*\n- Total Biaya: *Rp ${formatMoney(order.total_actual + driverFee)}*\n\n💰 *Uang Kembalian (Refund):* Rp ${formatMoney(order.refund_amount)} telah ditransfer kembali ke rekening Ibu.\n\nTerima kasih sudah menitip belanja di *Emak AI Titip*!`;
+      messageText = ` *Belanjaan Selesai diAntar!* \n\nDriver telah mengunggah nota pasar dan menyerahkan pesanan di rumah Ibu.\n\n*Rincian Finansial Akhir:*\n- Total Belanja Riil: *Rp ${formatMoney(order.total_actual)}*\n- Ongkos Kirim: *Rp ${formatMoney(driverFee)}*\n- Total Biaya: *Rp ${formatMoney(order.total_actual + driverFee)}*\n\n *Uang Kembalian (Refund):* Rp ${formatMoney(order.refund_amount)} telah ditransfer kembali ke rekening Ibu.\n\nTerima kasih sudah menitip belanja di *Emak AI Titip*!`;
     }
 
     if (messageText) {
@@ -353,17 +347,17 @@ function App() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="lg:hidden p-1.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-full shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
+            className="lg:hidden p-1.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-md shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
             aria-label="Toggle Menu"
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="w-9 h-9 rounded-full border border-slate-200 bg-[#fbbf24] flex items-center justify-center shadow-sm shrink-0">
+          <div className="w-9 h-9 rounded-md border border-slate-200 bg-[#fbbf24] flex items-center justify-center shadow-sm shrink-0">
             <ShoppingBag className="w-5 h-5 text-slate-900" />
           </div>
           <div>
             <h1 className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
-              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-full font-bold border border-slate-200 shadow-sm">PANEL KENDALI MVP</span>
+              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-md font-bold border border-slate-200 shadow-sm">PANEL KENDALI MVP</span>
             </h1>
             <p className="text-[10px] text-slate-600 hidden sm:block font-bold">Simulasi Integrasi Chatbot & Buku Kas Rekber</p>
           </div>
@@ -373,7 +367,7 @@ function App() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setView('landing')}
-            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer flex items-center gap-1"
+            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-md border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer flex items-center gap-1"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Kembali ke Beranda</span>
@@ -387,7 +381,7 @@ function App() {
             <div className="text-left">
               <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Status Aktif</span>
               <span className="font-black text-emerald-600 flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                <span className="w-1.5 h-1.5 rounded-md bg-emerald-500 animate-ping"></span>
                 {activeOrder ? activeOrder.status : 'Kosong'}
               </span>
             </div>
@@ -414,7 +408,7 @@ function App() {
                 setActiveOrderId(e.target.value);
                 setEditingItemId(null);
               }}
-              className="bg-white border border-slate-200 text-slate-900 text-[11px] font-black rounded-full px-2.5 py-1 focus:outline-none cursor-pointer shadow-sm"
+              className="bg-white border border-slate-200 text-slate-900 text-[11px] font-black rounded-md px-2.5 py-1 focus:outline-none cursor-pointer shadow-sm"
             >
               {orders.map((ord) => (
                 <option key={ord.id} value={ord.id}>
@@ -453,7 +447,7 @@ function App() {
                 alert("Reset gagal.");
               }
             }}
-            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border border-slate-200 font-black py-1 px-2.5 rounded-full flex items-center gap-1 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
+            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border border-slate-200 font-black py-1 px-2.5 rounded-md flex items-center gap-1 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
           >
             <RefreshCw className="w-3 h-3" />
             Reset Data & Chat
@@ -475,7 +469,7 @@ function App() {
             <span className="font-black text-sm tracking-tight text-slate-900">MENU UTAMA</span>
             <button 
               onClick={() => setIsSidebarOpen(false)}
-              className="lg:hidden p-1 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-full shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+              className="lg:hidden p-1 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-md shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -518,7 +512,7 @@ function App() {
                 setIsSidebarOpen(false);
               }}
               className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
-                activeTab === 'driver' ? 'bg-[#3b82f6] text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
+                activeTab === 'driver' ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
               <Truck className="w-4 h-4" />
@@ -546,7 +540,7 @@ function App() {
                 setIsSidebarOpen(false);
               }}
               className={`w-full py-3 px-4 border border-slate-200 font-extrabold text-xs flex items-center gap-3 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm ${
-                activeTab === 'admin' ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
+                activeTab === 'admin' ? 'bg-gradient-to-r from-slate-800 to-slate-900 text-white' : 'bg-white text-slate-700 hover:bg-slate-50'
               }`}
             >
               <Shield className="w-4 h-4" />
@@ -558,7 +552,7 @@ function App() {
         {/* Backdrop for mobile */}
         {isSidebarOpen && (
           <div 
-            className="fixed inset-0 bg-slate-900/40 z-40 lg:hidden"
+            className="fixed inset-0 bg-gradient-to-r from-slate-800 to-slate-900/40 z-40 lg:hidden"
             onClick={() => setIsSidebarOpen(false)}
           />
         )}
@@ -572,7 +566,7 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setUserSubTab('chat')}
-                  className={`flex-grow py-2 rounded-full font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  className={`flex-grow py-2 rounded-md font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     userSubTab === 'chat' ? 'bg-emerald-400 text-slate-900 border border-slate-200' : 'bg-slate-50 text-slate-600'
                   }`}
                 >
@@ -582,7 +576,7 @@ function App() {
                 <button
                   type="button"
                   onClick={() => setUserSubTab('dashboard')}
-                  className={`flex-grow py-2 rounded-full font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                  className={`flex-grow py-2 rounded-md font-extrabold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     userSubTab === 'dashboard' ? 'bg-emerald-400 text-slate-900 border border-slate-200' : 'bg-slate-50 text-slate-600'
                   }`}
                 >
@@ -601,13 +595,13 @@ function App() {
                   {/* WA Contact Header */}
                   <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-slate-200 shrink-0 text-slate-900">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-full border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
+                      <div className="w-10 h-10 rounded-md border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
                         E
                       </div>
                       <div>
                         <h3 className="font-extrabold text-slate-900 text-sm">Emak AI Bot (Jastip)</h3>
                         <span className="text-[11px] text-emerald-600 flex items-center gap-1 font-bold">
-                          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping"></span>
+                          <span className="w-1.5 h-1.5 bg-emerald-500 rounded-md animate-ping"></span>
                           online (System Simulator)
                         </span>
                       </div>
@@ -629,7 +623,7 @@ function App() {
                       <button 
                         type="button"
                         onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
-                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
                       >
                         <ShoppingBag className="w-3 h-3 text-slate-500" />
                         <span>Lodeh & Tempe</span>
@@ -637,7 +631,7 @@ function App() {
                       <button 
                         type="button"
                         onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
-                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
                       >
                         <ShoppingBag className="w-3 h-3 text-slate-500" />
                         <span>Sayuran & Ayam</span>
@@ -645,7 +639,7 @@ function App() {
                       <button 
                         type="button"
                         onClick={() => runPresetScript("Beli bawang merah 1/2 kg, bawang putih 1/4 kg, cabai rawit 100gr")}
-                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
                       >
                         <ShoppingBag className="w-3 h-3 text-slate-500" />
                         <span>Bawang & Cabai</span>
@@ -673,7 +667,7 @@ function App() {
                               <button
                                 type="button"
                                 onClick={() => handleSimulatePayment(activeOrder.id)}
-                                className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-full text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                                className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-md text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                               >
                                 <Lock className="w-3.5 h-3.5 text-slate-900" />
                                 Bayar Deposit Rekber
@@ -683,7 +677,7 @@ function App() {
                         </div>
                         <span className={`text-[9px] text-slate-500 mt-1 flex items-center gap-1 font-bold ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}>
                           {msg.timestamp}
-                          {msg.sender === 'bot' && <span className="text-emerald-600 font-black">✓✓</span>}
+                          {msg.sender === 'bot' && <span className="text-emerald-600 font-black"></span>}
                         </span>
                       </div>
                     ))}
@@ -703,7 +697,7 @@ function App() {
                       value={textInput}
                       onChange={(e) => setTextInput(e.target.value)}
                       placeholder="Tulis pesan belanjaan..."
-                      className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-900 focus:outline-none"
+                      className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-4 py-2 text-xs text-slate-900 focus:outline-none"
                     />
                     <button 
                       type="submit" 
@@ -720,7 +714,7 @@ function App() {
                   ${userSubTab === 'dashboard' ? 'flex w-full' : 'hidden lg:flex lg:w-[40%] border-l border-slate-200'}
                 `}>
                   {/* Section 1: Lacak Kiriman (Delivery Tracking) */}
-                  <div className="glass-card rounded-xl p-5 bg-white shadow-sm">
+                  <div className="glass-card rounded-md p-5 bg-white shadow-sm">
                     <h3 className="text-sm font-extrabold font-display text-slate-900 mb-4 flex items-center gap-2">
                       <Truck className="w-4 h-4 text-emerald-600" />
                       Lacak Kiriman
@@ -729,12 +723,12 @@ function App() {
                     {activeOrder ? (
                       <div className="space-y-4">
                         {/* Order info */}
-                        <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between text-xs font-semibold">
+                        <div className="bg-slate-50 p-3 rounded-md border border-slate-200 flex items-center justify-between text-xs font-semibold">
                           <div>
                             <span className="text-slate-500 block text-[9px] uppercase tracking-wider">Order Terpilih</span>
                             <span className="font-extrabold text-slate-800">ID: {activeOrder.id.substring(4)}</span>
                           </div>
-                          <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-bold text-slate-900 border border-slate-200 shadow-sm ${
+                          <span className={`px-2.5 py-0.5 rounded-md text-[9px] font-bold text-slate-900 border border-slate-200 shadow-sm ${
                             activeOrder.status === 'DONE' ? 'bg-emerald-400' :
                             activeOrder.status === 'ON_DELIVERY' ? 'bg-blue-400 text-white border-blue-500' :
                             'bg-amber-400'
@@ -745,7 +739,7 @@ function App() {
 
                         {/* Mock Payment Simulation Alert Card */}
                         {activeOrder.status === 'AWAITING_PAYMENT' && (
-                          <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-3">
+                          <div className="bg-amber-50 border border-amber-200 p-4 rounded-md space-y-3">
                             <div className="flex items-start gap-2.5">
                               <Lock className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                               <div>
@@ -758,7 +752,7 @@ function App() {
                             <button
                               type="button"
                               onClick={() => handleSimulatePayment(activeOrder.id)}
-                              className="w-full bg-amber-400 hover:bg-amber-500 border border-amber-500 text-slate-900 font-extrabold py-2 px-3 rounded-full text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                              className="w-full bg-amber-400 hover:bg-gradient-to-r from-amber-500 to-orange-500 border border-amber-500 text-slate-900 font-extrabold py-2 px-3 rounded-md text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                             >
                               <DollarSign className="w-3.5 h-3.5" />
                               Bayar Deposit Rekber (Simulasi)
@@ -770,12 +764,12 @@ function App() {
                         <div className="relative pl-6 border-l border-slate-200 space-y-5 py-2">
                           {/* Step 1: Diterima */}
                           <div className="relative">
-                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-md flex items-center justify-center border text-[9px] font-black ${
                               ['DRAFT', 'AWAITING_PAYMENT', 'MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status)
                                 ? 'bg-emerald-400 border-emerald-500 text-slate-900'
                                 : 'bg-white border-slate-300 text-slate-400'
                             }`}>
-                              ✓
+                              
                             </span>
                             <h4 className="text-xs font-bold text-slate-800">Order Diterima</h4>
                             <p className="text-[10px] text-slate-500 font-semibold">Belanjaan telah diterima dan dianalisis AI.</p>
@@ -783,12 +777,12 @@ function App() {
 
                           {/* Step 2: Pengemasan */}
                           <div className="relative">
-                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-md flex items-center justify-center border text-[9px] font-black ${
                               ['MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status)
                                 ? 'bg-emerald-400 border-emerald-500 text-slate-900'
                                 : 'bg-white border-slate-300 text-slate-400'
                             }`}>
-                              {['MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status) ? '✓' : '2'}
+                              {['MITRA_PREPPING', 'ON_DELIVERY', 'DONE'].includes(activeOrder.status) ? '' : '2'}
                             </span>
                             <h4 className="text-xs font-bold text-slate-800">Pengemasan oleh Mitra</h4>
                             <p className="text-[10px] text-slate-500 font-semibold">Toko mitra sedang menyiapkan dan mengemas pesanan belanja.</p>
@@ -796,12 +790,12 @@ function App() {
 
                           {/* Step 3: Pengiriman */}
                           <div className="relative">
-                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-md flex items-center justify-center border text-[9px] font-black ${
                               ['ON_DELIVERY', 'DONE'].includes(activeOrder.status)
                                 ? 'bg-emerald-400 border-emerald-500 text-slate-900'
                                 : 'bg-white border-slate-300 text-slate-400'
                             }`}>
-                              {['ON_DELIVERY', 'DONE'].includes(activeOrder.status) ? '✓' : '3'}
+                              {['ON_DELIVERY', 'DONE'].includes(activeOrder.status) ? '' : '3'}
                             </span>
                             <h4 className="text-xs font-bold text-slate-800">Dalam Pengiriman</h4>
                             <p className="text-[10px] text-slate-500 font-semibold">Pesanan sedang diantar oleh kurir ke alamat tujuan.</p>
@@ -809,12 +803,12 @@ function App() {
 
                           {/* Step 4: Selesai */}
                           <div className="relative">
-                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-full flex items-center justify-center border text-[9px] font-black ${
+                            <span className={`absolute -left-[28px] top-0 w-4.5 h-4.5 rounded-md flex items-center justify-center border text-[9px] font-black ${
                               activeOrder.status === 'DONE'
                                 ? 'bg-emerald-400 border-emerald-500 text-slate-900'
                                 : 'bg-white border-slate-300 text-slate-400'
                             }`}>
-                              {activeOrder.status === 'DONE' ? '✓' : '4'}
+                              {activeOrder.status === 'DONE' ? '' : '4'}
                             </span>
                             <h4 className="text-xs font-bold text-slate-800">Selesai</h4>
                             <p className="text-[10px] text-slate-500 font-semibold">Order selesai dan dana escrow diteruskan ke mitra.</p>
@@ -823,8 +817,8 @@ function App() {
 
                         {/* Courier Details */}
                         {activeOrder.driver && (
-                          <div className="bg-blue-50/60 p-3 rounded-xl border border-blue-100 flex items-center gap-3 text-xs font-semibold">
-                            <div className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-black">
+                          <div className="bg-blue-50/60 p-3 rounded-md border border-blue-100 flex items-center gap-3 text-xs font-semibold">
+                            <div className="w-8 h-8 rounded-md bg-blue-100 text-blue-600 flex items-center justify-center font-black">
                               K
                             </div>
                             <div>
@@ -843,7 +837,7 @@ function App() {
                   </div>
 
                   {/* Section 2: Riwayat Belanja (Order History) */}
-                  <div className="glass-card rounded-xl p-5 bg-white shadow-sm flex-1 flex flex-col min-h-0">
+                  <div className="glass-card rounded-md p-5 bg-white shadow-sm flex-1 flex flex-col min-h-0">
                     <h3 className="text-sm font-extrabold font-display text-slate-900 mb-4 flex items-center gap-2 shrink-0">
                       <FileText className="w-4 h-4 text-emerald-600" />
                       Riwayat Belanja
@@ -865,7 +859,7 @@ function App() {
                                 setActiveOrderId(ord.id);
                                 setEditingItemId(null);
                               }}
-                              className={`w-full text-left p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 cursor-pointer ${
+                              className={`w-full text-left p-3.5 rounded-md border transition-all flex items-center justify-between gap-3 cursor-pointer ${
                                 isSelected 
                                   ? 'bg-emerald-50/60 border-emerald-400 shadow-sm' 
                                   : 'bg-slate-50 border-slate-200 hover:bg-slate-100'
@@ -878,7 +872,7 @@ function App() {
                                   {ord.items ? ord.items.length : 0} item • Rp {formatMoney(totalAmt)}
                                 </span>
                               </div>
-                              <span className={`px-2 py-0.5 rounded-full text-[8px] font-bold text-slate-900 border border-slate-200 ${
+                              <span className={`px-2 py-0.5 rounded-md text-[8px] font-bold text-slate-900 border border-slate-200 ${
                                 ord.status === 'DONE' ? 'bg-emerald-300' :
                                 ord.status === 'ON_DELIVERY' ? 'bg-blue-300' :
                                 'bg-amber-300'
@@ -923,7 +917,7 @@ function App() {
                 className="space-y-6"
               >
                 {/* Store Header */}
-                <div className="glass-card rounded-xl p-5 bg-white">
+                <div className="glass-card rounded-md p-5 bg-white">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 border border-slate-200 bg-emerald-100 flex items-center justify-center shadow-sm">
@@ -935,7 +929,7 @@ function App() {
                       </div>
                     </div>
                     <span className="flex items-center gap-1.5 text-[9px] font-bold text-slate-900 bg-emerald-400 border border-slate-200 shadow-sm px-2.5 py-0.5">
-                      <span className="w-1.5 h-1.5 bg-slate-900 rounded-full animate-ping"></span>
+                      <span className="w-1.5 h-1.5 bg-gradient-to-r from-slate-800 to-slate-900 rounded-md animate-ping"></span>
                       Stall Buka
                     </span>
                   </div>
@@ -947,8 +941,8 @@ function App() {
                         <span className="text-slate-700">Progress Pengemasan Barang</span>
                         <span className="text-emerald-600">100% Ready</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-xl overflow-hidden">
-                        <div className="h-full bg-emerald-400 rounded-xl w-full transition-all duration-500"></div>
+                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-md overflow-hidden">
+                        <div className="h-full bg-emerald-400 rounded-md w-full transition-all duration-500"></div>
                       </div>
                     </div>
                   )}
@@ -958,7 +952,7 @@ function App() {
                     <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wide">Daftar Barang Belanjaan:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {activeOrder.items && activeOrder.items.map((item) => (
-                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-md flex items-center justify-between gap-3 shadow-sm">
                           <div className="flex items-center gap-3">
                             <div className={`w-8 h-8 border border-slate-200 flex items-center justify-center text-xs font-black shadow-sm ${
                               item.category === 'Bumbu' ? 'bg-amber-100 text-amber-600' :
@@ -1007,7 +1001,7 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-emerald-400 border border-slate-200 text-slate-900 font-black py-2.5 px-5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+                        className="bg-emerald-400 border border-slate-200 text-slate-900 font-black py-2.5 px-5 rounded-md text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         Selesai Packing & Serahkan Kurir
@@ -1040,7 +1034,7 @@ function App() {
                 className="space-y-6"
               >
                 {/* Mobile Smartphone Frame Wrapper */}
-                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-xl shadow-sm p-4">
+                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-md shadow-sm p-4">
                   
                   {/* Phone Screen body */}
                   <div className="bg-[#f3f4f6] p-4 flex flex-col justify-between text-xs min-h-[500px]">
@@ -1052,7 +1046,7 @@ function App() {
                         <h4 className="font-extrabold text-slate-900 text-sm">Order ID: {activeOrder.id.substring(4)}</h4>
                       </div>
                       <div className="text-right">
-                        <span className="px-2 py-0.5 text-[9px] font-bold bg-[#3b82f6] text-white border border-slate-200 shadow-sm">
+                        <span className="px-2 py-0.5 text-[9px] font-bold bg-gradient-to-r from-blue-500 to-indigo-600 text-white border border-slate-200 shadow-sm">
                           DRIVER ACTIVE
                         </span>
                       </div>
@@ -1073,6 +1067,7 @@ function App() {
                     {/* Main phone content scroll area */}
                     <div className="flex-1 py-2 space-y-4">
                       
+                      <MockMap />
                       {/* Driver checklist items */}
                       {activeOrder.status === 'MITRA_PREPPING' || activeOrder.status === 'ON_DELIVERY' || activeOrder.status === 'AWAITING_SUBSTITUTION' ? (
                         <div className="space-y-3">
@@ -1107,7 +1102,7 @@ function App() {
                                             type="number"
                                             value={editingPrice}
                                             onChange={(e) => setEditingPrice(e.target.value)}
-                                            className="bg-slate-50 border border-slate-200 rounded-full px-2 py-1 text-slate-900 text-xs w-24 outline-none"
+                                            className="bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-900 text-xs w-24 outline-none"
                                             placeholder="Harga..."
                                             autoFocus
                                           />
@@ -1116,14 +1111,14 @@ function App() {
                                       <div className="flex gap-1 shrink-0 mt-3">
                                         <button 
                                           onClick={() => handleSaveItemPrice(item.id)}
-                                          className="p-1.5 bg-emerald-400 border border-slate-200 text-slate-900 rounded-full hover:bg-emerald-500 cursor-pointer shadow-sm"
+                                          className="p-1.5 bg-emerald-400 border border-slate-200 text-slate-900 rounded-md hover:bg-emerald-500 cursor-pointer shadow-sm"
                                           title="Simpan"
                                         >
                                           <Check className="w-3.5 h-3.5" />
                                         </button>
                                         <button 
                                           onClick={() => setEditingItemId(null)}
-                                          className="p-1.5 bg-slate-200 border border-slate-200 text-slate-900 rounded-full hover:bg-slate-350 cursor-pointer shadow-sm"
+                                          className="p-1.5 bg-slate-200 border border-slate-200 text-slate-900 rounded-md hover:bg-slate-350 cursor-pointer shadow-sm"
                                           title="Batal"
                                         >
                                           <X className="w-3.5 h-3.5" />
@@ -1188,7 +1183,7 @@ function App() {
                                                 fetchActiveOrderDetails();
                                               } catch (e) {}
                                             }}
-                                            className="bg-red-100 hover:bg-red-200 text-red-600 border border-slate-200 font-bold px-2 py-0.5 rounded-full text-[9px] cursor-pointer shadow-sm"
+                                            className="bg-red-100 hover:bg-red-200 text-red-600 border border-slate-200 font-bold px-2 py-0.5 rounded-md text-[9px] cursor-pointer shadow-sm"
                                           >
                                             Habis
                                           </button>
@@ -1208,7 +1203,7 @@ function App() {
                                           {/* Price Edit Icon */}
                                           <button 
                                             onClick={() => handleStartEditing(item)}
-                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-full cursor-pointer"
+                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-md cursor-pointer"
                                           >
                                             <Edit2 className="w-3 h-3" />
                                           </button>
@@ -1234,7 +1229,7 @@ function App() {
                             </p>
                           </div>
                           
-                          <div className="bg-white border border-slate-200 p-3.5 rounded-xl text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
+                          <div className="bg-white border border-slate-200 p-3.5 rounded-md text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
                             <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b border-slate-200 pb-1 mb-1.5">Rincian Pencairan Dana:</p>
                             <div className="flex justify-between font-bold">
                               <span className="text-slate-500">Pembayaran ke Mitra Pasar:</span>
@@ -1262,13 +1257,13 @@ function App() {
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3 shadow-sm"
+                          className="bg-slate-50 border border-slate-200 p-4 rounded-md space-y-3 shadow-sm"
                         >
                           <span className="text-[9px] font-bold text-slate-600 uppercase tracking-wide flex items-center gap-1">
                             <FileText className="w-3 h-3 text-slate-500" />
                             <span>NOTA BELANJA GENERATED:</span>
                           </span>
-                          <div className="border-2 border-dashed border-slate-900 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
+                          <div className="border-2 border-dashed border-slate-900 rounded-md p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
                             <FileText className="w-6 h-6 text-slate-700" />
                             <span className="text-[10px] text-slate-900 font-bold">Mock_Invoice_Pasar.pdf</span>
                             <div className="text-[9px] text-slate-600 font-bold">
@@ -1298,7 +1293,7 @@ function App() {
                               console.error(e);
                             }
                           }}
-                          className="w-full bg-[#3b82f6] border border-slate-200 text-white font-black py-3 rounded-full flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+                          className="w-full bg-gradient-to-r from-blue-500 to-indigo-600 border border-slate-200 text-white font-black py-3 rounded-md flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                         >
                           <Truck className="w-4 h-4 text-white" />
                           Mulai Belanja (Kurir Jalan)
@@ -1321,7 +1316,7 @@ function App() {
                               }
                             } catch (e) {}
                           }}
-                          className="w-full bg-emerald-400 border border-slate-200 text-slate-900 font-black py-3 rounded-full flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+                          className="w-full bg-emerald-400 border border-slate-200 text-slate-900 font-black py-3 rounded-md flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                         >
                           <CheckCircle2 className="w-4 h-4" />
                           Selesai & Selesaikan Transaksi Rekber
@@ -1329,7 +1324,7 @@ function App() {
                       )}
 
                       {activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-xl border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm flex items-center justify-center gap-1.5">
+                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-md border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm flex items-center justify-center gap-1.5">
                           <Clock className="w-3.5 h-3.5 animate-spin" />
                           <span>Menunggu tanggapan alternatif barang dari WhatsApp Ibu...</span>
                         </div>
@@ -1351,7 +1346,7 @@ function App() {
                 {/* Financial Wallet cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Ledger metric 1 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Saldo Rekber</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-slate-900 mt-1">
@@ -1364,7 +1359,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 2 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Belanja Real</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-emerald-600 mt-1">
@@ -1375,7 +1370,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 3 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Refund Pembeli</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-amber-500 mt-1">
@@ -1386,7 +1381,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 4 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Biaya Jasa</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-blue-600 mt-1">
@@ -1398,7 +1393,7 @@ function App() {
                 </div>
 
                 {/* Audit Ledger List */}
-                <div className="glass-card rounded-xl p-5 bg-white">
+                <div className="glass-card rounded-md p-5 bg-white">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div>
                       <h3 className="text-base font-black font-display text-slate-900">Riwayat Mutasi Rekber</h3>
@@ -1422,7 +1417,7 @@ function App() {
                           activeOrder.ledger.map((entry) => (
                             <tr key={entry.id} className="hover:bg-slate-50 transition-colors text-slate-900">
                               <td className="py-3">
-                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold border border-slate-200 shadow-sm ${
+                                <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold border border-slate-200 shadow-sm ${
                                   entry.type === 'CREDIT_PAYMENT' ? 'bg-emerald-400 text-slate-900' :
                                   entry.type === 'DEBIT_REFUND' ? 'bg-[#8b5cf6]/10 text-[#8b5cf6]' :
                                   entry.type === 'DEBIT_DRIVER_FEE' ? 'bg-blue-100 text-blue-600' :
@@ -1451,7 +1446,7 @@ function App() {
                 </div>
 
                 {/* Saga Flow visualization */}
-                <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
+                <div className="bg-white border border-slate-200 p-4 rounded-md shadow-sm space-y-3">
                   <h4 className="text-[11px] font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
                     <ShieldAlert className="w-4 h-4 text-slate-800" />
                     Alur Transaksi Saga Terdistribusi
@@ -1483,7 +1478,7 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <div className="glass-card rounded-xl p-5 bg-white">
+                <div className="glass-card rounded-md p-5 bg-white">
                   <div className="border-b border-slate-200 pb-3 mb-4">
                     <h3 className="text-base font-black text-slate-900">Presenter Admin Control</h3>
                     <p className="text-xs text-slate-500 font-semibold mt-0.5">Daftar harga kamus referensi database pasar tradisional</p>
@@ -1497,7 +1492,7 @@ function App() {
                     </h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[200px] overflow-y-auto pr-1">
                       {dictionary.map(dict => (
-                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-xl text-[10px] font-bold shadow-sm">
+                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-md text-[10px] font-bold shadow-sm">
                           <span className="font-extrabold text-slate-950 block truncate">{dict.name}</span>
                           <span className="text-slate-500 block text-[9px] mt-0.5 font-semibold">{dict.category}</span>
                           <span className="text-emerald-600 font-extrabold mt-1 block">Rp {formatMoney(dict.estimated_price)} / {dict.unit}</span>
@@ -1530,7 +1525,7 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black py-2 px-3.5 rounded-full text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
+                        className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black py-2 px-3.5 rounded-md text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
                       >
                         <Truck className="w-3.5 h-3.5" />
                         Posisikan Order Terpilih: ON_DELIVERY
