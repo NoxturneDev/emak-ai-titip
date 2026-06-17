@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Emak AI Titip - MVP Pitch Deck</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            primary: '#10b981',
+            secondary: '#2563eb',
+            accent: '#fbbf24',
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #0f172a;
+      color: #334155;
+    }
+    .slide {
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in-out;
+    }
+    .slide.active {
+      display: flex;
+      opacity: 1;
+    }
+  </style>
+</head>
+<body class="w-screen h-screen flex flex-col items-center justify-center p-4 md:p-8 overflow-hidden select-none">
+
+  <!-- Background decorative dots -->
+  <div class="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:24px_24px] opacity-20 pointer-events-none"></div>
+
+  <!-- Main Slide Frame -->
+  <div class="w-full max-w-5xl aspect-[16/9] bg-white rounded-2xl border border-slate-800/20 shadow-2xl flex flex-col justify-between p-8 md:p-12 relative overflow-hidden z-10">
+    
+    <!-- Slide 1: Cover -->
+    <div class="slide active flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Product Pitch</span>
+        <span class="text-xs text-slate-400 font-semibold">Emak AI Titip</span>
+      </div>
+      <div class="my-auto space-y-4">
+        <h1 class="text-3xl md:text-5xl font-extrabold font-display tracking-tight text-slate-900 leading-tight">
+          Emak AI Titip:<br/>
+          <span class="text-emerald-500">Jastip Pasar Rakyat, Cukup Chat WhatsApp</span>
+        </h1>
+        <p class="text-sm md:text-base text-slate-500 max-w-2xl font-medium leading-relaxed">
+          Bridging traditional market vendors and modern families using conversational NLP order interpreters and secure escrow transactions.
+        </p>
+      </div>
+      <div class="flex justify-between items-end border-t border-slate-100 pt-6">
+        <div>
+          <span class="text-[9px] uppercase tracking-wider text-slate-400 block font-bold">Presenter</span>
+          <span class="text-xs font-bold text-slate-700">Galih Adhi Kusuma</span>
+        </div>
+        <span class="text-xs text-slate-400 font-medium font-mono">noxturne.production@gmail.com</span>
+      </div>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">The Market Gap</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 02</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Masalah di Pasar Tradisional</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-black text-xs">1</div>
+            <h4 class="text-xs font-black text-slate-900">Akses Pasar Sulit</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Macet, parkir, dan jadwal padat menghalangi Ibu-Ibu belanja langsung ke pasar tradisional untuk bahan segar.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-black text-xs">2</div>
+            <h4 class="text-xs font-black text-slate-900">Hambatan Aplikasi</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Aplikasi belanja modern terlalu rumit dan memiliki harga markup tinggi yang membebani anggaran belanja harian.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center font-black text-xs">3</div>
+            <h4 class="text-xs font-black text-slate-900">Risiko Dana Talangan</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Kurir harus membayar belanjaan dengan uang pribadi (talangan), memicu konflik harga dan membatasi volume order.</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Tantangan Logistik & Keterjangkauan</span>
+      </div>
+    </div>
+
+    <!-- Slide 3: The Solution -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Our Solution</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 03</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Solusi Emak AI Titip</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs">A</div>
+            <h4 class="text-xs font-black text-slate-900">Native WhatsApp Chat</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Cukup kirim teks daftar belanjaan tanpa install aplikasi. AI parser kami otomatis menghitung estimasi harganya.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs">B</div>
+            <h4 class="text-xs font-black text-slate-900">Lock Deposit Rekber</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Dana aman terkunci di rekening bersama (escrow) sebelum kurir jalan, menghilangkan risiko dana talangan kurir.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-black text-xs">C</div>
+            <h4 class="text-xs font-black text-slate-900">Aliran Dana Otomatis</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Buku kas rekber otomatis membagi pembayaran ke pedagang, ongkir kurir, dan mengembalikan sisa dana kembalian belanja.</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Mengamankan Logistik Rakyat Secara Digital</span>
+      </div>
+    </div>
+
+    <!-- Slide 4: Market Opportunity -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Market Size</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 04</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Peluang Pasar & Demografi</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <div class="border-l-4 border-emerald-400 pl-4 py-1">
+              <span class="text-3xl font-black text-slate-900 block">$90 Miliar USD</span>
+              <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wide">Total Pasar Belanja Sembako Indonesia (TAM)</p>
+            </div>
+            <div class="border-l-4 border-blue-400 pl-4 py-1">
+              <span class="text-3xl font-black text-slate-900 block">70%+</span>
+              <p class="text-[11px] text-slate-500 font-bold uppercase tracking-wide">Sembako Masih Terjual Melalui Retail Tradisional</p>
+            </div>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl flex flex-col justify-center">
+            <h4 class="text-xs font-extrabold text-slate-800 mb-2">WhatsApp Commerce Wave</h4>
+            <p class="text-[11px] text-slate-500 font-semibold leading-relaxed">
+              WhatsApp terpasang di <strong>92%</strong> smartphone di Indonesia. Ibu-Ibu menggunakan chat setiap hari untuk interaksi sosial dan keluarga, menjadikannya gerbang belanja paling efektif tanpa kurva pembelajaran aplikasi baru.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Demografi Ibu Rumah Tangga Modern</span>
+      </div>
+    </div>
+
+    <!-- Slide 5: The Product Experience -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Product Demo</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 05</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Pengalaman Produk Terintegrasi</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl space-y-2">
+            <h4 class="text-[11px] font-black text-slate-900">1. WA Chat (User)</h4>
+            <p class="text-[9px] text-slate-500 font-semibold leading-relaxed">Kirim daftar belanja, terima invoice estimasi, checkout sekali klik.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl space-y-2">
+            <h4 class="text-[11px] font-black text-slate-900">2. Antarmuka Mitra</h4>
+            <p class="text-[9px] text-slate-500 font-semibold leading-relaxed">Daftar packing pesanan masuk untuk lapak pedagang pasar.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl space-y-2">
+            <h4 class="text-[11px] font-black text-slate-900">3. Checklist Driver</h4>
+            <p class="text-[9px] text-slate-500 font-semibold leading-relaxed">Checklist belanja dengan edit harga actual dan usul barang pengganti.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-4 rounded-xl space-y-2">
+            <h4 class="text-[11px] font-black text-slate-900">4. Buku Kas Rekber</h4>
+            <p class="text-[9px] text-slate-500 font-semibold leading-relaxed">Aliran saldo transparan mencatat mutasi deposit dan refund kembalian.</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Sistem Operasi Multi-Peran Jastip</span>
+      </div>
+    </div>
+
+    <!-- Slide 6: Core Technology -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-slate-100 text-slate-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Tech Stack</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 06</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Arsitektur & Teknologi Utama</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <h4 class="text-xs font-black text-slate-900">Golang Micro-Services</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Mesin backend super cepat dengan kompilasi instan dan penggunaan memori yang sangat rendah.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <h4 class="text-xs font-black text-slate-900">SQLite Serverless</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Penyimpanan data relasional lokal yang mendukung transaksi ACID untuk pencatatan buku kas escrow.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <h4 class="text-xs font-black text-slate-900">Fuzzy Matching NLP</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Menerjemahkan teks bebas WhatsApp (misal: "tomat 1/2 kilo") ke kamus harga bahan pasar secara otomatis.</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Ringan, Cepat, dan Skalabel</span>
+      </div>
+    </div>
+
+    <!-- Slide 7: Business Model & Economics -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Business Model</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 07</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Model Bisnis & Unit Economics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="space-y-4">
+            <div class="border-l-4 border-emerald-400 pl-4 py-1">
+              <span class="text-2xl font-black text-slate-900">4% Take Rate</span>
+              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Komisi platform dari lapak pedagang terdaftar</p>
+            </div>
+            <div class="border-l-4 border-blue-400 pl-4 py-1">
+              <span class="text-2xl font-black text-slate-900">Rp 10.000 Ongkir</span>
+              <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wide">Tarif flat pengiriman yang langsung masuk ke dompet kurir</p>
+            </div>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2">
+            <h4 class="text-xs font-extrabold text-slate-800">Ilustrasi Transaksi Contoh:</h4>
+            <div class="text-[11px] text-slate-600 font-semibold space-y-1">
+              <div class="flex justify-between"><span>Belanja Sayur:</span><span>Rp 50.000</span></div>
+              <div class="flex justify-between"><span>Komisi Platform (Pedagang):</span><span>Rp 2.000</span></div>
+              <div class="flex justify-between"><span>Ongkos Kirim Kurir:</span><span>Rp 10.000</span></div>
+              <div class="flex justify-between font-bold border-t border-slate-200 pt-1 text-slate-900"><span>Ibu Bayar:</span><span>Rp 60.000</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Pemasukan Berkelanjutan dari Pasar Rakyat</span>
+      </div>
+    </div>
+
+    <!-- Slide 8: Risk Management -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Security</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 08</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Manajemen Risiko & Escrow Saga</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <h4 class="text-xs font-black text-slate-900">Daily Volatility Buffer</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Deposit mencakup 15% saldo cadangan untuk melindungi kurir jika harga pasar berfluktuasi saat transaksi.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <h4 class="text-xs font-black text-slate-900">Atomic SAGA Splits</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Pencatatan pembagian saldo ke mitra, kurir, dan refund sisa deposit ke pembeli diikat dalam satu transaksi SQLite database.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <h4 class="text-xs font-black text-slate-900">Substitution Flow</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Jika barang kosong, kurir mengirim usulan barang pengganti melalui WhatsApp, menunggu persetujuan pembeli secara langsung.</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Proteksi Finansial bagi Kurir dan Pembeli</span>
+      </div>
+    </div>
+
+    <!-- Slide 9: Go-To-Market -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">Strategy</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 09</span>
+      </div>
+      <div class="my-auto space-y-6">
+        <h2 class="text-2xl md:text-3xl font-extrabold font-display text-slate-900 tracking-tight">Rencana Go-To-Market</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="text-xs font-black text-emerald-600 font-mono">FASE 1</div>
+            <h4 class="text-xs font-black text-slate-900">Mitra Pasar & Lapak</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Bekerjasama dengan pengelola pasar (Pasar Jaya) untuk mendaftarkan lapak pedagang tradisional utama.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="text-xs font-black text-emerald-600 font-mono">FASE 2</div>
+            <h4 class="text-xs font-black text-slate-900">Aktivasi Jaringan Kurir</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Rekrutmen pengemudi lokal dengan promosi utama: jaminan tidak perlu mengeluarkan uang talangan belanja.</p>
+          </div>
+          <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl space-y-2.5">
+            <div class="text-xs font-black text-emerald-600 font-mono">FASE 3</div>
+            <h4 class="text-xs font-black text-slate-900">Komunitas & Rukun Tetangga</h4>
+            <p class="text-[10px] text-slate-500 font-semibold leading-relaxed">Sosialisasi ke grup arisan, forum warga apartemen, dan jaringan komunitas Ibu-Ibu secara tertarget.</p>
+          </div>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 text-left">
+        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wide">Penyebaran Bertahap Berbasis Komunitas Lokal</span>
+      </div>
+    </div>
+
+    <!-- Slide 10: Ask & Call to Action -->
+    <div class="slide flex-col justify-between h-full">
+      <div class="flex items-center justify-between">
+        <span class="px-3 py-1 bg-accent/20 text-amber-800 rounded-full text-xs font-bold font-display uppercase tracking-wider">The Ask</span>
+        <span class="text-xs text-slate-400 font-semibold">Slide 10</span>
+      </div>
+      <div class="my-auto space-y-6 text-center max-w-2xl mx-auto">
+        <h2 class="text-2xl md:text-4xl font-extrabold font-display text-slate-900 tracking-tight leading-tight">
+          Pemberdayaan Pedagang Tradisional.<br/>
+          Kemudahan Belanja Keluarga.
+        </h2>
+        <div class="bg-slate-50 border border-slate-100 p-5 rounded-xl my-4">
+          <p class="text-xs md:text-sm text-slate-700 font-bold">
+            Membuka Pendanaan Awal (Seed Funding) sebesar <span class="text-emerald-600">$250,000 USD</span> untuk integrasi WhatsApp Business API, sistem pembayaran deposit, dan pilot operasional pasar percontohan.
+          </p>
+        </div>
+        <div class="flex items-center justify-center gap-4">
+          <a href="/demo" class="px-6 py-2.5 rounded-full text-xs font-extrabold bg-emerald-400 hover:bg-emerald-500 text-slate-900 border border-slate-200 shadow-sm transition-all cursor-pointer">
+            Coba Demo Sekarang
+          </a>
+        </div>
+      </div>
+      <div class="border-t border-slate-100 pt-4 flex justify-between items-center text-[9px] text-slate-400 font-bold uppercase tracking-wide">
+        <span>Emak AI Titip @ 2026</span>
+        <span>Terima Kasih</span>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Slide Navigation Control Bar -->
+  <div class="fixed bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-6 bg-slate-800/90 text-white py-3 px-6 rounded-full shadow-lg backdrop-blur z-50 border border-slate-700/50">
+    <button id="prevBtn" type="button" class="w-10 h-10 flex items-center justify-center bg-slate-700 hover:bg-slate-600 active:scale-95 text-xl font-bold rounded-full transition-all cursor-pointer">
+      &lsaquo;
+    </button>
+    <span class="text-xs font-bold tracking-wider select-none font-mono">
+      SLIDE <span id="currentSlideNum">1</span> / <span id="totalSlidesNum">10</span>
+    </span>
+    <button id="nextBtn" type="button" class="w-10 h-10 flex items-center justify-center bg-slate-700 hover:bg-slate-600 active:scale-95 text-xl font-bold rounded-full transition-all cursor-pointer">
+      &rsaquo;
+    </button>
+  </div>
+
+  <!-- Vanilla JavaScript Navigation Logic -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const currentSlideNum = document.getElementById('currentSlideNum');
+      const totalSlidesNum = document.getElementById('totalSlidesNum');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      let currentIdx = 0;
+      const totalSlides = slides.length;
+      totalSlidesNum.textContent = totalSlides;
+
+      const updateSlides = () => {
+        slides.forEach((slide, idx) => {
+          if (idx === currentIdx) {
+            slide.classList.add('active');
+          } else {
+            slide.classList.remove('active');
+          }
+        });
+        currentSlideNum.textContent = currentIdx + 1;
+      };
+
+      const nextSlide = () => {
+        if (currentIdx < totalSlides - 1) {
+          currentIdx++;
+          updateSlides();
+        }
+      };
+
+      const prevSlide = () => {
+        if (currentIdx > 0) {
+          currentIdx--;
+          updateSlides();
+        }
+      };
+
+      // Button Event Listeners
+      nextBtn.addEventListener('click', nextSlide);
+      prevBtn.addEventListener('click', prevSlide);
+
+      // Keyboard Event Listeners
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight' || e.key === 'Space') {
+          e.preventDefault();
+          nextSlide();
+        } else if (e.key === 'ArrowLeft') {
+          e.preventDefault();
+          prevSlide();
+        }
+      });
+    });
+  </script>
+</body>
+</html>
