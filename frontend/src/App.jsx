@@ -351,17 +351,17 @@ function App() {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="lg:hidden p-1.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-md shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
+            className="lg:hidden p-1.5 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-full shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer mr-1 flex items-center justify-center animate-pulse"
             aria-label="Toggle Menu"
           >
             <Menu className="w-5 h-5" />
           </button>
-          <div className="w-9 h-9 rounded-md border border-slate-200 bg-[#fbbf24] flex items-center justify-center shadow-sm shrink-0">
+          <div className="w-9 h-9 rounded-full border border-slate-200 bg-[#fbbf24] flex items-center justify-center shadow-sm shrink-0">
             <ShoppingBag className="w-5 h-5 text-slate-900" />
           </div>
           <div>
             <h1 className="text-sm font-black tracking-tight text-slate-900 flex items-center gap-2">
-              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-md font-bold border border-slate-200 shadow-sm">PANEL KENDALI MVP</span>
+              Emak AI Titip <span className="text-[9px] bg-emerald-400 text-slate-900 px-2 py-0.5 rounded-full font-bold border border-slate-200 shadow-sm">PANEL KENDALI MVP</span>
             </h1>
             <p className="text-[10px] text-slate-600 hidden sm:block font-bold">Simulasi Integrasi Chatbot & Buku Kas Rekber</p>
           </div>
@@ -371,7 +371,7 @@ function App() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setView('landing')}
-            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-md border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer"
+            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer"
           >
             ← Kembali ke Beranda
           </button>
@@ -411,7 +411,7 @@ function App() {
                 setActiveOrderId(e.target.value);
                 setEditingItemId(null);
               }}
-              className="bg-white border border-slate-200 text-slate-900 text-[11px] font-black rounded-md px-2.5 py-1 focus:outline-none cursor-pointer shadow-sm"
+              className="bg-white border border-slate-200 text-slate-900 text-[11px] font-black rounded-full px-2.5 py-1 focus:outline-none cursor-pointer shadow-sm"
             >
               {orders.map((ord) => (
                 <option key={ord.id} value={ord.id}>
@@ -450,7 +450,7 @@ function App() {
                 alert("Reset gagal.");
               }
             }}
-            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border border-slate-200 font-black py-1 px-2.5 rounded-md flex items-center gap-1 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
+            className="text-[10px] bg-white hover:bg-slate-50 text-red-500 border border-slate-200 font-black py-1 px-2.5 rounded-full flex items-center gap-1 transition-all cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
           >
             <RefreshCw className="w-3 h-3" />
             Reset Data & Chat
@@ -472,7 +472,7 @@ function App() {
             <span className="font-black text-sm tracking-tight text-slate-900">MENU UTAMA</span>
             <button 
               onClick={() => setIsSidebarOpen(false)}
-              className="lg:hidden p-1 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-md shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+              className="lg:hidden p-1 border border-slate-200 bg-white hover:bg-slate-50 text-slate-900 rounded-full shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -568,7 +568,7 @@ function App() {
           {/* WA Contact Header */}
           <div className="bg-white px-4 py-3 flex items-center justify-between border-b border-slate-200 shrink-0 text-slate-900">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-md border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
+              <div className="w-10 h-10 rounded-full border border-slate-200 bg-emerald-400 flex items-center justify-center text-slate-900 font-black text-sm shadow-sm">
                 E
               </div>
               <div>
@@ -592,19 +592,19 @@ function App() {
             <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
               <button 
                 onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
-                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
               >
                 🥕 Lodeh & Tempe
               </button>
               <button 
                 onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
-                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
               >
                 🍗 Sayuran & Ayam
               </button>
               <button 
                 onClick={() => runPresetScript("Tolong beliin kelapa parut 1 butir sama gula merah 250gr")}
-                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-md hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
               >
                 🥥 Kelapa & Gula Merah
               </button>
@@ -618,7 +618,7 @@ function App() {
                 key={msg.id}
                 className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end' : 'self-start'}`}
               >
-                <div className={`p-3 rounded-md text-xs whitespace-pre-line relative ${
+                <div className={`p-3 rounded-full text-xs whitespace-pre-line relative ${
                   msg.sender === 'user' 
                     ? 'wa-bubble-out text-slate-900 font-bold' 
                     : 'wa-bubble-in text-slate-900 font-medium'
@@ -630,13 +630,13 @@ function App() {
                     <div className="mt-3 pt-2.5 border-t border-slate-200/40 flex gap-2">
                       <button
                         onClick={() => handleChatSubstitutionChoice(activeOrder.id, true)}
-                        className="flex-1 bg-emerald-400 border border-slate-200 hover:bg-emerald-500 text-slate-900 font-black py-1.5 rounded-md text-[10px] text-center shadow-sm cursor-pointer"
+                        className="flex-1 bg-emerald-400 border border-slate-200 hover:bg-emerald-500 text-slate-900 font-black py-1.5 rounded-full text-[10px] text-center shadow-sm cursor-pointer"
                       >
                         SETUJU
                       </button>
                       <button
                         onClick={() => handleChatSubstitutionChoice(activeOrder.id, false)}
-                        className="flex-1 bg-red-400 border border-slate-200 hover:bg-red-500 text-slate-900 font-black py-1.5 rounded-md text-[10px] text-center shadow-sm cursor-pointer"
+                        className="flex-1 bg-red-400 border border-slate-200 hover:bg-red-500 text-slate-900 font-black py-1.5 rounded-full text-[10px] text-center shadow-sm cursor-pointer"
                       >
                         BATAL
                       </button>
@@ -648,7 +648,7 @@ function App() {
                     <div className="mt-3">
                       <button
                         onClick={() => handleSimulatePayment(activeOrder.id)}
-                        className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-md text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        className="w-full bg-sky-400 hover:bg-sky-500 border border-slate-200 text-slate-900 font-black py-2 px-3 rounded-full text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                       >
                         <Lock className="w-3.5 h-3.5 text-slate-900" />
                         Bayar Deposit Rekber
@@ -678,7 +678,7 @@ function App() {
               value={textInput}
               onChange={(e) => setTextInput(e.target.value)}
               placeholder="Tulis pesan belanjaan..."
-              className="flex-1 bg-slate-50 border border-slate-200 rounded-md px-4 py-2 text-xs text-slate-900 focus:outline-none"
+              className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2 text-xs text-slate-900 focus:outline-none"
             />
             <button 
               type="submit" 
@@ -713,7 +713,7 @@ function App() {
                 className="space-y-6"
               >
                 {/* Store Header */}
-                <div className="glass-card rounded-md p-5 bg-white">
+                <div className="glass-card rounded-full p-5 bg-white">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 border border-slate-200 bg-emerald-100 flex items-center justify-center shadow-sm">
@@ -737,8 +737,8 @@ function App() {
                         <span className="text-slate-700">Progress Pengemasan Barang</span>
                         <span className="text-emerald-600">100% Ready</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-md overflow-hidden">
-                        <div className="h-full bg-emerald-400 rounded-md w-full transition-all duration-500"></div>
+                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-emerald-400 rounded-full w-full transition-all duration-500"></div>
                       </div>
                     </div>
                   )}
@@ -748,7 +748,7 @@ function App() {
                     <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wide">Daftar Barang Belanjaan:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {activeOrder.items && activeOrder.items.map((item) => (
-                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-md flex items-center justify-between gap-3 shadow-sm">
+                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-full flex items-center justify-between gap-3 shadow-sm">
                           <div className="flex items-center gap-3">
                             <div className={`w-8 h-8 border border-slate-200 flex items-center justify-center text-xs font-black shadow-sm ${
                               item.category === 'Bumbu' ? 'bg-amber-100 text-amber-600' :
@@ -797,7 +797,7 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-emerald-400 border border-slate-200 text-slate-900 font-black py-2.5 px-5 rounded-md text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+                        className="bg-emerald-400 border border-slate-200 text-slate-900 font-black py-2.5 px-5 rounded-full text-xs flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         Selesai Packing & Serahkan Kurir
@@ -822,7 +822,7 @@ function App() {
                 className="space-y-6"
               >
                 {/* Mobile Smartphone Frame Wrapper */}
-                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-md shadow-sm p-4">
+                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-full shadow-sm p-4">
                   
                   {/* Phone Screen body */}
                   <div className="bg-[#f3f4f6] p-4 flex flex-col justify-between text-xs min-h-[500px]">
@@ -889,7 +889,7 @@ function App() {
                                             type="number"
                                             value={editingPrice}
                                             onChange={(e) => setEditingPrice(e.target.value)}
-                                            className="bg-slate-50 border border-slate-200 rounded-md px-2 py-1 text-slate-900 text-xs w-24 outline-none"
+                                            className="bg-slate-50 border border-slate-200 rounded-full px-2 py-1 text-slate-900 text-xs w-24 outline-none"
                                             placeholder="Harga..."
                                             autoFocus
                                           />
@@ -898,14 +898,14 @@ function App() {
                                       <div className="flex gap-1 shrink-0 mt-3">
                                         <button 
                                           onClick={() => handleSaveItemPrice(item.id)}
-                                          className="p-1.5 bg-emerald-400 border border-slate-200 text-slate-900 rounded-md hover:bg-emerald-500 cursor-pointer shadow-sm"
+                                          className="p-1.5 bg-emerald-400 border border-slate-200 text-slate-900 rounded-full hover:bg-emerald-500 cursor-pointer shadow-sm"
                                           title="Simpan"
                                         >
                                           <Check className="w-3.5 h-3.5" />
                                         </button>
                                         <button 
                                           onClick={() => setEditingItemId(null)}
-                                          className="p-1.5 bg-slate-200 border border-slate-200 text-slate-900 rounded-md hover:bg-slate-350 cursor-pointer shadow-sm"
+                                          className="p-1.5 bg-slate-200 border border-slate-200 text-slate-900 rounded-full hover:bg-slate-350 cursor-pointer shadow-sm"
                                           title="Batal"
                                         >
                                           <X className="w-3.5 h-3.5" />
@@ -970,7 +970,7 @@ function App() {
                                                 fetchActiveOrderDetails();
                                               } catch (e) {}
                                             }}
-                                            className="bg-red-100 hover:bg-red-200 text-red-600 border border-slate-200 font-bold px-2 py-0.5 rounded-md text-[9px] cursor-pointer shadow-sm"
+                                            className="bg-red-100 hover:bg-red-200 text-red-600 border border-slate-200 font-bold px-2 py-0.5 rounded-full text-[9px] cursor-pointer shadow-sm"
                                           >
                                             Habis
                                           </button>
@@ -990,7 +990,7 @@ function App() {
                                           {/* Price Edit Icon */}
                                           <button 
                                             onClick={() => handleStartEditing(item)}
-                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-md cursor-pointer"
+                                            className="text-slate-600 hover:text-slate-900 p-1 border-2 border-transparent hover:border-slate-900 rounded-full cursor-pointer"
                                           >
                                             <Edit2 className="w-3 h-3" />
                                           </button>
@@ -1016,7 +1016,7 @@ function App() {
                             </p>
                           </div>
                           
-                          <div className="bg-white border border-slate-200 p-3.5 rounded-md text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
+                          <div className="bg-white border border-slate-200 p-3.5 rounded-full text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
                             <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b border-slate-200 pb-1 mb-1.5">Rincian Pencairan Dana:</p>
                             <div className="flex justify-between font-bold">
                               <span className="text-slate-500">Pembayaran ke Mitra Pasar:</span>
@@ -1044,10 +1044,10 @@ function App() {
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-white border border-slate-200 p-3 rounded-md shadow-sm mt-4"
+                          className="bg-white border border-slate-200 p-3 rounded-full shadow-sm mt-4"
                         >
                           <span className="text-[9px] font-bold text-slate-600 block uppercase tracking-wide">📄 NOTA BELANJA GENERATED:</span>
-                          <div className="border-2 border-dashed border-slate-900 rounded-md p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
+                          <div className="border-2 border-dashed border-slate-900 rounded-full p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
                             <FileText className="w-6 h-6 text-slate-700" />
                             <span className="text-[10px] text-slate-900 font-bold">Mock_Invoice_Pasar.pdf</span>
                             <div className="text-[9px] text-slate-600 font-bold">
@@ -1077,7 +1077,7 @@ function App() {
                               console.error(e);
                             }
                           }}
-                          className="w-full bg-[#3b82f6] border border-slate-200 text-white font-black py-3 rounded-md flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+                          className="w-full bg-[#3b82f6] border border-slate-200 text-white font-black py-3 rounded-full flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                         >
                           <Truck className="w-4 h-4 text-white" />
                           Mulai Belanja (Kurir Jalan)
@@ -1100,7 +1100,7 @@ function App() {
                               }
                             } catch (e) {}
                           }}
-                          className="w-full bg-emerald-400 border border-slate-200 text-slate-900 font-black py-3 rounded-md flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
+                          className="w-full bg-emerald-400 border border-slate-200 text-slate-900 font-black py-3 rounded-full flex items-center justify-center gap-1.5 transition-all shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer"
                         >
                           <CheckCircle2 className="w-4 h-4" />
                           Selesai & Selesaikan Transaksi Rekber
@@ -1108,7 +1108,7 @@ function App() {
                       )}
 
                       {activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-md border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm">
+                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-full border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm">
                           ⏳ Menunggu tanggapan alternatif barang dari WhatsApp Ibu...
                         </div>
                       )}
@@ -1129,7 +1129,7 @@ function App() {
                 {/* Financial Wallet cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Ledger metric 1 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Saldo Rekber</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-slate-900 mt-1">
@@ -1142,7 +1142,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 2 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Belanja Real</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-emerald-600 mt-1">
@@ -1153,7 +1153,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 3 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Refund Pembeli</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-amber-500 mt-1">
@@ -1164,7 +1164,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 4 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-md flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Biaya Jasa</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-blue-600 mt-1">
@@ -1176,7 +1176,7 @@ function App() {
                 </div>
 
                 {/* Audit Ledger List */}
-                <div className="glass-card rounded-md p-5 bg-white">
+                <div className="glass-card rounded-full p-5 bg-white">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div>
                       <h3 className="text-base font-black font-display text-slate-900">Riwayat Mutasi Rekber</h3>
@@ -1200,7 +1200,7 @@ function App() {
                           activeOrder.ledger.map((entry) => (
                             <tr key={entry.id} className="hover:bg-slate-50 transition-colors text-slate-900">
                               <td className="py-3">
-                                <span className={`px-2 py-0.5 rounded-md text-[9px] font-extrabold border border-slate-200 shadow-sm ${
+                                <span className={`px-2 py-0.5 rounded-full text-[9px] font-extrabold border border-slate-200 shadow-sm ${
                                   entry.type === 'CREDIT_PAYMENT' ? 'bg-emerald-400 text-slate-900' :
                                   entry.type === 'DEBIT_REFUND' ? 'bg-[#8b5cf6]/10 text-[#8b5cf6]' :
                                   entry.type === 'DEBIT_DRIVER_FEE' ? 'bg-blue-100 text-blue-600' :
@@ -1229,7 +1229,7 @@ function App() {
                 </div>
 
                 {/* Saga Flow visualization */}
-                <div className="bg-white border border-slate-200 p-4 rounded-md shadow-sm space-y-3">
+                <div className="bg-white border border-slate-200 p-4 rounded-full shadow-sm space-y-3">
                   <h4 className="text-[11px] font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
                     <ShieldAlert className="w-4 h-4 text-slate-800" />
                     Alur Transaksi Saga Terdistribusi
@@ -1261,7 +1261,7 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <div className="glass-card rounded-md p-5 bg-white">
+                <div className="glass-card rounded-full p-5 bg-white">
                   <div className="border-b border-slate-200 pb-3 mb-4">
                     <h3 className="text-base font-black text-slate-900">Presenter Admin Control</h3>
                     <p className="text-xs text-slate-500 font-semibold mt-0.5">Daftar harga kamus referensi database pasar tradisional</p>
@@ -1272,7 +1272,7 @@ function App() {
                     <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">📚 Target Fuzzy Matching Referensi Barang & Harga:</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[200px] overflow-y-auto pr-1">
                       {dictionary.map(dict => (
-                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-md text-[10px] font-bold shadow-sm">
+                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-full text-[10px] font-bold shadow-sm">
                           <span className="font-extrabold text-slate-950 block truncate">{dict.name}</span>
                           <span className="text-slate-500 block text-[9px] mt-0.5 font-semibold">{dict.category}</span>
                           <span className="text-emerald-600 font-extrabold mt-1 block">Rp {formatMoney(dict.estimated_price)} / {dict.unit}</span>
@@ -1302,7 +1302,7 @@ function App() {
                             console.error(e);
                           }
                         }}
-                        className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black py-2 px-3.5 rounded-md text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
+                        className="bg-white hover:bg-slate-50 border border-slate-200 text-slate-900 font-black py-2 px-3.5 rounded-full text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer shadow-sm active:scale-[0.98] active:shadow-sm"
                       >
                         <Truck className="w-3.5 h-3.5" />
                         Posisikan Order Terpilih: ON_DELIVERY

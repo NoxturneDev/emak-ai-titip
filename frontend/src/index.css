@@ -47,7 +47,7 @@ body {
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   color: #111827;
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
 .glass-card {
@@ -55,7 +55,7 @@ body {
   border: 1px solid #e2e8f0;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
   color: #111827;
-  border-radius: 8px;
+  border-radius: 16px;
   transition: all 0.2s ease;
 }
 
@@ -102,14 +102,14 @@ body {
 .wa-bubble-in {
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 8px 8px 8px 0px;
+  border-radius: 16px 16px 16px 4px;
   color: #111827;
 }
 
 .wa-bubble-out {
   background-color: #d9fdd3;
   border: 1px solid #cce8ca;
-  border-radius: 8px 8px 0px 8px;
+  border-radius: 16px 16px 4px 16px;
   color: #111827;
 }
 
