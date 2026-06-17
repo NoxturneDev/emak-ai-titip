@@ -713,7 +713,7 @@ function App() {
                 className="space-y-6"
               >
                 {/* Store Header */}
-                <div className="glass-card rounded-full p-5 bg-white">
+                <div className="glass-card rounded-xl p-5 bg-white">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 border border-slate-200 bg-emerald-100 flex items-center justify-center shadow-sm">
@@ -737,8 +737,8 @@ function App() {
                         <span className="text-slate-700">Progress Pengemasan Barang</span>
                         <span className="text-emerald-600">100% Ready</span>
                       </div>
-                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-emerald-400 rounded-full w-full transition-all duration-500"></div>
+                      <div className="w-full h-3 bg-slate-200 border border-slate-200 rounded-xl overflow-hidden">
+                        <div className="h-full bg-emerald-400 rounded-xl w-full transition-all duration-500"></div>
                       </div>
                     </div>
                   )}
@@ -748,7 +748,7 @@ function App() {
                     <p className="text-[9px] text-slate-500 font-bold uppercase tracking-wide">Daftar Barang Belanjaan:</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {activeOrder.items && activeOrder.items.map((item) => (
-                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-full flex items-center justify-between gap-3 shadow-sm">
+                        <div key={item.id} className="bg-slate-50 border border-slate-200 p-3.5 rounded-xl flex items-center justify-between gap-3 shadow-sm">
                           <div className="flex items-center gap-3">
                             <div className={`w-8 h-8 border border-slate-200 flex items-center justify-center text-xs font-black shadow-sm ${
                               item.category === 'Bumbu' ? 'bg-amber-100 text-amber-600' :
@@ -822,7 +822,7 @@ function App() {
                 className="space-y-6"
               >
                 {/* Mobile Smartphone Frame Wrapper */}
-                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-full shadow-sm p-4">
+                <div className="w-full max-w-[420px] mx-auto bg-slate-100 border border-slate-200 rounded-xl shadow-sm p-4">
                   
                   {/* Phone Screen body */}
                   <div className="bg-[#f3f4f6] p-4 flex flex-col justify-between text-xs min-h-[500px]">
@@ -1016,7 +1016,7 @@ function App() {
                             </p>
                           </div>
                           
-                          <div className="bg-white border border-slate-200 p-3.5 rounded-full text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
+                          <div className="bg-white border border-slate-200 p-3.5 rounded-xl text-left text-[11px] space-y-1.5 mt-4 max-w-[280px] mx-auto shadow-sm">
                             <p className="text-slate-600 font-extrabold uppercase text-[9px] border-b border-slate-200 pb-1 mb-1.5">Rincian Pencairan Dana:</p>
                             <div className="flex justify-between font-bold">
                               <span className="text-slate-500">Pembayaran ke Mitra Pasar:</span>
@@ -1047,7 +1047,7 @@ function App() {
                           className="bg-white border border-slate-200 p-3 rounded-full shadow-sm mt-4"
                         >
                           <span className="text-[9px] font-bold text-slate-600 block uppercase tracking-wide">📄 NOTA BELANJA GENERATED:</span>
-                          <div className="border-2 border-dashed border-slate-900 rounded-full p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
+                          <div className="border-2 border-dashed border-slate-900 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
                             <FileText className="w-6 h-6 text-slate-700" />
                             <span className="text-[10px] text-slate-900 font-bold">Mock_Invoice_Pasar.pdf</span>
                             <div className="text-[9px] text-slate-600 font-bold">
@@ -1108,7 +1108,7 @@ function App() {
                       )}
 
                       {activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-full border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm">
+                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-xl border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm">
                           ⏳ Menunggu tanggapan alternatif barang dari WhatsApp Ibu...
                         </div>
                       )}
@@ -1129,7 +1129,7 @@ function App() {
                 {/* Financial Wallet cards */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                   {/* Ledger metric 1 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Saldo Rekber</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-slate-900 mt-1">
@@ -1142,7 +1142,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 2 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Belanja Real</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-emerald-600 mt-1">
@@ -1153,7 +1153,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 3 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Refund Pembeli</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-amber-500 mt-1">
@@ -1164,7 +1164,7 @@ function App() {
                   </div>
 
                   {/* Ledger metric 4 */}
-                  <div className="bg-white border border-slate-200 p-4 rounded-full flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl flex flex-col justify-between min-h-[90px] shadow-sm text-slate-900">
                     <span className="text-[10px] text-slate-500 font-black uppercase tracking-wider block">Biaya Jasa</span>
                     <div>
                       <h4 className="text-xl font-black font-display text-blue-600 mt-1">
@@ -1176,7 +1176,7 @@ function App() {
                 </div>
 
                 {/* Audit Ledger List */}
-                <div className="glass-card rounded-full p-5 bg-white">
+                <div className="glass-card rounded-xl p-5 bg-white">
                   <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-4">
                     <div>
                       <h3 className="text-base font-black font-display text-slate-900">Riwayat Mutasi Rekber</h3>
@@ -1229,7 +1229,7 @@ function App() {
                 </div>
 
                 {/* Saga Flow visualization */}
-                <div className="bg-white border border-slate-200 p-4 rounded-full shadow-sm space-y-3">
+                <div className="bg-white border border-slate-200 p-4 rounded-xl shadow-sm space-y-3">
                   <h4 className="text-[11px] font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
                     <ShieldAlert className="w-4 h-4 text-slate-800" />
                     Alur Transaksi Saga Terdistribusi
@@ -1261,7 +1261,7 @@ function App() {
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-6"
               >
-                <div className="glass-card rounded-full p-5 bg-white">
+                <div className="glass-card rounded-xl p-5 bg-white">
                   <div className="border-b border-slate-200 pb-3 mb-4">
                     <h3 className="text-base font-black text-slate-900">Presenter Admin Control</h3>
                     <p className="text-xs text-slate-500 font-semibold mt-0.5">Daftar harga kamus referensi database pasar tradisional</p>
@@ -1272,7 +1272,7 @@ function App() {
                     <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">📚 Target Fuzzy Matching Referensi Barang & Harga:</h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[200px] overflow-y-auto pr-1">
                       {dictionary.map(dict => (
-                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-full text-[10px] font-bold shadow-sm">
+                        <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-xl text-[10px] font-bold shadow-sm">
                           <span className="font-extrabold text-slate-950 block truncate">{dict.name}</span>
                           <span className="text-slate-500 block text-[9px] mt-0.5 font-semibold">{dict.category}</span>
                           <span className="text-emerald-600 font-extrabold mt-1 block">Rp {formatMoney(dict.estimated_price)} / {dict.unit}</span>

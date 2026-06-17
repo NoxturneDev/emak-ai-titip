@@ -119,7 +119,7 @@ export default function LandingPage({ onLaunchDemo }) {
             
             {/* Copywriter content */}
             <div className="lg:col-span-6 flex flex-col text-center lg:text-left items-center lg:items-start">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-300 border border-slate-200 text-slate-900 text-xs font-extrabold mb-6 shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-300 border border-slate-200 text-slate-900 text-xs font-extrabold mb-6 shadow-sm">
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>TEKNOLOGI JASTIP PASAR TRADISIONAL BERBASIS AI</span>
               </div>
@@ -168,7 +168,7 @@ export default function LandingPage({ onLaunchDemo }) {
 
             {/* Flat Design System Flow Diagram (Replacing the old tabbed chatbot simulator) */}
             <div className="lg:col-span-6 w-full max-w-2xl mx-auto lg:max-w-none">
-              <div className="glass-panel p-6 rounded-full bg-white">
+              <div className="glass-panel p-6 rounded-xl bg-white">
                 <div className="flex items-center gap-2 text-xs font-mono font-bold border-b border-slate-200 pb-3 mb-5 text-slate-700">
                   <Database className="w-4 h-4 text-emerald-500" />
                   <span>EMAK_AI_ARCH_DIAGRAM.EXE</span>
@@ -257,7 +257,7 @@ export default function LandingPage({ onLaunchDemo }) {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Feature Card 1 */}
-            <div className="glass-card p-8 rounded-full flex flex-col h-full bg-white">
+            <div className="glass-card p-8 rounded-xl flex flex-col h-full bg-white">
               <div className="w-12 h-12 rounded-full bg-emerald-100 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 shadow-sm">
                 <Sparkles className="w-6 h-6 text-emerald-600" />
               </div>
@@ -268,7 +268,7 @@ export default function LandingPage({ onLaunchDemo }) {
             </div>
 
             {/* Feature Card 2 */}
-            <div className="glass-card p-8 rounded-full flex flex-col h-full bg-white">
+            <div className="glass-card p-8 rounded-xl flex flex-col h-full bg-white">
               <div className="w-12 h-12 rounded-full bg-sky-100 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 shadow-sm">
                 <ShieldCheck className="w-6 h-6 text-sky-600" />
               </div>
@@ -279,7 +279,7 @@ export default function LandingPage({ onLaunchDemo }) {
             </div>
 
             {/* Feature Card 3 */}
-            <div className="glass-card p-8 rounded-full flex flex-col h-full bg-white">
+            <div className="glass-card p-8 rounded-xl flex flex-col h-full bg-white">
               <div className="w-12 h-12 rounded-full bg-rose-100 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 shadow-sm">
                 <Truck className="w-6 h-6 text-rose-600" />
               </div>
@@ -310,7 +310,7 @@ export default function LandingPage({ onLaunchDemo }) {
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-stretch relative">
             
             {/* Step 1 */}
-            <div className="glass-card p-6 rounded-full flex flex-col relative bg-white">
+            <div className="glass-card p-6 rounded-xl flex flex-col relative bg-white">
               <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">01</div>
               <div className="w-10 h-10 rounded-full bg-emerald-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
                 1
@@ -322,7 +322,7 @@ export default function LandingPage({ onLaunchDemo }) {
             </div>
 
             {/* Step 2 */}
-            <div className="glass-card p-6 rounded-full flex flex-col relative bg-white">
+            <div className="glass-card p-6 rounded-xl flex flex-col relative bg-white">
               <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">02</div>
               <div className="w-10 h-10 rounded-full bg-sky-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
                 2
@@ -334,7 +334,7 @@ export default function LandingPage({ onLaunchDemo }) {
             </div>
 
             {/* Step 3 */}
-            <div className="glass-card p-6 rounded-full flex flex-col relative bg-white">
+            <div className="glass-card p-6 rounded-xl flex flex-col relative bg-white">
               <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">03</div>
               <div className="w-10 h-10 rounded-full bg-amber-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
                 3
@@ -346,7 +346,7 @@ export default function LandingPage({ onLaunchDemo }) {
             </div>
 
             {/* Step 4 */}
-            <div className="glass-card p-6 rounded-full flex flex-col relative bg-white">
+            <div className="glass-card p-6 rounded-xl flex flex-col relative bg-white">
               <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">04</div>
               <div className="w-10 h-10 rounded-full bg-violet-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
                 4
@@ -358,7 +358,7 @@ export default function LandingPage({ onLaunchDemo }) {
             </div>
 
             {/* Step 5 */}
-            <div className="glass-card p-6 rounded-full flex flex-col relative bg-white">
+            <div className="glass-card p-6 rounded-xl flex flex-col relative bg-white">
               <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">05</div>
               <div className="w-10 h-10 rounded-full bg-emerald-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
                 5
@@ -380,7 +380,7 @@ export default function LandingPage({ onLaunchDemo }) {
             
             {/* Visual Escrow Graphic */}
             <div className="lg:col-span-6 relative">
-              <div className="relative glass-panel rounded-full p-6 bg-white">
+              <div className="relative glass-panel rounded-xl p-6 bg-white">
                 
                 <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-5">
                   <div className="flex items-center gap-3">
@@ -399,7 +399,7 @@ export default function LandingPage({ onLaunchDemo }) {
 
                 {/* Secure Flow Simulation */}
                 <div className="space-y-4 font-semibold text-xs">
-                  <div className="flex justify-between items-center bg-slate-100 p-3 rounded-full border border-slate-200 shadow-sm">
+                  <div className="flex justify-between items-center bg-slate-100 p-3 rounded-xl border border-slate-200 shadow-sm">
                     <span className="text-slate-700">Total Uang Pembeli (Termasuk Buffer 15%)</span>
                     <span className="font-mono font-black text-slate-900">Rp 115.000</span>
                   </div>
@@ -409,11 +409,11 @@ export default function LandingPage({ onLaunchDemo }) {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white p-3 rounded-full border border-slate-200 text-center shadow-sm">
+                    <div className="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm">
                       <div className="text-[10px] text-slate-500 mb-1">Realisasi Belanja</div>
                       <div className="font-mono font-black text-emerald-600 text-xs">Rp 88.000</div>
                     </div>
-                    <div className="bg-white p-3 rounded-full border border-slate-200 text-center shadow-sm">
+                    <div className="bg-white p-3 rounded-xl border border-slate-200 text-center shadow-sm">
                       <div className="text-[10px] text-slate-500 mb-1">Ongkir Flat Driver</div>
                       <div className="font-mono font-black text-sky-600 text-xs">Rp 10.000</div>
                     </div>
@@ -423,7 +423,7 @@ export default function LandingPage({ onLaunchDemo }) {
                     <ChevronRight className="w-5 h-5 text-slate-900 rotate-90" />
                   </div>
 
-                  <div className="flex justify-between items-center bg-emerald-100 p-3 rounded-full border border-slate-200 shadow-sm">
+                  <div className="flex justify-between items-center bg-emerald-100 p-3 rounded-xl border border-slate-200 shadow-sm">
                     <span className="text-emerald-700 font-bold">Otomatis Refund Sisa Uang Pembeli</span>
                     <span className="font-mono font-black text-emerald-700">Rp 17.000</span>
                   </div>
@@ -434,7 +434,7 @@ export default function LandingPage({ onLaunchDemo }) {
 
             {/* Content info */}
             <div className="lg:col-span-6 flex flex-col">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-100 border border-slate-200 text-slate-900 text-xs font-extrabold mb-6 self-start shadow-sm">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-sky-100 border border-slate-200 text-slate-900 text-xs font-extrabold mb-6 self-start shadow-sm">
                 <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
                 <span>REKBER TRANSAKSI TRANSPARAN</span>
               </div>
@@ -499,7 +499,7 @@ export default function LandingPage({ onLaunchDemo }) {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="glass-card p-6 rounded-full bg-white">
+            <div className="glass-card p-6 rounded-xl bg-white">
               <div className="w-10 h-10 rounded-full bg-emerald-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
                 <Database className="w-5 h-5 text-emerald-600" />
               </div>
@@ -509,7 +509,7 @@ export default function LandingPage({ onLaunchDemo }) {
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-full bg-white">
+            <div className="glass-card p-6 rounded-xl bg-white">
               <div className="w-10 h-10 rounded-full bg-sky-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
                 <Zap className="w-5 h-5 text-sky-600" />
               </div>
@@ -519,7 +519,7 @@ export default function LandingPage({ onLaunchDemo }) {
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-full bg-white">
+            <div className="glass-card p-6 rounded-xl bg-white">
               <div className="w-10 h-10 rounded-full bg-violet-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
                 <MessageSquare className="w-5 h-5 text-violet-600" />
               </div>
@@ -529,7 +529,7 @@ export default function LandingPage({ onLaunchDemo }) {
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-full bg-white">
+            <div className="glass-card p-6 rounded-xl bg-white">
               <div className="w-10 h-10 rounded-full bg-emerald-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
                 <UserCheck className="w-5 h-5 text-emerald-600" />
               </div>
@@ -545,7 +545,7 @@ export default function LandingPage({ onLaunchDemo }) {
       {/* CTA Section */}
       <section className="py-20 border-t border-slate-200 relative bg-white">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-full bg-amber-300 border border-slate-200 p-8 sm:p-12 text-center shadow-sm">
+          <div className="relative rounded-xl bg-amber-300 border border-slate-200 p-8 sm:p-12 text-center shadow-sm">
             <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-900 mb-6">
               Siap Menjelajahi Sistem Secara Live?
             </h2>
