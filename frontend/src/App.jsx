@@ -61,6 +61,23 @@ import LandingPage from './components/LandingPage';
 // Mock receipt image path
 const MOCK_RECEIPT = "https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?q=80&w=400&auto=format&fit=crop";
 
+const MockMap = () => (
+  <div className="w-full h-64 bg-slate-100 rounded-md overflow-hidden relative border border-slate-200 mt-4 flex items-center justify-center">
+    <svg viewBox="0 0 800 400" className="absolute inset-0 w-full h-full text-slate-300 opacity-50" preserveAspectRatio="none">
+        <rect width="800" height="400" fill="currentColor"/>
+        <path stroke="#94a3b8" strokeWidth="2" fill="none" d="M100 100 Q 200 50 300 150 T 500 200 T 700 100"/>
+        <path stroke="#94a3b8" strokeWidth="2" fill="none" d="M200 300 Q 300 250 400 350 T 600 250 T 800 300"/>
+        <circle cx="300" cy="150" r="8" fill="#3b82f6" className="animate-pulse" />
+        <circle cx="500" cy="200" r="8" fill="#10b981" />
+    </svg>
+    <div className="relative z-10 bg-white/90 backdrop-blur-sm p-3 rounded-md shadow-sm border border-slate-200 text-center">
+      <MapPin className="w-6 h-6 text-blue-500 mx-auto mb-1" />
+      <p className="text-sm font-semibold text-slate-700">Driver Location</p>
+      <p className="text-xs text-slate-500">Live tracking active</p>
+    </div>
+  </div>
+);
+
 function App() {
   const [view, setView] = useState('landing'); // 'landing' | 'demo'
   const [activeTab, setActiveTab] = useState('chat'); // 'chat' | 'vendor' | 'driver' | 'escrow' | 'admin'
