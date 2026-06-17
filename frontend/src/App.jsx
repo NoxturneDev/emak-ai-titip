@@ -735,6 +735,29 @@ function App() {
                           </span>
                         </div>
 
+                        {/* Mock Payment Simulation Alert Card */}
+                        {activeOrder.status === 'AWAITING_PAYMENT' && (
+                          <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl space-y-3">
+                            <div className="flex items-start gap-2.5">
+                              <Lock className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                              <div>
+                                <h4 className="text-xs font-bold text-amber-800">Menunggu Pembayaran</h4>
+                                <p className="text-[10px] text-amber-700 font-semibold mt-0.5">
+                                  Pesanan belanja telah dianalisis. Silakan lakukan pembayaran deposit untuk melanjutkan proses belanja oleh Mitra Pasar.
+                                </p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleSimulatePayment(activeOrder.id)}
+                              className="w-full bg-amber-400 hover:bg-amber-500 border border-amber-500 text-slate-900 font-extrabold py-2 px-3 rounded-full text-[10px] text-center shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                            >
+                              <DollarSign className="w-3.5 h-3.5" />
+                              Bayar Deposit Rekber (Simulasi)
+                            </button>
+                          </div>
+                        )}
+
                         {/* Timeline */}
                         <div className="relative pl-6 border-l border-slate-200 space-y-5 py-2">
                           {/* Step 1: Diterima */}
