@@ -3,7 +3,8 @@ import {
   Send, Phone, Video, MoreVertical, CheckCircle2, ShoppingBag, 
   Truck, DollarSign, RefreshCw, PlusCircle, AlertCircle, 
   Check, X, FileText, ArrowRight, User, ShieldAlert, Award,
-  Edit2, Store, Lock, ChevronRight, MessageSquare, Shield, Menu
+  Edit2, Store, Lock, ChevronRight, MessageSquare, Shield, Menu,
+  Clock, ArrowLeft, Settings, BookOpen
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import LandingPage from './components/LandingPage';
@@ -372,9 +373,10 @@ function App() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setView('landing')}
-            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer"
+            className="text-[11px] bg-white hover:bg-slate-50 text-slate-900 font-extrabold py-1.5 px-3 rounded-full border border-slate-200 shadow-sm active:scale-[0.98] active:shadow-sm transition-all cursor-pointer flex items-center gap-1"
           >
-            ← Kembali ke Beranda
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Kembali ke Beranda</span>
           </button>
           
           <div className="hidden md:flex items-center gap-5 text-[11px] border-l border-slate-200 pl-5 font-bold">
@@ -619,28 +621,34 @@ function App() {
 
                   {/* Quick Script Tag Carousel */}
                   <div className="bg-[#f3f4f6] border-b border-slate-200 px-4 py-2.5 shrink-0">
-                    <p className="text-[9px] text-slate-600 mb-2 font-bold uppercase tracking-wide">📋 KIRIM DRAFT BELANJA CEPAT:</p>
+                    <p className="text-[9px] text-slate-600 mb-2 font-bold uppercase tracking-wide flex items-center gap-1">
+                      <FileText className="w-3 h-3" />
+                      <span>KIRIM DRAFT BELANJA CEPAT:</span>
+                    </p>
                     <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-thin">
                       <button 
                         type="button"
                         onClick={() => runPresetScript("Beliin bumbu lodeh 2 porsi sama tempe papan satu ya")}
-                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
                       >
-                        🥕 Lodeh & Tempe
+                        <ShoppingBag className="w-3 h-3 text-slate-500" />
+                        <span>Lodeh & Tempe</span>
                       </button>
                       <button 
                         type="button"
                         onClick={() => runPresetScript("Beli wortel 1 kg, kentang 2 kg, sama ayam potong 1 ekor ya")}
-                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
                       >
-                        🍗 Sayuran & Ayam
+                        <ShoppingBag className="w-3 h-3 text-slate-500" />
+                        <span>Sayuran & Ayam</span>
                       </button>
                       <button 
                         type="button"
                         onClick={() => runPresetScript("Beli bawang merah 1/2 kg, bawang putih 1/4 kg, cabai rawit 100gr")}
-                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm"
+                        className="text-[11px] bg-white border border-slate-200 text-slate-900 font-extrabold py-1.5 px-3 rounded-full hover:bg-slate-50 shrink-0 transition-all cursor-pointer shadow-sm flex items-center gap-1"
                       >
-                        🌶️ Bawang & Cabai
+                        <ShoppingBag className="w-3 h-3 text-slate-500" />
+                        <span>Bawang & Cabai</span>
                       </button>
                     </div>
                   </div>
@@ -1006,9 +1014,17 @@ function App() {
                       </button>
                     ) : (
                       <div className="text-[10px] text-slate-600 font-bold bg-slate-50 p-3 border border-slate-200 shadow-sm">
-                        {activeOrder.status === 'AWAITING_PAYMENT' 
-                          ? '⏳ Menunggu deposit dana Rekber dibayarkan oleh Pengguna.' 
-                          : '🚀 Pesanan sudah diserahkan ke Kurir untuk belanja dan pengantaran.'}
+                        {activeOrder.status === 'AWAITING_PAYMENT' ? (
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                            <span>Menunggu deposit dana Rekber dibayarkan oleh Pengguna.</span>
+                          </div>
+                        ) : (
+                          <div className="flex items-center gap-1.5">
+                            <Truck className="w-3.5 h-3.5 text-slate-500 shrink-0" />
+                            <span>Pesanan sudah diserahkan ke Kurir untuk belanja dan pengantaran.</span>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
@@ -1246,9 +1262,12 @@ function App() {
                         <motion.div 
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          className="bg-white border border-slate-200 p-3 rounded-full shadow-sm mt-4"
+                          className="bg-slate-50 border border-slate-200 p-4 rounded-xl space-y-3 shadow-sm"
                         >
-                          <span className="text-[9px] font-bold text-slate-600 block uppercase tracking-wide">📄 NOTA BELANJA GENERATED:</span>
+                          <span className="text-[9px] font-bold text-slate-600 uppercase tracking-wide flex items-center gap-1">
+                            <FileText className="w-3 h-3 text-slate-500" />
+                            <span>NOTA BELANJA GENERATED:</span>
+                          </span>
                           <div className="border-2 border-dashed border-slate-900 rounded-xl p-3 flex flex-col items-center justify-center text-center gap-1.5 bg-slate-50">
                             <FileText className="w-6 h-6 text-slate-700" />
                             <span className="text-[10px] text-slate-900 font-bold">Mock_Invoice_Pasar.pdf</span>
@@ -1310,8 +1329,9 @@ function App() {
                       )}
 
                       {activeOrder.status === 'AWAITING_SUBSTITUTION' && (
-                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-xl border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm">
-                          ⏳ Menunggu tanggapan alternatif barang dari WhatsApp Ibu...
+                        <div className="bg-amber-100 text-amber-700 p-2.5 rounded-xl border border-slate-200 text-center animate-pulse-soft font-extrabold text-[10px] shadow-sm flex items-center justify-center gap-1.5">
+                          <Clock className="w-3.5 h-3.5 animate-spin" />
+                          <span>Menunggu tanggapan alternatif barang dari WhatsApp Ibu...</span>
                         </div>
                       )}
                     </div>
@@ -1471,7 +1491,10 @@ function App() {
 
                   {/* Seed Price dictionary listing */}
                   <div className="space-y-3">
-                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">📚 Target Fuzzy Matching Referensi Barang & Harga:</h4>
+                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide flex items-center gap-1">
+                      <BookOpen className="w-3.5 h-3.5 text-slate-500" />
+                      <span>Target Fuzzy Matching Referensi Barang & Harga:</span>
+                    </h4>
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 max-h-[200px] overflow-y-auto pr-1">
                       {dictionary.map(dict => (
                         <div key={dict.id} className="bg-slate-50 border border-slate-200 p-2 rounded-xl text-[10px] font-bold shadow-sm">
@@ -1485,7 +1508,10 @@ function App() {
 
                   {/* Admin State controller shortcuts */}
                   <div className="pt-5 border-t border-slate-200/60 mt-5 space-y-3">
-                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide">⚙️ Shortcut State Control:</h4>
+                    <h4 className="text-[10px] font-black text-slate-600 uppercase tracking-wide flex items-center gap-1">
+                      <Settings className="w-3.5 h-3.5 text-slate-500" />
+                      <span>Shortcut State Control:</span>
+                    </h4>
                     <div className="flex flex-wrap gap-2.5">
                       <button
                         onClick={async () => {
