@@ -142,13 +142,14 @@ const DEFAULT_GENERAL_CHAT = [
   {
     id: 'init_welcome',
     sender: 'bot',
-    text: 'Halo Ibu! Butuh bantuan belanja dari pasar rakyat hari ini? Silakan ketik daftar belanjaan Anda di sini atau tanyakan resep, AI kami siap membantu.',
+    text: 'Butuh bahan belanjaan? yuk langsung cobain order di Emak AI!',
+    showOrderMenuButton: true,
     timestamp: 'Baru Saja'
   }
 ];
 
 export default function CustomerApp({ onToggleDevPanel }) {
-  const [activeTab, setActiveTab] = useState('beranda'); // 'beranda' | 'checkout' | 'history'
+  const [activeTab, setActiveTab] = useState('chatbot'); // 'chatbot' | 'beranda' | 'checkout' | 'history'
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Semua');
@@ -158,8 +159,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
   const [checkoutTotal, setCheckoutTotal] = useState(0);
   
   // Floating Chat Widget state
-  const [isChatOpen, setIsChatOpen] = useState(false);
-  const [activeChatId, setActiveChatId] = useState(null); // null = List, 'general' = General AI assistant, orderId = Order chat
+  const [activeChatId, setActiveChatId] = useState('general'); // null = List, 'general' = General AI assistant, orderId = Order chat
   const [generalMessages, setGeneralMessages] = useState([]);
   const [chatInput, setChatInput] = useState('');
   const [trackingOrderId, setTrackingOrderId] = useState(null);
@@ -169,7 +169,26 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
   const [showMapTrackerId, setShowMapTrackerId] = useState(null);
 
+  const [tourStep, setTourStep] = useState(0); // Onboarding Tour Step State (starts at 0)
+
   const chatEndRef = useRef(null);
+
+  // Onboarding Tour Step reactive transitions
+  useEffect(() => {
+    if (activeTab === 'checkout' && tourStep === 2) {
+      setTourStep(3);
+    }
+  }, [activeTab, tourStep]);
+
+  useEffect(() => {
+    if (activeTab === 'history' && tourStep === 3) {
+      setTourStep(4);
+    }
+  }, [activeTab, tourStep]);
+
+
+
+
 
   // Get current active messages thread
   const chatMessages = activeChatId === 'general' 
@@ -178,24 +197,24 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
   // Initialize data from LocalStorage
   useEffect(() => {
-    const storedOrders = localStorage.getItem('pasar_orders');
+    const storedOrders = localStorage.getItem('emak_orders');
     if (storedOrders) {
       setOrders(JSON.parse(storedOrders));
     } else {
-      localStorage.setItem('pasar_orders', JSON.stringify(INITIAL_ORDERS));
+      localStorage.setItem('emak_orders', JSON.stringify(INITIAL_ORDERS));
       setOrders(INITIAL_ORDERS);
     }
 
-    const storedCart = localStorage.getItem('pasar_cart');
+    const storedCart = localStorage.getItem('emak_cart');
     if (storedCart) {
       setCart(JSON.parse(storedCart));
     }
 
-    const storedGeneralChat = localStorage.getItem('pasar_general_chat');
+    const storedGeneralChat = localStorage.getItem('emak_general_chat');
     if (storedGeneralChat) {
       setGeneralMessages(JSON.parse(storedGeneralChat));
     } else {
-      localStorage.setItem('pasar_general_chat', JSON.stringify(DEFAULT_GENERAL_CHAT));
+      localStorage.setItem('emak_general_chat', JSON.stringify(DEFAULT_GENERAL_CHAT));
       setGeneralMessages(DEFAULT_GENERAL_CHAT);
     }
   }, []);
@@ -203,15 +222,15 @@ export default function CustomerApp({ onToggleDevPanel }) {
   // Save cart changes
   const saveCart = (newCart) => {
     setCart(newCart);
-    localStorage.setItem('pasar_cart', JSON.stringify(newCart));
+    localStorage.setItem('emak_cart', JSON.stringify(newCart));
   };
 
   // Chat message scroller
   useEffect(() => {
-    if (isChatOpen && activeChatId) {
+    if (activeTab === 'chatbot' && activeChatId) {
       chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [chatMessages, isChatOpen, activeChatId]);
+  }, [chatMessages, activeTab, activeChatId]);
 
   // Handle Add to Cart
   const handleAddToCart = (product) => {
@@ -223,6 +242,9 @@ export default function CustomerApp({ onToggleDevPanel }) {
       newCart = [...cart, { ...product, qty: 1 }];
     }
     saveCart(newCart);
+    if (tourStep === 1) {
+      setTourStep(2);
+    }
   };
 
   // Adjust Qty in Cart
@@ -261,7 +283,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
     
     // Copy cart to state for checkout stage later
     setCheckoutItems([...cart]);
-    setCheckoutTotal(totalBill);
+    setCheckoutTotal(subtotal + 15000);
 
     // Build chat confirmation message
     const itemSummaryStr = cart.map(item => `- ${item.qty}x ${item.name} (${item.unit})`).join('\n');
@@ -275,11 +297,11 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
     const updatedGeneralChat = [...generalMessages, checkoutMessage];
     setGeneralMessages(updatedGeneralChat);
-    localStorage.setItem('pasar_general_chat', JSON.stringify(updatedGeneralChat));
+    localStorage.setItem('emak_general_chat', JSON.stringify(updatedGeneralChat));
 
     setTrackingOrderId(null); // Clear tracking mode
     setActiveChatId('general'); // Go directly to general chat channel
-    setIsChatOpen(true); // Pop open the persistent chatbot overlay!
+    setActiveTab('checkout'); // Redirect directly to the checkout page!
   };
 
   // Handle direct AI search/ask inside chat threads
@@ -297,7 +319,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
       // General chat interaction
       const updatedMessages = [...generalMessages, userMsg];
       setGeneralMessages(updatedMessages);
-      localStorage.setItem('pasar_general_chat', JSON.stringify(updatedMessages));
+      localStorage.setItem('emak_general_chat', JSON.stringify(updatedMessages));
       setChatInput('');
 
       setTimeout(() => {
@@ -336,7 +358,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
         setGeneralMessages(prev => {
           const res = [...prev, botReply];
-          localStorage.setItem('pasar_general_chat', JSON.stringify(res));
+          localStorage.setItem('emak_general_chat', JSON.stringify(res));
           return res;
         });
       }, 1000);
@@ -354,18 +376,18 @@ export default function CustomerApp({ onToggleDevPanel }) {
               sender: ord.status === 'IN PROGRESS' ? 'courier' : 'bot',
               text: ord.status === 'IN PROGRESS' 
                 ? 'Baik Bu, pesan diterima. Saya sedang merapikan belanjaan Ibu di motor.' 
-                : 'Pesanan ini sudah selesai. Jika ada keluhan silakan hubungi CS PasarAI.',
+                : 'Pesanan ini sudah selesai. Jika ada keluhan silakan hubungi CS Emak AI.',
               timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
             };
             
-            const reUpdatedOrders = JSON.parse(localStorage.getItem('pasar_orders')).map(o => {
+            const reUpdatedOrders = JSON.parse(localStorage.getItem('emak_orders')).map(o => {
               if (o.id === activeChatId) {
                 return { ...o, chatLog: [...o.chatLog, courierReply] };
               }
               return o;
             });
             setOrders(reUpdatedOrders);
-            localStorage.setItem('pasar_orders', JSON.stringify(reUpdatedOrders));
+            localStorage.setItem('emak_orders', JSON.stringify(reUpdatedOrders));
           }, 1000);
 
           return { ...ord, chatLog: newLogs };
@@ -374,15 +396,78 @@ export default function CustomerApp({ onToggleDevPanel }) {
       });
 
       setOrders(updatedOrders);
-      localStorage.setItem('pasar_orders', JSON.stringify(updatedOrders));
+      localStorage.setItem('emak_orders', JSON.stringify(updatedOrders));
       setChatInput('');
+    }
+  };
+
+  // Handle conversational commerce quick order via templates/recipes
+  const handleQuickOrder = (recipeName, recipeItems) => {
+    const newCart = [...cart];
+    recipeItems.forEach(item => {
+      const product = CATALOG_PRODUCTS.find(p => p.id === item.id);
+      if (product) {
+        const existing = newCart.find(c => c.id === product.id);
+        if (existing) {
+          existing.qty += item.qty;
+        } else {
+          newCart.push({ ...product, qty: item.qty });
+        }
+      }
+    });
+    saveCart(newCart);
+
+    const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    const userMsg = {
+      id: 'msg_user_' + Date.now(),
+      sender: 'user',
+      text: `Saya mau pesan bahan resep: "${recipeName}"`,
+      timestamp
+    };
+
+    const botText = `Baik Ibu! Emak sudah siapkan bahan-bahan segar untuk resep "${recipeName}":\n` + 
+      recipeItems.map(item => {
+        const product = CATALOG_PRODUCTS.find(p => p.id === item.id);
+        return `• ${product.name} (${item.qty} ${product.unit.split(' ')[0]})`;
+      }).join('\n') + 
+      `\n\nSemua bahan resep sudah dimasukkan ke keranjang belanja Ibu. Silakan klik tombol di bawah untuk langsung bayar!`;
+
+    const botMsg = {
+      id: 'msg_bot_' + Date.now(),
+      sender: 'bot',
+      text: botText,
+      showPayButton: true,
+      timestamp
+    };
+
+    if (activeChatId === 'general') {
+      const updated = [...generalMessages, userMsg, botMsg];
+      setGeneralMessages(updated);
+      localStorage.setItem('emak_general_chat', JSON.stringify(updated));
+    } else {
+      const updatedOrders = orders.map(ord => {
+        if (ord.id === activeChatId) {
+          return {
+            ...ord,
+            chatLog: [...(ord.chatLog || []), userMsg, botMsg]
+          };
+        }
+        return ord;
+      });
+      setOrders(updatedOrders);
+      localStorage.setItem('emak_orders', JSON.stringify(updatedOrders));
     }
   };
 
   // Navigate from Chatbot payload button to Checkout Page
   const handleProceedToPayment = () => {
-    setIsChatOpen(false); // Close drawer to allow focus on Checkout
+    const currentSubtotal = cart.reduce((acc, curr) => acc + (curr.price * curr.qty), 0);
+    setCheckoutItems([...cart]);
+    setCheckoutTotal(currentSubtotal + 15000);
     setActiveTab('checkout');
+    if (tourStep === 2) {
+      setTourStep(3);
+    }
   };
 
   // Complete checkout payment and create order
@@ -419,15 +504,37 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
       const updatedOrders = [newOrder, ...orders];
       setOrders(updatedOrders);
-      localStorage.setItem('pasar_orders', JSON.stringify(updatedOrders));
+      localStorage.setItem('emak_orders', JSON.stringify(updatedOrders));
+
+      // Morph pay buttons inside general chat to track buttons
+      const updatedGeneralChat = generalMessages.map(msg => {
+        if (msg.showPayButton) {
+          return {
+            ...msg,
+            text: `✅ Pembayaran Berhasil! Dana sebesar Rp ${new Intl.NumberFormat('id-ID').format(newOrder.total)} telah kami amankan di rekening bersama (Escrow).\n\nBahan belanjaan sudah dibayar dan pesanan ${newOrderId} sedang diproses. Silakan ketuk tombol di bawah untuk melacak kurir belanja Anda!`,
+            showPayButton: false,
+            showTrackButton: true,
+            associatedOrderId: newOrderId
+          };
+        }
+        return msg;
+      });
+      setGeneralMessages(updatedGeneralChat);
+      localStorage.setItem('emak_general_chat', JSON.stringify(updatedGeneralChat));
 
       // Reset cart and checkout items
       saveCart([]);
       setCheckoutItems([]);
       setCheckoutTotal(0);
 
-      // Redirect to Order History to see tracking option
-      setActiveTab('history');
+      // Redirect to Chatbot page to see the newly created order thread tracking
+      setActiveTab('chatbot');
+      setActiveChatId(newOrderId);
+      setTrackingOrderId(newOrderId);
+
+      if (tourStep === 3) {
+        setTourStep(4);
+      }
     }, 1500);
   };
 
@@ -435,7 +542,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
   const handleTrackProgress = (order) => {
     setTrackingOrderId(order.id);
     setActiveChatId(order.id); // Open this specific order chat channel!
-    setIsChatOpen(true); // Toggle chatbot overlay to display tracking details!
+    setActiveTab('chatbot'); // Redirect to chatbot page view!
     setShowMapTrackerId(order.id); // Also trigger full screen map tracker!
   };
 
@@ -458,11 +565,16 @@ export default function CustomerApp({ onToggleDevPanel }) {
       return ord;
     });
     setOrders(updatedOrders);
-    localStorage.setItem('pasar_orders', JSON.stringify(updatedOrders));
+    localStorage.setItem('emak_orders', JSON.stringify(updatedOrders));
     
     // Auto close map if open for this order
     if (showMapTrackerId === orderId) {
       setShowMapTrackerId(null);
+    }
+
+    if (tourStep === 6) {
+      setTourStep(-1);
+      localStorage.setItem('emak_tour_completed', 'true');
     }
   };
 
@@ -475,11 +587,27 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
   return (
     <div className="min-h-screen bg-[#080b11] text-white flex flex-col lg:flex-row font-sans selection:bg-[#00bfa5] selection:text-slate-950">
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes pulse-highlight {
+          0%, 100% { border-color: #00bfa5; box-shadow: 0 0 0 2px #00bfa5, 0 0 15px 4px rgba(0, 191, 165, 0.5); }
+          50% { border-color: #00e5c1; box-shadow: 0 0 0 6px #00e5c1, 0 0 25px 8px rgba(0, 191, 165, 0.8); }
+        }
+        .tour-highlight {
+          animation: pulse-highlight 1.8s infinite !important;
+          border: 2px solid #00e5c1 !important;
+          border-radius: 8px !important;
+          position: relative !important;
+          z-index: 100 !important;
+          pointer-events: auto !important;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      `}} />
       
       {/* Mobile Top Navbar */}
       <header className="lg:hidden h-16 bg-[#080b11] border-b border-slate-900 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
         <span className="font-display font-black text-lg tracking-wider">
-          PASAR<span className="text-[#00bfa5]">AI</span>
+          EMAK<span className="text-[#00bfa5]">AI</span>
         </span>
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -499,7 +627,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
         <div className="p-6 border-b border-slate-900 flex items-center justify-between">
           <div>
             <h1 className="font-display font-black text-xl tracking-wider text-white">
-              PASAR<span className="text-[#00bfa5]">AI</span>
+              EMAK<span className="text-[#00bfa5]">AI</span>
             </h1>
             <span className="text-[9px] text-[#00bfa5] uppercase tracking-widest font-black block mt-0.5 animate-pulse">
               ● SYSTEM ACTIVE
@@ -515,11 +643,11 @@ export default function CustomerApp({ onToggleDevPanel }) {
         {/* Navigation items */}
         <nav className="flex-1 p-4 space-y-3.5">
           <button
-            onClick={() => { setActiveTab('beranda'); setMobileMenuOpen(false); }}
-            className={`w-full py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all cursor-pointer ${activeTab === 'beranda' ? 'bg-[#00bfa5]/10 text-[#00bfa5] border border-[#00bfa5]/30 shadow-sm' : 'bg-transparent text-slate-400 hover:text-white hover:bg-slate-900/30'}`}
+            onClick={() => { setActiveTab('chatbot'); setMobileMenuOpen(false); }}
+            className={`w-full py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all cursor-pointer ${activeTab === 'chatbot' ? 'bg-[#00bfa5]/10 text-[#00bfa5] border border-[#00bfa5]/30 shadow-sm' : 'bg-transparent text-slate-400 hover:text-white hover:bg-slate-900/30'}`}
           >
-            <ShoppingBag className="w-4 h-4" />
-            <span>Beranda Menu</span>
+            <MessageSquare className="w-4 h-4" />
+            <span>AI Chat Bot</span>
           </button>
 
           <button
@@ -528,18 +656,6 @@ export default function CustomerApp({ onToggleDevPanel }) {
           >
             <FileText className="w-4 h-4" />
             <span>Riwayat Pesanan</span>
-          </button>
-
-          <button
-            onClick={() => { 
-              setActiveChatId(null); // Open chat selection list
-              setIsChatOpen(!isChatOpen); 
-              setMobileMenuOpen(false); 
-            }}
-            className={`w-full py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all cursor-pointer ${isChatOpen ? 'bg-[#00bfa5]/10 text-[#00bfa5] border border-[#00bfa5]/30 shadow-sm' : 'bg-transparent text-slate-400 hover:text-white hover:bg-slate-900/30'}`}
-          >
-            <MessageSquare className="w-4 h-4" />
-            <span>AI Chat Bot</span>
           </button>
 
           {/* Dev Panel Switcher */}
@@ -564,6 +680,17 @@ export default function CustomerApp({ onToggleDevPanel }) {
             {/* Catalog (Left/Middle area) */}
             <div className="flex-1 flex flex-col p-4 md:p-6 overflow-y-auto space-y-6">
               
+              {/* Back to Chatbot trigger */}
+              <div className="flex items-center">
+                <button
+                  onClick={() => setActiveTab('chatbot')}
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#00bfa5] hover:text-[#00e5c1] cursor-pointer transition-colors bg-[#00bfa5]/5 border border-[#00bfa5]/15 px-3 py-1.5 rounded"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>Kembali ke Chatbot</span>
+                </button>
+              </div>
+
               {/* Promo recommendation banner */}
               <div className="flex items-center gap-3 bg-slate-950 p-4 border border-slate-900 shadow-sm">
                 <div className="w-10 h-10 rounded-md bg-[#00bfa5]/15 border border-[#00bfa5]/30 flex items-center justify-center text-[#00bfa5] shrink-0">
@@ -680,8 +807,9 @@ export default function CustomerApp({ onToggleDevPanel }) {
                             Rp {new Intl.NumberFormat('id-ID').format(prod.price)}
                           </span>
                           <button
+                            id={prod.id === 'prod_1' ? 'tour-add-product' : undefined}
                             onClick={() => handleAddToCart(prod)}
-                            className="w-7 h-7 rounded-md border border-slate-800 bg-[#0c101a] hover:bg-[#00bfa5] hover:text-slate-950 flex items-center justify-center transition-all cursor-pointer font-black shadow-sm"
+                            className={`w-7 h-7 rounded-md border border-slate-800 bg-[#0c101a] hover:bg-[#00bfa5] hover:text-slate-950 flex items-center justify-center transition-all cursor-pointer font-black shadow-sm ${tourStep === 1 && prod.id === 'prod_1' ? 'tour-highlight' : ''}`}
                           >
                             <Plus className="w-4 h-4" />
                           </button>
@@ -791,10 +919,12 @@ export default function CustomerApp({ onToggleDevPanel }) {
                 </div>
 
                 <button
+                  id="tour-checkout"
                   onClick={handleProceedToChatConfirm}
                   disabled={cart.length === 0}
                   className={`w-full py-3.5 text-[10px] font-black uppercase tracking-widest rounded-md flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer
                     ${cart.length > 0 ? 'bg-[#00bfa5] text-slate-950 hover:bg-[#00e5c1] hover:scale-[1.01] active:scale-[0.98]' : 'bg-slate-900 text-slate-600 border border-slate-950 cursor-not-allowed'}
+                    ${tourStep === 2 ? 'tour-highlight' : ''}
                   `}
                 >
                   <span>Checkout</span>
@@ -1005,14 +1135,15 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                 {/* Submit trigger button */}
                 <button
+                  id="tour-pay"
                   onClick={handleExecutePayment}
-                  className="w-full py-4 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black text-xs uppercase tracking-widest rounded transition-all active:scale-[0.98] shadow-lg cursor-pointer"
+                  className={`w-full py-4 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black text-xs uppercase tracking-widest rounded transition-all active:scale-[0.98] shadow-lg cursor-pointer ${tourStep === 3 ? 'tour-highlight' : ''}`}
                 >
                   BAYAR SEKARANG
                 </button>
 
                 <p className="text-[8px] text-slate-500 leading-normal text-center font-semibold">
-                  Dengan membayar, Anda menyetujui Syarat & Ketentuan. PasarAI. Pembayaran dijamin aman dengan enkripsi AES-256.
+                  Dengan membayar, Anda menyetujui Syarat & Ketentuan. Emak AI. Pembayaran dijamin aman dengan enkripsi AES-256.
                 </p>
               </div>
 
@@ -1202,7 +1333,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
               </div>
 
               {/* Right Side: Mini Tracking Map Widget */}
-              <div className="w-full lg:w-[350px] shrink-0">
+              <div id="tour-map-tracker" className={`w-full lg:w-[350px] shrink-0 ${tourStep === 5 ? 'tour-highlight' : ''}`}>
                 <MiniTrackerWidget 
                   orders={orders} 
                   onTrackProgress={handleTrackProgress} 
@@ -1216,85 +1347,31 @@ export default function CustomerApp({ onToggleDevPanel }) {
           </div>
         )}
 
-      </main>
-
-      {/* PERSISTENT FLOATING CHATBOT OVERLAY PANEL WIDGET */}
-      <AnimatePresence>
-        {isChatOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.95 }}
-            className="fixed bottom-24 right-4 sm:right-6 w-[calc(100vw-32px)] sm:w-[400px] h-[520px] bg-[#080b11] border border-slate-800 rounded-xl shadow-2xl z-[120] flex flex-col overflow-hidden text-left"
-          >
-            {/* Thread Header */}
-            <div className="bg-[#0c101a] px-4 py-3.5 border-b border-slate-900 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-2.5">
-                {activeChatId !== null && (
-                  <button 
-                    onClick={() => { setActiveChatId(null); setTrackingOrderId(null); }} 
-                    className="text-slate-400 hover:text-white transition-colors mr-1 cursor-pointer"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                  </button>
-                )}
-                
-                {activeChatId === null ? (
-                  <>
-                    <Bot className="w-4 h-4 text-[#00bfa5] animate-bounce" />
-                    <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">PasarAI Chat Inbox</span>
-                  </>
-                ) : activeChatId === 'general' ? (
-                  <>
-                    <Bot className="w-4 h-4 text-[#00bfa5]" />
-                    <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Asisten Belanja AI</span>
-                  </>
-                ) : (
-                  <>
-                    <Truck className="w-4 h-4 text-emerald-400" />
-                    <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Order Chat #{activeChatId}</span>
-                  </>
-                )}
+        {/* VIEW 4: DEDICATED CHATBOT PAGE */}
+        {activeTab === 'chatbot' && (
+          <div className="flex-1 flex overflow-hidden h-full">
+            {/* Left side: Chat channel selector list. Visible on desktop, or on mobile when activeChatId is null */}
+            <div className={`w-full lg:w-80 border-r border-slate-900 flex flex-col bg-[#080b11] h-full shrink-0 ${activeChatId !== null ? 'hidden lg:flex' : 'flex'}`}>
+              <div className="p-4 border-b border-slate-900 shrink-0">
+                {/* Buat Pesanan CTA Button */}
+                <button
+                  onClick={() => setActiveTab('beranda')}
+                  className="w-full py-3 px-4 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg animate-pulse"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>Buat Pesanan Baru</span>
+                </button>
               </div>
-              <button 
-                onClick={() => setIsChatOpen(false)} 
-                className="text-slate-400 hover:text-white transition-colors cursor-pointer"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            {/* Live Order Tracking Header banner (if en-route and inside thread) */}
-            {activeChatId && trackingOrderId && (
-              <div className="bg-[#0c101a]/85 p-3 border-b border-slate-900 shrink-0 flex items-center justify-between gap-3 text-[10px] font-bold">
-                <span className="text-slate-400 flex items-center gap-1.5 truncate">
-                  <span className="w-2 h-2 rounded-full bg-[#00bfa5] animate-ping shrink-0" />
-                  <span className="truncate">Kurir sedang mengemas barang di pasar</span>
-                </span>
-                <div className="flex items-center gap-2 shrink-0">
-                  <button 
-                    onClick={() => setShowMapTrackerId(activeChatId)} 
-                    className="bg-[#00bfa5]/10 border border-[#00bfa5]/30 hover:bg-[#00bfa5] hover:text-slate-950 text-[#00bfa5] px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all cursor-pointer"
-                  >
-                    Buka Peta
-                  </button>
-                  <span className="text-[#00bfa5] font-mono text-[9px] shrink-0 bg-[#00bfa5]/10 border border-[#00bfa5]/20 px-1.5 py-0.5 rounded uppercase font-black animate-pulse">
-                    ETA: 12m
-                  </span>
-                </div>
-              </div>
-            )}
-
-            {/* CHAT INTERFACE SWAPPER */}
-            {activeChatId === null ? (
-              /* SCREEN A: CHAT SELECTION LIST SCREEN */
-              <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[#0c101a]/40">
-                <p className="text-[9px] text-slate-500 font-extrabold uppercase tracking-widest mb-1">Pilih Saluran Percakapan:</p>
+              
+              <div className="flex-grow overflow-y-auto p-4 space-y-3">
+                <p className="text-[9px] text-slate-500 font-extrabold uppercase tracking-widest mb-1 text-left">Pilih Saluran Percakapan:</p>
 
                 {/* Primary General Chat Channel */}
                 <button
                   onClick={() => setActiveChatId('general')}
-                  className="w-full p-3.5 border border-slate-900 rounded-lg bg-[#0c101a] hover:bg-slate-900/50 transition-all flex items-center justify-between text-left shadow-sm cursor-pointer group"
+                  className={`w-full p-3.5 border border-slate-900 rounded-lg group text-left shadow-sm cursor-pointer transition-all flex items-center justify-between ${
+                    activeChatId === 'general' ? 'bg-[#00bfa5]/10 border-[#00bfa5]/35' : 'bg-[#0c101a] hover:bg-slate-900/50'
+                  }`}
                 >
                   <div className="flex items-center gap-3">
                     <div className="w-9 h-9 rounded-full bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
@@ -1302,12 +1379,12 @@ export default function CustomerApp({ onToggleDevPanel }) {
                     </div>
                     <div>
                       <span className="font-extrabold text-[11px] text-white block uppercase tracking-wider">Asisten Belanja AI</span>
-                      <span className="text-[10px] text-slate-400 font-semibold block mt-0.5 truncate max-w-[200px]">
+                      <span className="text-[10px] text-slate-400 font-semibold block mt-0.5 truncate max-w-[155px]">
                         {generalMessages.length > 0 ? generalMessages[generalMessages.length - 1].text : "Mulai diskusi belanja baru..."}
                       </span>
                     </div>
                   </div>
-                  <span className="text-[8px] bg-[#00bfa5]/10 border border-[#00bfa5]/20 text-[#00bfa5] font-black px-1.5 py-0.5 rounded tracking-wide uppercase uppercase">
+                  <span className="text-[8px] bg-[#00bfa5]/10 border border-[#00bfa5]/20 text-[#00bfa5] font-black px-1.5 py-0.5 rounded tracking-wide uppercase">
                     AI BOT
                   </span>
                 </button>
@@ -1318,6 +1395,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   const isProgress = ord.status === 'IN PROGRESS';
                   const isCompleted = ord.status === 'COMPLETED';
                   const isCancelled = ord.status === 'CANCELLED';
+                  const isSelected = activeChatId === ord.id;
 
                   return (
                     <button
@@ -1328,7 +1406,9 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           setTrackingOrderId(ord.id);
                         }
                       }}
-                      className="w-full p-3.5 border border-slate-900 rounded-lg bg-[#0c101a] hover:bg-slate-900/50 transition-all flex items-center justify-between text-left shadow-sm cursor-pointer group"
+                      className={`w-full p-3.5 border border-slate-900 rounded-lg group text-left shadow-sm cursor-pointer transition-all flex items-center justify-between ${
+                        isSelected ? 'bg-[#00bfa5]/10 border-[#00bfa5]/35' : 'bg-[#0c101a] hover:bg-slate-900/50'
+                      }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-black
@@ -1340,7 +1420,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                         </div>
                         <div>
                           <span className="font-extrabold text-[11px] text-white block uppercase tracking-wider">{ord.title}</span>
-                          <span className="text-[10px] text-slate-400 font-semibold block mt-0.5 truncate max-w-[200px]">
+                          <span className="text-[10px] text-slate-400 font-semibold block mt-0.5 truncate max-w-[155px]">
                             {lastMsg}
                           </span>
                         </div>
@@ -1355,102 +1435,239 @@ export default function CustomerApp({ onToggleDevPanel }) {
                     </button>
                   );
                 })}
-
               </div>
-            ) : (
-              /* SCREEN B: CHAT THREAD VIEW (ACTIVE MESSAGE HISTORY & REPLY INPUT) */
-              <>
-                <div className="flex-1 overflow-y-auto p-4 space-y-4 flex flex-col bg-[#0c101a]/30">
-                  {chatMessages.map((msg, index) => (
-                    <div
-                      key={msg.id || index}
-                      className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end ml-auto' : 'self-start mr-auto'}`}
-                    >
-                      <div className={`p-3 rounded-lg text-[11px] leading-relaxed font-semibold shadow-sm text-left
-                        ${msg.sender === 'user' 
-                          ? 'bg-slate-800 border border-slate-700/50 text-slate-200' 
-                          : msg.sender === 'courier'
-                            ? 'bg-slate-900 border border-slate-800 text-white font-extrabold'
-                            : 'bg-[#00bfa5] text-slate-950 font-extrabold'}`}
-                      >
-                        {msg.sender === 'courier' && (
-                          <span className="block text-[8px] text-[#00bfa5] uppercase font-black tracking-widest mb-1">
-                            KURIR ANTAR
-                          </span>
-                        )}
-                        <p className="whitespace-pre-line">{msg.text}</p>
+            </div>
 
-                        {/* Pay Button inside widget */}
-                        {msg.showPayButton && (
-                          <div className="mt-3.5 pt-2.5 border-t border-slate-950/10 flex">
-                            <button
-                              onClick={handleProceedToPayment}
-                              className="bg-slate-950 text-white font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded hover:bg-slate-900 flex items-center gap-1.5 transition-all shadow cursor-pointer"
-                            >
-                              <span>Lanjut Ke Pembayaran</span>
-                              <ArrowRight className="w-3.5 h-3.5" />
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      <span className="text-[7.5px] text-slate-500 mt-1 font-black uppercase pl-1 text-left">
-                        {msg.timestamp || 'Baru Saja'}
-                      </span>
-                    </div>
-                  ))}
-                  <div ref={chatEndRef} />
+            {/* Right side: Active Chat Thread Conversation. Visible on desktop, or on mobile when activeChatId is not null */}
+            <div className={`flex-1 flex flex-col h-full bg-[#0c101a]/20 ${activeChatId === null ? 'hidden lg:flex' : 'flex'}`}>
+              {activeChatId === null ? (
+                /* Empty state when no thread is selected on desktop */
+                <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-slate-500">
+                    <MessageSquare className="w-8 h-8" />
+                  </div>
+                  <h3 className="font-display font-black text-sm uppercase text-slate-500 tracking-wider">Belum Ada Chat Terpilih</h3>
+                  <p className="text-xs text-slate-500 font-semibold max-w-xs leading-relaxed">
+                    Silakan pilih salah satu saluran chat di sebelah kiri untuk berdiskusi dengan AI Asisten atau memantau kurir belanja.
+                  </p>
                 </div>
+              ) : (
+                /* Active thread conversation screen */
+                <>
+                  {/* Active Thread Header */}
+                  <div className="bg-[#0c101a] px-4 py-3.5 border-b border-slate-900 flex items-center justify-between shrink-0">
+                    <div className="flex items-center gap-2.5">
+                      {/* Back button on mobile to return to list */}
+                      <button
+                        onClick={() => { setActiveChatId(null); setTrackingOrderId(null); }}
+                        className="lg:hidden text-slate-400 hover:text-white transition-colors mr-1 cursor-pointer"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                      </button>
+                      
+                      {activeChatId === 'general' ? (
+                        <>
+                          <Bot className="w-4 h-4 text-[#00bfa5]" />
+                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Asisten Belanja AI</span>
+                        </>
+                      ) : (
+                        <>
+                          <Truck className="w-4 h-4 text-emerald-400" />
+                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Order Chat #{activeChatId}</span>
+                        </>
+                      )}
+                    </div>
+                  </div>
 
-                {/* Active Order Quick Action Bar */}
-                {activeChatId !== 'general' && orders.find(o => o.id === activeChatId)?.status === 'IN PROGRESS' && (
-                  <div className="bg-[#0c101a] px-3.5 py-2.5 border-t border-slate-900 flex items-center justify-between shrink-0">
-                    <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
-                      Pesanan sudah Ibu terima?
-                    </span>
+                  {/* Tracking info sub-header if en-route */}
+                  {activeChatId && trackingOrderId && (
+                    <div className="bg-[#0c101a]/85 p-3 border-b border-slate-900 shrink-0 flex items-center justify-between gap-3 text-[10px] font-bold">
+                      <span className="text-slate-400 flex items-center gap-1.5 truncate">
+                        <span className="w-2 h-2 rounded-full bg-[#00bfa5] animate-ping shrink-0" />
+                        <span className="truncate">Kurir sedang mengemas barang di pasar</span>
+                      </span>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button 
+                          onClick={() => setShowMapTrackerId(activeChatId)} 
+                          className="bg-[#00bfa5]/10 border border-[#00bfa5]/30 hover:bg-[#00bfa5] hover:text-slate-950 text-[#00bfa5] px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all cursor-pointer"
+                        >
+                          Buka Peta
+                        </button>
+                        <span className="text-[#00bfa5] font-mono text-[9px] shrink-0 bg-[#00bfa5]/10 border border-[#00bfa5]/20 px-1.5 py-0.5 rounded uppercase font-black animate-pulse">
+                          ETA: 12m
+                        </span>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Messages list */}
+                  <div className="flex-grow overflow-y-auto p-4 space-y-4 flex flex-col">
+                    {chatMessages.map((msg, index) => (
+                      <div
+                        key={msg.id || index}
+                        className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end ml-auto' : 'self-start mr-auto'}`}
+                      >
+                        <div className={`p-3 rounded-lg text-[11px] leading-relaxed font-semibold shadow-sm text-left
+                          ${msg.sender === 'user' 
+                            ? 'bg-slate-800 border border-slate-700/50 text-slate-200' 
+                            : msg.sender === 'courier'
+                              ? 'bg-slate-900 border border-slate-800 text-white font-extrabold'
+                              : 'bg-[#00bfa5] text-slate-950 font-extrabold'}`}
+                        >
+                          {msg.sender === 'courier' && (
+                            <span className="block text-[8px] text-[#00bfa5] uppercase font-black tracking-widest mb-1">
+                              KURIR ANTAR
+                            </span>
+                          )}
+                          <p className="whitespace-pre-line">{msg.text}</p>
+
+                          {/* Pay Button inside widget */}
+                          {msg.showPayButton && (
+                            <div className="mt-3.5 pt-2.5 border-t border-slate-950/10 flex">
+                              <button
+                                onClick={handleProceedToPayment}
+                                className="bg-slate-950 text-white font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded hover:bg-slate-900 flex items-center gap-1.5 transition-all shadow cursor-pointer"
+                              >
+                                <span>Lanjut Ke Pembayaran</span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          )}
+
+                          {/* Track Button inside widget */}
+                          {msg.showTrackButton && (
+                            <div className="mt-3.5 pt-2.5 border-t border-slate-950/10 flex">
+                              <button
+                                onClick={() => {
+                                  const targetOrd = (msg.associatedOrderId && orders.find(o => o.id === msg.associatedOrderId)) || 
+                                                    orders.find(o => o.status === 'IN PROGRESS') || 
+                                                    orders[0];
+                                  if (targetOrd) {
+                                    handleTrackProgress(targetOrd);
+                                  }
+                                }}
+                                className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded transition-all flex items-center gap-1.5 transition-all shadow cursor-pointer"
+                              >
+                                <span>Lacak Kurir Belanja</span>
+                                <MapPin className="w-3.5 h-3.5 text-slate-950" />
+                              </button>
+                            </div>
+                          )}
+
+                          {/* Redirect to Catalog / Order Menu button */}
+                          {msg.showOrderMenuButton && (
+                            <div className="mt-3.5 pt-2.5 border-t border-[#00bfa5]/25 flex">
+                              <button
+                                onClick={() => {
+                                  setActiveTab('beranda');
+                                }}
+                                className="bg-slate-950 text-white border border-[#00bfa5]/35 font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded hover:bg-slate-900 flex items-center gap-1.5 transition-all shadow cursor-pointer animate-bounce"
+                                style={{ animationDuration: '2s' }}
+                              >
+                                <span>Mulai Order Baru</span>
+                                <ArrowRight className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        <span className="text-[7.5px] text-slate-500 mt-1 font-black uppercase pl-1 text-left">
+                          {msg.timestamp || 'Baru Saja'}
+                        </span>
+                      </div>
+                    ))}
+                    <div ref={chatEndRef} />
+                  </div>
+
+                  {/* Active Order Quick Action Bar */}
+                  {activeChatId !== 'general' && orders.find(o => o.id === activeChatId)?.status === 'IN PROGRESS' && (
+                    <div className="bg-[#0c101a] px-3.5 py-2.5 border-t border-slate-900 flex items-center justify-between shrink-0">
+                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                        Pesanan sudah Ibu terima?
+                      </span>
+                      <button
+                        id="tour-finish-order"
+                        onClick={() => handleFinishOrder(activeChatId)}
+                        className={`bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded transition-all cursor-pointer shadow-sm active:scale-95 ${tourStep === 6 ? 'tour-highlight' : ''}`}
+                      >
+                        Selesaikan Pesanan
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Quick Order Recipes & Tracking Templates */}
+                  {activeChatId === 'general' && (
+                    <div className="px-3 pt-2 pb-1.5 bg-[#080b11] border-t border-slate-900 shrink-0 flex flex-col space-y-1.5 text-left">
+                      <span className="text-[8.5px] text-slate-500 font-extrabold uppercase tracking-widest">
+                        Pesan Cepat & Akses Lacak:
+                      </span>
+                      <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar scroll-smooth">
+                        {/* Lacak Kurir Shortcut */}
+                        {(() => {
+                          const currentActiveOrder = orders.find(o => o.status === 'IN PROGRESS');
+                          if (!currentActiveOrder) return null;
+                          return (
+                            <button
+                              onClick={() => handleTrackProgress(currentActiveOrder)}
+                              className="bg-emerald-500/10 border border-emerald-500/35 hover:bg-emerald-500/20 hover:border-emerald-500/60 text-emerald-400 text-[9.5px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded transition-all cursor-pointer shrink-0 flex items-center gap-1 active:scale-95 shadow-sm animate-pulse"
+                            >
+                              <span>📍 Lacak Kurir</span>
+                            </button>
+                          );
+                        })()}
+
+                        {[
+                          {
+                            name: "Salmon Panggang Asparagus",
+                            label: "🍣 Salmon Panggang",
+                            items: [{ id: 'prod_2', qty: 2 }, { id: 'prod_4', qty: 1 }, { id: 'prod_7', qty: 1 }]
+                          },
+                          {
+                            name: "Sop Bayam & Tomat Roma",
+                            label: "🥬 Sop Bayam Segar",
+                            items: [{ id: 'prod_5', qty: 2 }, { id: 'prod_1', qty: 2 }, { id: 'prod_3', qty: 1 }]
+                          },
+                          {
+                            name: "Salad Alpukat & Tomat Salad",
+                            label: "🥑 Salad Alpukat Sehat",
+                            items: [{ id: 'prod_6', qty: 1 }, { id: 'prod_1', qty: 1 }, { id: 'prod_7', qty: 1 }]
+                          }
+                        ].map((recipe, rIdx) => (
+                          <button
+                            key={rIdx}
+                            onClick={() => handleQuickOrder(recipe.name, recipe.items)}
+                            className="bg-[#00bfa5]/5 border border-[#00bfa5]/20 hover:bg-[#00bfa5]/15 hover:border-[#00bfa5]/40 text-[#00bfa5] text-[9.5px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded transition-all cursor-pointer shrink-0 flex items-center gap-1 active:scale-95 shadow-sm"
+                          >
+                            <span>{recipe.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Input box */}
+                  <div className="p-3 bg-[#080b11] border-t border-slate-900 shrink-0 flex items-center gap-2">
+                    <input
+                      id="tour-chat-input"
+                      type="text"
+                      value={chatInput}
+                      onChange={(e) => setChatInput(e.target.value)}
+                      onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage(); }}
+                      placeholder={activeChatId === 'general' ? "Tulis daftar belanjaan Ibu..." : "Kirim chat balasan ke Kurir..."}
+                      className={`flex-grow bg-[#0c101a] border border-slate-900 rounded py-2 px-3 text-[11px] font-semibold text-white outline-none focus:border-[#00bfa5] ${tourStep === 4 ? 'tour-highlight' : ''}`}
+                    />
                     <button
-                      onClick={() => handleFinishOrder(activeChatId)}
-                      className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded transition-all cursor-pointer shadow-sm active:scale-95"
+                      onClick={handleSendMessage}
+                      className="p-2 bg-[#00bfa5] text-slate-950 rounded hover:bg-[#00e5c1] transition-all cursor-pointer flex items-center justify-center shadow-md active:scale-95"
                     >
-                      Selesaikan Pesanan
+                      <Send className="w-3.5 h-3.5" />
                     </button>
                   </div>
-                )}
-
-                {/* Input box */}
-                <div className="p-3 bg-[#080b11] border-t border-slate-900 shrink-0 flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={chatInput}
-                    onChange={(e) => setChatInput(e.target.value)}
-                    onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage(); }}
-                    placeholder={activeChatId === 'general' ? "Tulis daftar belanjaan Ibu..." : "Kirim chat balasan ke Kurir..."}
-                    className="flex-grow bg-[#0c101a] border border-slate-900 rounded py-2 px-3 text-[11px] font-semibold text-white outline-none focus:border-[#00bfa5]"
-                  />
-                  <button
-                    onClick={handleSendMessage}
-                    className="p-2 bg-[#00bfa5] text-slate-950 rounded hover:bg-[#00e5c1] transition-all cursor-pointer flex items-center justify-center shadow-md active:scale-95"
-                  >
-                    <Send className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              </>
-            )}
-
-          </motion.div>
+                </>
+              )}
+            </div>
+          </div>
         )}
-      </AnimatePresence>
-
-      {/* FLOATING ACTION CHAT TRIGGER BUBBLE (Bottom Right) */}
-      <button
-        onClick={() => {
-          setActiveChatId(null); // Open channel selection screen
-          setIsChatOpen(!isChatOpen);
-        }}
-        className="fixed bottom-6 right-6 z-[110] w-14 h-14 rounded-full bg-[#00bfa5] text-slate-950 flex items-center justify-center shadow-lg shadow-[#00bfa5]/20 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-[#00bfa5]"
-        title="Buka Asisten Chatbot AI"
-      >
-        <MessageSquare className="w-6 h-6 text-slate-950" />
-      </button>
+      </main>
 
       {/* Dynamic Payment processing loader modal */}
       <div id="payment_loading" className="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm">
@@ -1467,11 +1684,132 @@ export default function CustomerApp({ onToggleDevPanel }) {
           orderId={showMapTrackerId} 
           onClose={() => setShowMapTrackerId(null)}
           onOpenChat={() => {
+            setActiveTab('chatbot');
             setActiveChatId(showMapTrackerId);
-            setIsChatOpen(true);
+            setShowMapTrackerId(null);
           }}
           orders={orders}
         />
+      )}
+
+      {/* TOUR BACKDROP MASK */}
+      {tourStep >= 0 && (
+        <div className="fixed inset-0 bg-slate-950/75 backdrop-blur-[1px] z-[90] pointer-events-auto transition-all duration-300 animate-fade-in" />
+      )}
+
+      {/* TOUR WALKTHROUGH POPUP CARD */}
+      {tourStep >= 0 && (
+        <div 
+          className={`fixed bg-slate-950/95 border-2 border-[#00bfa5] p-5 rounded-xl shadow-2xl max-w-sm w-11/12 text-left backdrop-blur-md transition-all duration-300 z-[100] ${
+            tourStep === 0 
+              ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' 
+              : 'top-24 left-3 lg:top-16 lg:left-[268px]'
+          }`}
+        >
+          <div className="flex items-start gap-3.5">
+            <div className="w-10 h-10 rounded-full bg-[#00bfa5]/15 border border-[#00bfa5]/35 flex items-center justify-center text-[#00bfa5] shrink-0 animate-bounce">
+              <Bot className="w-5.5 h-5.5" />
+            </div>
+            <div className="flex-grow min-w-0">
+              <h4 className="font-display font-black text-xs text-white uppercase tracking-widest leading-none flex items-center justify-between">
+                <span>Panduan Belanja Emak AI</span>
+                <span className="text-[10px] text-slate-500 font-bold">Langkah {tourStep === 0 ? "Persiapan" : `${tourStep}/6`}</span>
+              </h4>
+              <p className="text-[11px] text-slate-300 font-semibold leading-relaxed mt-2.5">
+                {tourStep === 0 && "Selamat datang di Emak AI! Mari kita coba simulasi jastip belanja pasar tradisional. Kami akan memandu Ibu langkah demi langkah agar tidak bingung."}
+                {tourStep === 1 && "Langkah 1: Klik tombol '+ Keranjang' (atau icon keranjang) pada produk makanan (misal 'Salmon Fillet') untuk memasukkannya ke keranjang belanja."}
+                {tourStep === 2 && "Langkah 2: Keranjang belanja terisi. Klik tombol 'Checkout' di bagian paling bawah untuk memproses pesanan."}
+                {tourStep === 3 && "Langkah 3: Periksa total tagihan. Klik tombol hijau 'BAYAR SEKARANG' untuk menyimpan deposit di rekening bersama (Escrow)."}
+                {tourStep === 4 && "Langkah 4: Pembayaran sukses! Buka Asisten AI / Obrolan Kurir di pojok kanan bawah untuk mengobrol dengan AI atau melacak kurir."}
+                {tourStep === 5 && "Langkah 5: Di sisi kanan Riwayat Pesanan, perhatikan widget 'Mini Lacak Map'. Kurir bergerak dari pasar tradisional menuju ke alamat Ibu secara real-time."}
+                {tourStep === 6 && "Langkah 6 (Terakhir): Jika kurir telah mengantar belanjaan ke rumah Ibu, klik tombol 'Selesaikan Pesanan' pada chat untuk mencairkan dana Escrow."}
+              </p>
+              
+              <div className="flex items-center justify-between gap-4 mt-4 pt-3 border-t border-slate-900">
+                <button
+                  onClick={() => {
+                    setTourStep(-1);
+                    localStorage.setItem('emak_tour_completed', 'true');
+                  }}
+                  className="text-[9px] font-black uppercase text-slate-500 hover:text-slate-400 cursor-pointer"
+                >
+                  Lewati Tur
+                </button>
+                
+                <div className="flex items-center gap-2">
+                  {tourStep > 0 && tourStep !== 4 && tourStep !== 6 && (
+                    <button
+                      onClick={() => {
+                        if (tourStep === 1) setTourStep(0);
+                        else if (tourStep === 2) setTourStep(1);
+                        else if (tourStep === 3) {
+                          setActiveTab('beranda');
+                          setTourStep(2);
+                        }
+                        else if (tourStep === 5) {
+                          setActiveTab('chatbot');
+                          setActiveChatId('general');
+                          setTourStep(4);
+                        }
+                      }}
+                      className="px-3 py-1.5 border border-slate-850 hover:bg-slate-900 rounded text-slate-400 hover:text-white font-bold uppercase text-[9px] cursor-pointer"
+                    >
+                      Kembali
+                    </button>
+                  )}
+                  
+                  {tourStep === 0 && (
+                    <button
+                      onClick={() => {
+                        setActiveTab('beranda');
+                        setTourStep(1);
+                      }}
+                      className="px-4.5 py-1.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[9px] cursor-pointer shadow-md"
+                    >
+                      Mulai Sekarang
+                    </button>
+                  )}
+
+                  {(tourStep === 4 || tourStep === 5) && (
+                    <button
+                      onClick={() => {
+                        if (tourStep === 4) {
+                          setActiveTab('history');
+                          setTourStep(5);
+                        } else if (tourStep === 5) {
+                          // Open active order chat
+                          const activeOrd = orders.find(o => o.status === 'IN PROGRESS') || orders[0];
+                          if (activeOrd) {
+                            setActiveChatId(activeOrd.id);
+                          } else {
+                            setActiveChatId('general');
+                          }
+                          setActiveTab('chatbot');
+                          setTourStep(6);
+                        }
+                      }}
+                      className="px-4.5 py-1.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[9px] cursor-pointer shadow-md"
+                    >
+                      Lanjut
+                    </button>
+                  )}
+
+                  {tourStep === 6 && (
+                    <button
+                      onClick={() => {
+                        setTourStep(-1);
+                        localStorage.setItem('emak_tour_completed', 'true');
+                      }}
+                      className="px-4.5 py-1.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[9px] cursor-pointer shadow-md animate-pulse"
+                    >
+                      Selesai Tur
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
     </div>
