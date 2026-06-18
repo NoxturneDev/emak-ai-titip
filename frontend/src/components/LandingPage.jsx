@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  ShoppingBag, Sparkles, ShieldCheck, ArrowRight, MessageSquare, 
-  DollarSign, CheckCircle2, Truck, Menu, X, ChevronRight, 
-  RefreshCw, TrendingUp, UserCheck, Coins, Database, Code, Zap
+  ShoppingBag, ArrowRight, Menu, X, ChevronRight, 
+  MessageSquare, Zap, Truck, ShieldCheck, UserCheck, Heart 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -10,40 +9,51 @@ export default function LandingPage({ onLaunchDemo }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen text-slate-900 flex flex-col relative overflow-hidden bg-[#f3f4f6]">
+    <div className="min-h-screen text-white flex flex-col relative overflow-hidden bg-[#080b11] font-sans selection:bg-[#00bfa5] selection:text-slate-950">
+      
+      {/* Styles for float animation & font-outline effect */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-12px); }
+        }
+        .animate-float {
+          animation: float 4s ease-in-out infinite;
+        }
+      `}} />
+
       {/* Header / Navbar */}
-      <header className="sticky top-0 z-50 bg-white border-b border-slate-200 transition-all duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-md border border-slate-200 bg-emerald-400 flex items-center justify-center shadow-sm">
-              <ShoppingBag className="w-5 h-5 text-slate-900" />
-            </div>
-            <div>
-              <span className="font-display font-extrabold text-lg tracking-tight text-slate-900">
-                Emak AI Titip
-              </span>
-              <span className="hidden sm:inline-block ml-2 px-2 py-0.5 text-[10px] font-bold bg-amber-300 text-slate-900 border border-slate-200 shadow-sm">
-                MVP Demo
-              </span>
-            </div>
+      <header className="sticky top-0 z-50 bg-[#080b11] border-b border-slate-900 transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+          
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <span className="font-display font-black text-xl tracking-wider text-white">
+              PASAR<span className="text-[#00bfa5]">AI</span>
+            </span>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 font-semibold">
-            <a href="#fitur" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Fitur Utama</a>
-            <a href="#cara-kerja" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Cara Kerja</a>
-            <a href="#escrow" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Keamanan Rekber</a>
-            <a href="#arsitektur" className="text-sm text-slate-700 hover:text-slate-950 hover:underline transition-all">Arsitektur</a>
-            <button onClick={onLaunchDemo} className="text-sm text-emerald-600 hover:text-emerald-800 hover:underline transition-all cursor-pointer">Demo Interaktif</button>
+          <nav className="hidden md:flex items-center gap-8 font-extrabold text-[11px] tracking-widest">
+            <a href="#cara-kerja" className="text-slate-400 hover:text-white transition-colors uppercase">Cara Kerja</a>
+            <a href="#fitur-ai" className="text-slate-400 hover:text-white transition-colors uppercase">Fitur AI</a>
+            <a href="#manfaat" className="text-slate-400 hover:text-white transition-colors uppercase">Manfaat</a>
+            <a href="#testimoni" className="text-slate-400 hover:text-white transition-colors uppercase">Testimoni</a>
           </nav>
 
-          <div className="hidden md:flex items-center gap-4">
+          {/* Action Buttons */}
+          <div className="hidden md:flex items-center gap-6">
+            <button 
+              onClick={onLaunchDemo} 
+              className="text-[11px] font-extrabold tracking-widest text-slate-400 hover:text-white uppercase transition-colors cursor-pointer"
+            >
+              Masuk
+            </button>
             <button 
               onClick={onLaunchDemo}
-              className="px-5 py-2 rounded-md text-sm font-bold bg-emerald-400 border border-slate-200 text-slate-900 shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm transition-all flex items-center gap-2 cursor-pointer"
+              className="px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-[#00bfa5] text-slate-950 border border-transparent shadow-md hover:bg-[#00e5c1] hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer"
             >
-              Mulai Demo
-              <ArrowRight className="w-4 h-4" />
+              Mulai Belanja
             </button>
           </div>
 
@@ -51,7 +61,7 @@ export default function LandingPage({ onLaunchDemo }) {
           <div className="md:hidden">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2 border border-slate-200 bg-white text-slate-900 shadow-sm hover:bg-slate-100 transition-colors"
+              className="p-2 border border-slate-800 bg-[#0c101a] text-white shadow-sm hover:bg-slate-900 transition-colors cursor-pointer"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
@@ -65,46 +75,55 @@ export default function LandingPage({ onLaunchDemo }) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden border-t border-slate-200 bg-white px-4 py-6"
+              className="md:hidden border-t border-slate-900 bg-[#080b11] px-6 py-6"
             >
-              <div className="flex flex-col gap-4 font-bold">
-                <a 
-                  href="#fitur" 
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-700 hover:text-slate-950 py-1"
-                >
-                  Fitur Utama
-                </a>
+              <div className="flex flex-col gap-4 font-bold text-xs tracking-wider">
                 <a 
                   href="#cara-kerja" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-700 hover:text-slate-950 py-1"
+                  className="text-slate-400 hover:text-white py-1 uppercase"
                 >
                   Cara Kerja
                 </a>
                 <a 
-                  href="#escrow" 
+                  href="#fitur-ai" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-700 hover:text-slate-950 py-1"
+                  className="text-slate-400 hover:text-white py-1 uppercase"
                 >
-                  Keamanan Rekber
+                  Fitur AI
                 </a>
                 <a 
-                  href="#arsitektur" 
+                  href="#manfaat" 
                   onClick={() => setMobileMenuOpen(false)}
-                  className="text-slate-700 hover:text-slate-950 py-1"
+                  className="text-slate-400 hover:text-white py-1 uppercase"
                 >
-                  Arsitektur
+                  Manfaat
                 </a>
+                <a 
+                  href="#testimoni" 
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-slate-400 hover:text-white py-1 uppercase"
+                >
+                  Testimoni
+                </a>
+                <div className="h-px bg-slate-950 my-2" />
                 <button 
                   onClick={() => {
                     setMobileMenuOpen(false);
                     onLaunchDemo();
                   }}
-                  className="w-full mt-4 py-3 rounded-md font-bold bg-emerald-400 border border-slate-200 text-slate-900 shadow-sm flex items-center justify-center gap-2"
+                  className="w-full text-center text-slate-400 hover:text-white py-1 uppercase text-left"
                 >
-                  Mulai Demo
-                  <ArrowRight className="w-4 h-4" />
+                  Masuk
+                </button>
+                <button 
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onLaunchDemo();
+                  }}
+                  className="w-full py-3 rounded-full text-center font-black uppercase tracking-wider bg-[#00bfa5] text-slate-950 hover:bg-[#00e5c1] text-xs"
+                >
+                  Mulai Belanja
                 </button>
               </div>
             </motion.div>
@@ -113,371 +132,219 @@ export default function LandingPage({ onLaunchDemo }) {
       </header>
 
       {/* Hero Section */}
-      <section className="relative pt-12 pb-20 md:pt-20 md:pb-28">
+      <section className="relative pt-8 pb-16 md:pt-16 md:pb-24 border-b border-slate-900 bg-[#080b11]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Copywriter content */}
-            <div className="lg:col-span-6 flex flex-col text-center lg:text-left items-center lg:items-start">
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md bg-amber-300 border border-slate-200 text-slate-900 text-xs font-extrabold mb-6 shadow-sm">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>TEKNOLOGI JASTIP PASAR TRADISIONAL BERBASIS AI</span>
+            <div className="lg:col-span-6 flex flex-col text-center lg:text-left items-center lg:items-start space-y-6">
+              
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/30 text-[#00bfa5] text-[10px] font-black uppercase tracking-widest shadow-sm">
+                <span>ASISTEN AI MASA DEPAN</span>
               </div>
-              <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-slate-900 leading-none mb-6">
-                Jastip Pasar Rakyat,<br />
-                <span className="bg-emerald-400 px-3 py-1 inline-block border border-slate-200 shadow-sm mt-2">
-                  Cukup Chat WhatsApp
-                </span>
+
+              <h1 className="font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tighter text-white leading-none uppercase">
+                REVOLUSI<br />
+                BELANJA<br />
+                PASAR<br />
+                <span className="text-[#00bfa5] inline-block">DENGAN AI</span>
               </h1>
-              <p className="text-slate-700 text-base sm:text-lg font-semibold leading-relaxed max-w-xl mb-8">
-                Tulis atau kirim voice note daftar belanjaan secara bebas. AI kami mendeteksi item, mencocokkan harga pasar secara real-time, mengamankan dana dengan Rekber, dan memandu kurir memproses pesanan.
+
+              <p className="text-slate-400 text-sm md:text-base font-semibold leading-relaxed max-w-xl">
+                Solusi belanja praktis untuk Ibu Rumah Tangga. Hubungkan Anda dengan pedagang pasar dan driver terpercaya lewat satu percakapan cerdas.
               </p>
 
-              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2">
                 <button
                   onClick={onLaunchDemo}
-                  className="px-8 py-4 rounded-md text-base font-black bg-emerald-400 border border-slate-200 text-slate-900 shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm transition-all flex items-center justify-center gap-3 cursor-pointer"
+                  className="px-8 py-3.5 rounded-full text-xs font-black uppercase tracking-wider bg-[#00bfa5] text-slate-950 hover:bg-[#00e5c1] active:scale-[0.98] transition-all flex items-center justify-center gap-3 cursor-pointer shadow-lg shadow-[#00bfa5]/10"
                 >
-                  Buka Simulator Demo
-                  <ArrowRight className="w-5 h-5" />
+                  Mulai Chat Sekarang
                 </button>
-                <a
-                  href="#cara-kerja"
-                  className="px-8 py-4 rounded-md text-base font-bold bg-white hover:bg-slate-50 text-slate-900 border border-slate-200 shadow-sm hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-sm active:scale-[0.98] active:shadow-sm transition-all flex items-center justify-center gap-2"
-                >
-                  Bagaimana Ini Bekerja
-                </a>
-              </div>
-
-              {/* Quick Tech Specs */}
-              <div className="mt-12 pt-8 border-t border-slate-200 w-full grid grid-cols-3 gap-4 text-center lg:text-left">
-                <div>
-                  <div className="text-xl font-black font-display text-slate-900">Go + SQLite</div>
-                  <div className="text-xs text-slate-600 font-bold uppercase mt-1">Backend Ringan</div>
-                </div>
-                <div>
-                  <div className="text-xl font-black font-display text-slate-900">Natural NLP</div>
-                  <div className="text-xs text-slate-600 font-bold uppercase mt-1">Structured Parse</div>
-                </div>
-                <div>
-                  <div className="text-xl font-black font-display text-slate-900">&lt; 1 Detik</div>
-                  <div className="text-xs text-slate-600 font-bold uppercase mt-1">Sinkronisasi</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Flat Design System Flow Diagram (Replacing the old tabbed chatbot simulator) */}
-            <div className="lg:col-span-6 w-full max-w-2xl mx-auto lg:max-w-none">
-              <div className="glass-panel p-6 rounded-md bg-white">
-                <div className="flex items-center gap-2 text-xs font-mono font-bold border-b border-slate-200 pb-3 mb-5 text-slate-700">
-                  <Database className="w-4 h-4 text-emerald-500" />
-                  <span>EMAK_AI_ARCH_DIAGRAM.EXE</span>
-                </div>
                 
-                {/* Visual Architecture flowchart in brutalist flat style */}
-                <div className="space-y-4">
-                  {/* Row 1: WhatsApp Input */}
-                  <div className="border border-slate-200 p-3 bg-emerald-100 flex items-center justify-between shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4 text-emerald-600" />
-                      <span className="font-extrabold text-xs">Customer (WhatsApp Chat)</span>
-                    </div>
-                    <span className="text-[10px] font-mono bg-white border border-slate-200 px-1.5 font-bold">1. INPUT</span>
-                  </div>
-
-                  <div className="flex justify-center py-1">
-                    <ChevronRight className="w-5 h-5 text-slate-900 rotate-90" />
-                  </div>
-
-                  {/* Row 2: Go Backend NLP */}
-                  <div className="border border-slate-200 p-3 bg-sky-100 flex items-center justify-between shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-sky-600" />
-                      <span className="font-extrabold text-xs">Go Server & Fuzzy NLP Engine</span>
-                    </div>
-                    <span className="text-[10px] font-mono bg-white border border-slate-200 px-1.5 font-bold">2. PROCESS</span>
-                  </div>
-
-                  <div className="flex justify-center py-1">
-                    <ChevronRight className="w-5 h-5 text-slate-900 rotate-90" />
-                  </div>
-
-                  {/* Row 3: Escrow / SQLite */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="border border-slate-200 p-3 bg-amber-100 flex flex-col justify-between shadow-sm">
-                      <span className="font-extrabold text-xs block mb-1">SQLite DB</span>
-                      <span className="text-[9px] text-slate-700 font-semibold font-mono">Mengunci Daftar Belanja</span>
-                    </div>
-                    <div className="border border-slate-200 p-3 bg-violet-100 flex flex-col justify-between shadow-sm">
-                      <span className="font-extrabold text-xs block mb-1">Dompet Rekber</span>
-                      <span className="text-[9px] text-slate-700 font-semibold font-mono">Mengamankan Dana Pembeli</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-center py-1">
-                    <ChevronRight className="w-5 h-5 text-slate-900 rotate-90" />
-                  </div>
-
-                  {/* Row 4: Courier / Vendor Dispatch */}
-                  <div className="border border-slate-200 p-3 bg-rose-100 flex items-center justify-between shadow-sm">
-                    <div className="flex items-center gap-2">
-                      <Truck className="w-4 h-4 text-rose-600" />
-                      <span className="font-extrabold text-xs">Aplikasi Kurir (Daftar Belanja)</span>
-                    </div>
-                    <span className="text-[10px] font-mono bg-white border border-slate-200 px-1.5 font-bold">3. DISPATCH</span>
-                  </div>
-                </div>
-
-                <div className="mt-5 pt-3 border-t border-slate-200/60 flex items-center justify-between text-xs font-semibold">
-                  <span className="text-slate-600">Unified transactional pipeline</span>
-                  <button onClick={onLaunchDemo} className="text-emerald-600 hover:text-emerald-700 hover:underline flex items-center gap-1">
-                    Coba Demo
-                    <ArrowRight className="w-3 h-3" />
-                  </button>
-                </div>
+                <button
+                  onClick={onLaunchDemo}
+                  className="px-8 py-3.5 rounded-full text-xs font-black uppercase tracking-wider bg-transparent border-2 border-slate-800 text-white hover:bg-slate-900/50 hover:border-slate-600 active:scale-[0.98] transition-all flex items-center justify-center gap-3 cursor-pointer"
+                >
+                  Lihat Demo
+                </button>
               </div>
-            </div>
-            
-          </div>
-        </div>
-      </section>
 
-      {/* Feature Section */}
-      <section id="fitur" className="py-20 border-t border-slate-200 relative bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-900 mb-4">
-              Fitur Utama Emak AI Titip
-            </h2>
-            <p className="text-slate-600 text-base font-semibold">
-              Solusi modern berteknologi tinggi untuk merevolusi belanja harian di pasar tradisional Indonesia.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            {/* Feature Card 1 */}
-            <div className="glass-card p-8 rounded-md flex flex-col h-full bg-white">
-              <div className="w-12 h-12 rounded-md bg-emerald-100 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 shadow-sm">
-                <Sparkles className="w-6 h-6 text-emerald-600" />
-              </div>
-              <h3 className="text-lg font-black text-slate-900 mb-3">AI NLP Parser</h3>
-              <p className="text-slate-600 text-sm font-semibold leading-relaxed flex-grow">
-                Deteksi item belanja, jumlah, dan satuan dari bahasa percakapan sehari-hari. Mendukung pencocokan otomatis dengan basis data pasar tradisional menggunakan algoritma fuzzy search.
-              </p>
             </div>
 
-            {/* Feature Card 2 */}
-            <div className="glass-card p-8 rounded-md flex flex-col h-full bg-white">
-              <div className="w-12 h-12 rounded-md bg-sky-100 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 shadow-sm">
-                <ShieldCheck className="w-6 h-6 text-sky-600" />
-              </div>
-              <h3 className="text-lg font-black text-slate-900 mb-3">Keamanan Saldo Rekber</h3>
-              <p className="text-slate-600 text-sm font-semibold leading-relaxed flex-grow">
-                Dana ditampung sementara di rekening bersama (Rekber) beserta tambahan 15% buffer saldo belanja. Melindungi pembeli dari kecurangan dan memberikan jaminan dana untuk kurir sebelum jalan.
-              </p>
-            </div>
-
-            {/* Feature Card 3 */}
-            <div className="glass-card p-8 rounded-md flex flex-col h-full bg-white">
-              <div className="w-12 h-12 rounded-md bg-rose-100 border border-slate-200 flex items-center justify-center text-slate-900 mb-6 shadow-sm">
-                <Truck className="w-6 h-6 text-rose-600" />
-              </div>
-              <h3 className="text-lg font-black text-slate-900 mb-3">Daftar Centang & Penggantian Barang Kurir</h3>
-              <p className="text-slate-600 text-sm font-semibold leading-relaxed flex-grow">
-                Aplikasi driver menyediakan daftar centang belanja interaktif. Ketika barang kosong, sistem webhook secara otomatis menawarkan alternatif pengganti langsung ke WhatsApp pembeli secara instan.
-              </p>
+            {/* Illustration */}
+            <div className="lg:col-span-6 flex justify-center relative select-none">
+              {/* Backlight glow behind driver */}
+              <div className="absolute w-[300px] h-[300px] bg-[#00bfa5]/15 rounded-full blur-[100px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10" />
+              
+              <img 
+                src="/3d_driver_vecteezy.png" 
+                alt="3D Delivery Driver on Vespa Scooter" 
+                className="w-[340px] sm:w-[420px] lg:w-[480px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,191,165,0.25)] animate-float"
+              />
             </div>
 
           </div>
         </div>
       </section>
 
-      {/* Interactive System Flow / Cara Kerja */}
-      <section id="cara-kerja" className="py-20 border-t border-slate-200 bg-slate-100 relative">
+      {/* "BAGAIMANA KAMI BEKERJA" Section */}
+      <section id="cara-kerja" className="py-20 border-b border-slate-900 bg-[#080b11]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-900 mb-4">
-              Bagaimana Alur Transaksi Bekerja?
+          {/* Header Row */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-900 pb-12 mb-8 gap-6">
+            <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight leading-none uppercase">
+              BAGAIMANA<br />KAMI BEKERJA
             </h2>
-            <p className="text-slate-600 text-base font-semibold">
-              Siklus transaksi end-to-end yang menjamin transparansi finansial dan kemudahan komunikasi.
+            <p className="text-slate-400 text-xs sm:text-sm font-semibold max-w-sm md:text-right leading-relaxed">
+              Proses cerdas yang menghubungkan kebutuhan dapur Anda langsung ke sumbernya dengan teknologi tawar otomatis.
             </p>
           </div>
 
-          {/* Chronological Step List */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-stretch relative">
+          {/* Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-900/80">
             
-            {/* Step 1 */}
-            <div className="glass-card p-6 rounded-md flex flex-col relative bg-white">
-              <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">01</div>
-              <div className="w-10 h-10 rounded-md bg-emerald-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
-                1
+            {/* Card 1 */}
+            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+              <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
+                <ShoppingBag className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Input Pesanan</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Pembeli mengirimkan chat WhatsApp berupa teks daftar belanjaan bebas tanpa format kaku.
+              <h4 className="text-xs font-black text-white uppercase tracking-wider">Pilih Belanjaan</h4>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                Sebutkan daftar belanjaan Anda dalam bahasa sehari-hari.
               </p>
             </div>
 
-            {/* Step 2 */}
-            <div className="glass-card p-6 rounded-md flex flex-col relative bg-white">
-              <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">02</div>
-              <div className="w-10 h-10 rounded-md bg-sky-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
-                2
+            {/* Card 2 */}
+            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+              <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
+                <MessageSquare className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Pembayaran Rekber</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Pembeli mentransfer estimasi total biaya ditambah 15% buffer untuk fluktuasi harga pasar ke Rekber.
+              <h4 className="text-xs font-black text-white uppercase tracking-wider">Chat Dengan AI</h4>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                AI kami yang canggih memproses dan mencari harga terbaik.
               </p>
             </div>
 
-            {/* Step 3 */}
-            <div className="glass-card p-6 rounded-md flex flex-col relative bg-white">
-              <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">03</div>
-              <div className="w-10 h-10 rounded-md bg-amber-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
-                3
+            {/* Card 3 */}
+            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+              <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
+                <Zap className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Mitra & Kurir</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Mitra menyiapkan barang dan Kurir berbelanja dengan daftar belanja digital real-time di pasar rakyat.
+              <h4 className="text-xs font-black text-white uppercase tracking-wider">Koneksi Otomatis</h4>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                Sistem mempertemukan Anda dengan Tenant & Driver yang tepat.
               </p>
             </div>
 
-            {/* Step 4 */}
-            <div className="glass-card p-6 rounded-md flex flex-col relative bg-white">
-              <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">04</div>
-              <div className="w-10 h-10 rounded-md bg-violet-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
-                4
+            {/* Card 4 */}
+            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+              <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
+                <Truck className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Persetujuan</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Jika barang habis, driver memicu usulan barang pengganti yang dikonfirmasi pembeli via WhatsApp.
-              </p>
-            </div>
-
-            {/* Step 5 */}
-            <div className="glass-card p-6 rounded-md flex flex-col relative bg-white">
-              <div className="absolute top-4 right-4 text-3xl font-display font-black text-slate-200">05</div>
-              <div className="w-10 h-10 rounded-md bg-emerald-100 border border-slate-200 text-slate-900 flex items-center justify-center font-black text-sm mb-4 shadow-sm">
-                5
-              </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Pemberesan</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Driver mengunggah foto nota, dana dicairkan ke pedagang & driver, sisa saldo buffer direfund penuh.
+              <h4 className="text-xs font-black text-white uppercase tracking-wider">Pengantaran Cepat</h4>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                Belanjaan tiba di depan pintu rumah dalam waktu singkat.
               </p>
             </div>
 
           </div>
+
         </div>
       </section>
 
-      {/* Escrow System Security */}
-      <section id="escrow" className="py-20 border-t border-slate-200 bg-white relative">
+      {/* "PENGALAMAN BELANJA YANG PINTAR" Section */}
+      <section id="fitur-ai" className="py-20 md:py-28 bg-white text-slate-900 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             
-            {/* Visual Escrow Graphic */}
-            <div className="lg:col-span-6 relative">
-              <div className="relative glass-panel rounded-md p-6 bg-white">
-                
-                <div className="flex items-center justify-between border-b border-slate-200 pb-4 mb-5">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-md bg-sky-100 border border-slate-200 flex items-center justify-center text-slate-900 shadow-sm">
-                      <Coins className="w-5 h-5 text-sky-600" />
-                    </div>
-                    <div>
-                      <h4 className="text-xs font-black text-slate-900">Dompet Rekber Bersama</h4>
-                      <p className="text-[10px] text-slate-500 font-mono font-bold">SYSTEM_ACCOUNT_SECURE</p>
-                    </div>
-                  </div>
-                  <span className="px-2.5 py-0.5 rounded-md text-[9px] font-bold bg-emerald-400 border border-slate-200 shadow-sm">
-                    TERLINDUNGI
-                  </span>
-                </div>
-
-                {/* Secure Flow Simulation */}
-                <div className="space-y-4 font-semibold text-xs">
-                  <div className="flex justify-between items-center bg-slate-100 p-3 rounded-md border border-slate-200 shadow-sm">
-                    <span className="text-slate-700">Total Uang Pembeli (Termasuk Buffer 15%)</span>
-                    <span className="font-mono font-black text-slate-900">Rp 115.000</span>
-                  </div>
-                  
-                  <div className="flex items-center justify-center">
-                    <ChevronRight className="w-5 h-5 text-slate-900 rotate-90" />
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-white p-3 rounded-md border border-slate-200 text-center shadow-sm">
-                      <div className="text-[10px] text-slate-500 mb-1">Realisasi Belanja</div>
-                      <div className="font-mono font-black text-emerald-600 text-xs">Rp 88.000</div>
-                    </div>
-                    <div className="bg-white p-3 rounded-md border border-slate-200 text-center shadow-sm">
-                      <div className="text-[10px] text-slate-500 mb-1">Ongkir Flat Driver</div>
-                      <div className="font-mono font-black text-sky-600 text-xs">Rp 10.000</div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-center">
-                    <ChevronRight className="w-5 h-5 text-slate-900 rotate-90" />
-                  </div>
-
-                  <div className="flex justify-between items-center bg-emerald-100 p-3 rounded-md border border-slate-200 shadow-sm">
-                    <span className="text-emerald-700 font-bold">Otomatis Refund Sisa Uang Pembeli</span>
-                    <span className="font-mono font-black text-emerald-700">Rp 17.000</span>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Content info */}
-            <div className="lg:col-span-6 flex flex-col">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-sky-100 border border-slate-200 text-slate-900 text-xs font-extrabold mb-6 self-start shadow-sm">
-                <ShieldCheck className="w-3.5 h-3.5 text-sky-600" />
-                <span>REKBER TRANSAKSI TRANSPARAN</span>
-              </div>
-              <h3 className="font-display font-black text-3xl text-slate-900 mb-6">
-                Bebas Khawatir Salah Harga & Penipuan
-              </h3>
+            {/* Left Column Copy */}
+            <div className="lg:col-span-7 space-y-6 text-left">
               
-              <div className="space-y-6">
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-md bg-sky-100 border border-slate-200 flex items-center justify-center text-slate-900 shrink-0 shadow-sm">
-                    <DollarSign className="w-4 h-4 text-sky-600" />
+              <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-slate-950 tracking-tighter leading-none uppercase">
+                PENGALAMAN<br />
+                BELANJA YANG<br />
+                <span className="text-transparent font-black" style={{ WebkitTextStroke: '1.5px #0f172a' }}>PINTAR</span>
+              </h2>
+
+              <p className="text-slate-600 text-sm md:text-base font-semibold leading-relaxed max-w-xl">
+                Tidak perlu lagi repot scroll ribuan produk. Cukup bicarakan kebutuhan Anda, AI kami akan mengurus segalanya mulai dari pemilihan daging sesuci hingga pencarian bumbu dapur yang paling otentik.
+              </p>
+
+              {/* Checklist Block */}
+              <div className="space-y-4 pt-4">
+                
+                {/* Checklist Item 1 */}
+                <div className="flex items-center gap-4">
+                  <div className="w-6 h-6 bg-slate-900 flex items-center justify-center shrink-0">
+                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
                   </div>
+                  <span className="text-[11px] font-extrabold text-slate-900 tracking-wider uppercase">PEMROSESAN BAHASA ALAMI (NLP) LOGAT PASAR.</span>
+                </div>
+
+                {/* Checklist Item 2 */}
+                <div className="flex items-center gap-4">
+                  <div className="w-6 h-6 bg-slate-900 flex items-center justify-center shrink-0">
+                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-[11px] font-extrabold text-slate-900 tracking-wider uppercase">SARAN MENU MASAKAN HARIAN OTOMATIS.</span>
+                </div>
+
+                {/* Checklist Item 3 */}
+                <div className="flex items-center gap-4">
+                  <div className="w-6 h-6 bg-slate-900 flex items-center justify-center shrink-0">
+                    <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span className="text-[11px] font-extrabold text-slate-900 tracking-wider uppercase">OTOMASI TAWAR-MENAWAR HARGA TERBAIK.</span>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Right Column Chat Mockup */}
+            <div className="lg:col-span-5 relative w-full flex justify-center">
+              
+              {/* Phone Mockup Panel */}
+              <div className="w-full max-w-[320px] bg-slate-950 p-2.5 rounded-3xl border-4 border-slate-950 shadow-2xl overflow-hidden aspect-[9/16] flex flex-col">
+                
+                {/* Mockup Header */}
+                <div className="px-4 py-3.5 border-b border-slate-900 flex items-center gap-2.5 bg-slate-950">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[#00bfa5] animate-pulse" />
                   <div>
-                    <h5 className="text-sm font-black text-slate-900 mb-1">Deposit Aman</h5>
-                    <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                      Semua transaksi diawali dengan penguncian dana di Rekber. Kurir tidak perlu menalangi belanjaan dengan uang pribadi, dan pembeli terbebas dari markup sepihak.
-                    </p>
+                    <h5 className="text-[10px] font-black text-white uppercase tracking-widest leading-none">PASARAI CHAT</h5>
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-md bg-sky-100 border border-slate-200 flex items-center justify-center text-slate-900 shrink-0 shadow-sm">
-                    <RefreshCw className="w-4 h-4 text-sky-600" />
+                {/* Chat Mockup Messages */}
+                <div className="flex-1 bg-slate-900 p-4 space-y-4 flex flex-col justify-start overflow-y-auto">
+                  
+                  {/* User bubble */}
+                  <div className="self-end bg-slate-800 border border-slate-700/50 text-slate-200 p-3 rounded-lg max-w-[85%] text-[10px] sm:text-[11px] leading-relaxed font-semibold">
+                    "Saya butuh bumbu rendang dan daging segar dari Pasar Minggu."
                   </div>
-                  <div>
-                    <h5 className="text-sm font-black text-slate-900 mb-1">Sistem Pengembalian Dana Instan</h5>
-                    <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                      Sistem menghitung selisih realisasi belanja di pasar tradisional dengan deposit awal. Refund secara otomatis dikirim balik tanpa proses klaim manual yang melelahkan.
-                    </p>
+
+                  {/* AI bubble */}
+                  <div className="self-start bg-[#00bfa5] text-slate-950 p-3 rounded-lg max-w-[85%] text-[10px] sm:text-[11px] leading-relaxed font-extrabold shadow-md">
+                    "Tentu, saya sudah mencocokkan dengan Bpk. Ahmad untuk daging sapi pilihan dan Budi untuk pengiriman. Estimasi tiba dalam 45 menit."
+                  </div>
+
+                </div>
+
+                {/* Input placeholder */}
+                <div className="p-3 bg-slate-950 border-t border-slate-900">
+                  <div className="w-full bg-slate-900 border border-slate-800 text-[9px] text-slate-500 font-bold px-3 py-2.5 rounded uppercase tracking-wider text-left">
+                    KETIK KEBUTUHAN ANDA...
                   </div>
                 </div>
 
-                <div className="flex gap-4">
-                  <div className="w-8 h-8 rounded-md bg-sky-100 border border-slate-200 flex items-center justify-center text-slate-900 shrink-0 shadow-sm">
-                    <TrendingUp className="w-4 h-4 text-sky-600" />
-                  </div>
-                  <div>
-                    <h5 className="text-sm font-black text-slate-900 mb-1">Jaminan Driver & Pedagang</h5>
-                    <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                      Mitra pasar tradisional mendapatkan kepastian pembayaran, sedangkan kurir mendapatkan garansi pembayaran jasa setelah mengunggah foto struk belanjaan asli.
-                    </p>
-                  </div>
-                </div>
               </div>
 
             </div>
@@ -486,110 +353,142 @@ export default function LandingPage({ onLaunchDemo }) {
         </div>
       </section>
 
-      {/* System Architecture Section */}
-      <section id="arsitektur" className="py-20 border-t border-slate-200 bg-slate-100 relative">
+      {/* "3 COLUMN FEATURE CARDS" Section */}
+      <section id="manfaat" className="py-20 md:py-28 bg-[#080b11] border-b border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-900 mb-4">
-              Arsitektur Sistem Real-Time
-            </h2>
-            <p className="text-slate-600 text-base font-semibold">
-              Dibangun dengan teknologi yang ringan, efisien, dan siap dikembangkan dalam skala besar.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div className="glass-card p-6 rounded-md bg-white">
-              <div className="w-10 h-10 rounded-md bg-emerald-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
-                <Database className="w-5 h-5 text-emerald-600" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12">
+            
+            {/* Feature 1: Keamanan Pembayaran */}
+            <div className="flex flex-col text-left space-y-5">
+              <div className="w-10 h-10 border border-slate-800 bg-slate-950 flex items-center justify-center text-[#00bfa5]">
+                <ShieldCheck className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">SQLite Database</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Penyimpanan lokal relasional untuk menyimpan pesanan, item belanjaan detail, kamus harga pasar, dan buku kas Rekber secara transaksional.
+              <h3 className="font-display font-black text-3xl text-white tracking-tighter leading-none flex flex-col uppercase">
+                <span>KEAMA</span>
+                <span>NAN</span>
+                <span>PEMBAY</span>
+                <span>ARAN</span>
+              </h3>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                Sistem escrow menjamin dana Anda aman hingga barang diterima dengan baik.
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-md bg-white">
-              <div className="w-10 h-10 rounded-md bg-sky-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
-                <Zap className="w-5 h-5 text-sky-600" />
+            {/* Feature 2: Driver Terverifikasi */}
+            <div className="flex flex-col text-left space-y-5">
+              <div className="w-10 h-10 border border-slate-800 bg-slate-950 flex items-center justify-center text-[#00bfa5]">
+                <UserCheck className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Go (Golang) REST API</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Mekanisme server monolithic ultra cepat berkinerja tinggi untuk memproses payload webhook WhatsApp dan memanipulasi state machine pesanan.
+              <h3 className="font-display font-black text-3xl text-white tracking-tighter leading-none flex flex-col uppercase">
+                <span>DRIVER</span>
+                <span>TERVERI</span>
+                <span>FIKASI</span>
+              </h3>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                Seluruh mitra driver kami telah melewati seleksi ketat dan pelatihan profesional.
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-md bg-white">
-              <div className="w-10 h-10 rounded-md bg-violet-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
-                <MessageSquare className="w-5 h-5 text-violet-600" />
+            {/* Feature 3: Kesegaran Terjamin */}
+            <div className="flex flex-col text-left space-y-5">
+              <div className="w-10 h-10 border border-slate-800 bg-slate-950 flex items-center justify-center text-[#00bfa5]">
+                <Heart className="w-5 h-5" />
               </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">WhatsApp Webhook Mock</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Simulasi komunikasi timbal balik langsung antara backend NLP dengan dashboard simulator, menghindari latensi dan dependensi API WhatsApp eksternal.
+              <h3 className="font-display font-black text-3xl text-white tracking-tighter leading-none flex flex-col uppercase">
+                <span>KESEGA</span>
+                <span>RAN</span>
+                <span>TERJA</span>
+                <span>MIN</span>
+              </h3>
+              <p className="text-slate-400 text-xs font-semibold leading-relaxed">
+                Kami bekerja sama langsung dengan tenant pasar untuk memastikan kualitas bahan terbaik.
               </p>
             </div>
 
-            <div className="glass-card p-6 rounded-md bg-white">
-              <div className="w-10 h-10 rounded-md bg-emerald-100 border border-slate-200 flex items-center justify-center mb-4 shadow-sm">
-                <UserCheck className="w-5 h-5 text-emerald-600" />
-              </div>
-              <h4 className="text-sm font-black text-slate-900 mb-2">Tampilan Multi-Peran React</h4>
-              <p className="text-slate-600 text-xs font-semibold leading-relaxed">
-                Panel kendali terpadu yang menyajikan simulator chat, panel pedagang, centang kurir, dan pembukuan Rekber secara sinkron dan real-time.
-              </p>
-            </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 border-t border-slate-200 relative bg-white">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative rounded-md bg-amber-300 border border-slate-200 p-8 sm:p-12 text-center shadow-sm">
-            <h2 className="font-display font-black text-3xl sm:text-4xl text-slate-900 mb-6">
-              Siap Menjelajahi Sistem Secara Live?
-            </h2>
-            <p className="text-slate-800 text-sm sm:text-base font-bold max-w-2xl mx-auto mb-8 leading-relaxed">
-              Buka panel simulator untuk menyaksikan interaksi chatbot WhatsApp AI, memproses belanjaan di dashboard pedagang pasar tradisional, mencentang barang di sisi kurir, hingga memantau catatan Rekber.
-            </p>
+      <section id="testimoni" className="py-20 md:py-24 bg-[#00bfa5] text-slate-950 relative">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+          
+          <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-slate-950 tracking-tight leading-none uppercase">
+            SIAP MEMPERMUDAH<br />HIDUP ANDA?
+          </h2>
 
-            <button
-              onClick={onLaunchDemo}
-              className="mx-auto px-8 py-4 rounded-md text-base font-black bg-white border border-slate-200 text-slate-900 hover:bg-slate-50 flex items-center justify-center gap-2 transition-all hover:scale-[1.01] hover:shadow-sm active:scale-[0.98] active:shadow-sm cursor-pointer shadow-sm"
-            >
-              Luncurkan Demo Interaktif Sekarang
-              <ArrowRight className="w-5 h-5" />
-            </button>
+          <p className="text-slate-900 text-xs sm:text-sm md:text-base font-extrabold max-w-xl mx-auto leading-relaxed">
+            Gabung dengan ribuan Ibu Rumah Tangga cerdas lainnya yang telah beralih ke PasarAI.
+          </p>
 
-          </div>
+          <button
+            onClick={onLaunchDemo}
+            className="mx-auto px-10 py-4 bg-slate-950 hover:bg-slate-900 text-white font-black text-[10px] sm:text-xs uppercase tracking-widest border border-slate-950 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer shadow-lg shadow-slate-950/20"
+          >
+            DAFTAR SEKARANG GRATIS
+          </button>
+
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="mt-auto py-12 border-t border-slate-200 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-md border border-slate-200 bg-emerald-400 flex items-center justify-center">
-              <ShoppingBag className="w-4 h-4 text-slate-900" />
+      <footer className="bg-[#080b11] text-slate-400 py-16 md:py-20 border-t border-slate-950">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          {/* Main Footer Links */}
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-12 pb-12 border-b border-slate-900">
+            
+            {/* Brand Column */}
+            <div className="md:col-span-5 space-y-4 text-left">
+              <span className="font-display font-black text-xl tracking-wider text-white">
+                PASAR<span className="text-[#00bfa5]">AI</span>
+              </span>
+              <p className="text-slate-500 text-[9px] sm:text-[10px] font-bold tracking-wider leading-relaxed uppercase max-w-sm">
+                SOLUSI BELANJA PINTAR UNTUK IBU RUMAH TANGGA INDONESIA. MENGHUBUNGKAN TRADISI PASAR DENGAN TEKNOLOGI MASA DEPAN.
+              </p>
             </div>
-            <span className="font-display font-black text-base text-slate-900">
-              Emak AI Titip
-            </span>
+
+            {/* Navigasi Links */}
+            <div className="md:col-span-2 space-y-4 text-left">
+              <h5 className="text-white text-[10px] font-black tracking-widest uppercase">Navigasi</h5>
+              <div className="flex flex-col gap-2.5 text-[10px] font-bold tracking-wider">
+                <a href="#cara-kerja" className="hover:text-white uppercase transition-colors">Tentang Kami</a>
+                <a href="#fitur-ai" className="hover:text-white uppercase transition-colors">Fitur AI</a>
+                <a href="#manfaat" className="hover:text-white uppercase transition-colors">Bantuan AI</a>
+              </div>
+            </div>
+
+            {/* Legal Links */}
+            <div className="md:col-span-2 space-y-4 text-left">
+              <h5 className="text-white text-[10px] font-black tracking-widest uppercase">Legal</h5>
+              <div className="flex flex-col gap-2.5 text-[10px] font-bold tracking-wider">
+                <a href="#" className="hover:text-white uppercase transition-colors">Kebijakan Privasi</a>
+                <a href="#" className="hover:text-white uppercase transition-colors">Syarat & Ketentuan</a>
+              </div>
+            </div>
+
+            {/* Hubungi Column */}
+            <div className="md:col-span-3 space-y-4 text-left">
+              <h5 className="text-white text-[10px] font-black tracking-widest uppercase">Hubungi</h5>
+              <div className="text-[10px] font-bold tracking-wider text-slate-500 space-y-2">
+                <span className="block text-slate-400">HALO@PASARAI.ID</span>
+              </div>
+            </div>
+
           </div>
 
-          <div className="flex flex-wrap gap-2 justify-center text-xs font-bold">
-            <span className="px-2.5 py-1 bg-white border border-slate-200 shadow-sm">Go 1.25</span>
-            <span className="px-2.5 py-1 bg-white border border-slate-200 shadow-sm">SQLite</span>
-            <span className="px-2.5 py-1 bg-white border border-slate-200 shadow-sm">React 19</span>
-            <span className="px-2.5 py-1 bg-white border border-slate-200 shadow-sm">Vite 8</span>
-            <span className="px-2.5 py-1 bg-white border border-slate-200 shadow-sm">Tailwind v4</span>
+          {/* Sub Footer Credits */}
+          <div className="flex flex-col md:flex-row justify-between items-center pt-8 text-[9px] text-slate-600 font-black tracking-widest gap-4 uppercase">
+            <span>© 2024 PASARAI INDONESIA. ESTABLISHED FOR THE MODERN HOUSEWIFE.</span>
+            <div className="flex items-center gap-6">
+              <span>JAKARTA, INDONESIA</span>
+              <span>EST. 2024</span>
+            </div>
           </div>
 
-          <p className="text-xs text-slate-500 font-semibold font-mono">
-            &copy; 2026 Emak AI Titip. All rights reserved.
-          </p>
         </div>
       </footer>
+
     </div>
   );
 }
