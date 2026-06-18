@@ -1,9 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   ShoppingBag, ArrowRight, Menu, X, ChevronRight, 
   MessageSquare, Zap, Truck, ShieldCheck, UserCheck, Heart 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 30 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const fadeInRight = {
+  initial: { opacity: 0, x: 40 },
+  whileInView: { opacity: 1, x: 0 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 0.7, ease: "easeOut" }
+};
+
+const scaleIn = {
+  initial: { opacity: 0, scale: 0.96 },
+  whileInView: { opacity: 1, scale: 1 },
+  viewport: { once: true, margin: "-100px" },
+  transition: { duration: 0.6, ease: "easeOut" }
+};
+
+const staggerContainer = {
+  initial: {},
+  whileInView: { transition: { staggerChildren: 0.12 } }
+};
+
+function Typewriter({ text = "Emak AI", speed = 150, delay = 2500 }) {
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    let timer;
+    if (isDeleting) {
+      timer = setTimeout(() => {
+        setCurrentText((prev) => prev.substring(0, prev.length - 1));
+      }, speed / 2);
+    } else {
+      timer = setTimeout(() => {
+        setCurrentText((prev) => text.substring(0, prev.length + 1));
+      }, speed);
+    }
+
+    if (!isDeleting && currentText === text) {
+      timer = setTimeout(() => setIsDeleting(true), delay);
+    } else if (isDeleting && currentText === '') {
+      setIsDeleting(false);
+    }
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, text, speed, delay]);
+
+  return (
+    <span className="relative inline-block text-[#00bfa5] font-black">
+      {currentText}
+      <span className="w-[2px] h-[1.1em] bg-[#00bfa5] ml-1 inline-block align-middle animate-cursor" />
+    </span>
+  );
+}
 
 export default function LandingPage({ onLaunchDemo }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -20,6 +79,12 @@ export default function LandingPage({ onLaunchDemo }) {
         .animate-float {
           animation: float 4s ease-in-out infinite;
         }
+        @keyframes blink {
+          50% { opacity: 0; }
+        }
+        .animate-cursor {
+          animation: blink 0.8s step-end infinite;
+        }
       `}} />
 
       {/* Header / Navbar */}
@@ -29,7 +94,7 @@ export default function LandingPage({ onLaunchDemo }) {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <span className="font-display font-black text-xl tracking-wider text-white">
-              PASAR<span className="text-[#00bfa5]">AI</span>
+              EMAK<span className="text-[#00bfa5]">AI</span>
             </span>
           </div>
 
@@ -137,21 +202,24 @@ export default function LandingPage({ onLaunchDemo }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
             
             {/* Copywriter content */}
-            <div className="lg:col-span-6 flex flex-col text-center lg:text-left items-center lg:items-start space-y-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, ease: "easeOut" }}
+              className="lg:col-span-6 flex flex-col text-center lg:text-left items-center lg:items-start space-y-6"
+            >
               
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/30 text-[#00bfa5] text-[10px] font-black uppercase tracking-widest shadow-sm">
                 <span>ASISTEN AI MASA DEPAN</span>
               </div>
 
-              <h1 className="font-display font-black text-5xl sm:text-6xl lg:text-7xl tracking-tighter text-white leading-none uppercase">
-                REVOLUSI<br />
-                BELANJA<br />
-                PASAR<br />
-                <span className="text-[#00bfa5] inline-block">DENGAN AI</span>
+              <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white leading-tight">
+                Butuh belanja tapi gamau ribet?<br />
+                titip aja ke <Typewriter text="Emak AI" />
               </h1>
 
               <p className="text-slate-400 text-sm md:text-base font-semibold leading-relaxed max-w-xl">
-                Solusi belanja praktis untuk Ibu Rumah Tangga. Hubungkan Anda dengan pedagang pasar dan driver terpercaya lewat satu percakapan cerdas.
+                Solusi jastip pintar belanja pasar tradisional terpilih secara real-time. Biarkan AI kami yang mengelompokkan belanjaan, menawar harga terbaik, dan mengirim kurir langsung ke depan pintu rumah Anda.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto pt-2">
@@ -170,10 +238,15 @@ export default function LandingPage({ onLaunchDemo }) {
                 </button>
               </div>
 
-            </div>
+            </motion.div>
 
             {/* Illustration */}
-            <div className="lg:col-span-6 flex justify-center relative select-none">
+            <motion.div 
+              initial={{ opacity: 0, x: 40, scale: 0.95 }}
+              animate={{ opacity: 1, x: 0, scale: 1 }}
+              transition={{ duration: 0.8, ease: "easeOut", delay: 0.15 }}
+              className="lg:col-span-6 flex justify-center relative select-none"
+            >
               {/* Backlight glow behind driver */}
               <div className="absolute w-[300px] h-[300px] bg-[#00bfa5]/15 rounded-full blur-[100px] top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 -z-10" />
               
@@ -182,7 +255,7 @@ export default function LandingPage({ onLaunchDemo }) {
                 alt="3D Delivery Driver on Vespa Scooter" 
                 className="w-[340px] sm:w-[420px] lg:w-[480px] h-auto object-contain drop-shadow-[0_20px_35px_rgba(0,191,165,0.25)] animate-float"
               />
-            </div>
+            </motion.div>
 
           </div>
         </div>
@@ -193,20 +266,32 @@ export default function LandingPage({ onLaunchDemo }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Header Row */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-900 pb-12 mb-8 gap-6">
+          <motion.div 
+            variants={fadeInUp}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            className="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-900 pb-12 mb-8 gap-6"
+          >
             <h2 className="font-display font-black text-3xl sm:text-5xl text-white tracking-tight leading-none uppercase">
               BAGAIMANA<br />KAMI BEKERJA
             </h2>
             <p className="text-slate-400 text-xs sm:text-sm font-semibold max-w-sm md:text-right leading-relaxed">
               Proses cerdas yang menghubungkan kebutuhan dapur Anda langsung ke sumbernya dengan teknologi tawar otomatis.
             </p>
-          </div>
+          </motion.div>
 
           {/* Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-900/80">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-900/80"
+          >
             
             {/* Card 1 */}
-            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+            <motion.div variants={fadeInUp} className="py-8 md:py-6 md:px-8 space-y-4 text-left">
               <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
                 <ShoppingBag className="w-5 h-5" />
               </div>
@@ -214,10 +299,10 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 Sebutkan daftar belanjaan Anda dalam bahasa sehari-hari.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 2 */}
-            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+            <motion.div variants={fadeInUp} className="py-8 md:py-6 md:px-8 space-y-4 text-left">
               <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
                 <MessageSquare className="w-5 h-5" />
               </div>
@@ -225,10 +310,10 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 AI kami yang canggih memproses dan mencari harga terbaik.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 3 */}
-            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+            <motion.div variants={fadeInUp} className="py-8 md:py-6 md:px-8 space-y-4 text-left">
               <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
                 <Zap className="w-5 h-5" />
               </div>
@@ -236,10 +321,10 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 Sistem mempertemukan Anda dengan Tenant & Driver yang tepat.
               </p>
-            </div>
+            </motion.div>
 
             {/* Card 4 */}
-            <div className="py-8 md:py-6 md:px-8 space-y-4 text-left">
+            <motion.div variants={fadeInUp} className="py-8 md:py-6 md:px-8 space-y-4 text-left">
               <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
                 <Truck className="w-5 h-5" />
               </div>
@@ -247,9 +332,9 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 Belanjaan tiba di depan pintu rumah dalam waktu singkat.
               </p>
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
 
         </div>
       </section>
@@ -260,7 +345,13 @@ export default function LandingPage({ onLaunchDemo }) {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
             
             {/* Left Column Copy */}
-            <div className="lg:col-span-7 space-y-6 text-left">
+            <motion.div 
+              variants={staggerContainer}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, margin: "-100px" }}
+              className="lg:col-span-7 space-y-6 text-left"
+            >
               
               <h2 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-slate-950 tracking-tighter leading-none uppercase">
                 PENGALAMAN<br />
@@ -276,41 +367,47 @@ export default function LandingPage({ onLaunchDemo }) {
               <div className="space-y-4 pt-4">
                 
                 {/* Checklist Item 1 */}
-                <div className="flex items-center gap-4">
+                <motion.div variants={fadeInUp} className="flex items-center gap-4">
                   <div className="w-6 h-6 bg-slate-900 flex items-center justify-center shrink-0">
                     <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <span className="text-[11px] font-extrabold text-slate-900 tracking-wider uppercase">PEMROSESAN BAHASA ALAMI (NLP) LOGAT PASAR.</span>
-                </div>
+                </motion.div>
 
                 {/* Checklist Item 2 */}
-                <div className="flex items-center gap-4">
+                <motion.div variants={fadeInUp} className="flex items-center gap-4">
                   <div className="w-6 h-6 bg-slate-900 flex items-center justify-center shrink-0">
                     <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <span className="text-[11px] font-extrabold text-slate-900 tracking-wider uppercase">SARAN MENU MASAKAN HARIAN OTOMATIS.</span>
-                </div>
+                </motion.div>
 
                 {/* Checklist Item 3 */}
-                <div className="flex items-center gap-4">
+                <motion.div variants={fadeInUp} className="flex items-center gap-4">
                   <div className="w-6 h-6 bg-slate-900 flex items-center justify-center shrink-0">
                     <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="4">
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
                   <span className="text-[11px] font-extrabold text-slate-900 tracking-wider uppercase">OTOMASI TAWAR-MENAWAR HARGA TERBAIK.</span>
-                </div>
+                </motion.div>
 
               </div>
 
-            </div>
+            </motion.div>
 
             {/* Right Column Chat Mockup */}
-            <div className="lg:col-span-5 relative w-full flex justify-center">
+            <motion.div 
+              variants={fadeInRight}
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, margin: "-100px" }}
+              className="lg:col-span-5 relative w-full flex justify-center"
+            >
               
               {/* Phone Mockup Panel */}
               <div className="w-full max-w-[320px] bg-slate-950 p-2.5 rounded-3xl border-4 border-slate-950 shadow-2xl overflow-hidden aspect-[9/16] flex flex-col">
@@ -319,7 +416,7 @@ export default function LandingPage({ onLaunchDemo }) {
                 <div className="px-4 py-3.5 border-b border-slate-900 flex items-center gap-2.5 bg-slate-950">
                   <div className="w-2.5 h-2.5 rounded-full bg-[#00bfa5] animate-pulse" />
                   <div>
-                    <h5 className="text-[10px] font-black text-white uppercase tracking-widest leading-none">PASARAI CHAT</h5>
+                    <h5 className="text-[10px] font-black text-white uppercase tracking-widest leading-none">EMAKAI CHAT</h5>
                   </div>
                 </div>
 
@@ -347,7 +444,7 @@ export default function LandingPage({ onLaunchDemo }) {
 
               </div>
 
-            </div>
+            </motion.div>
 
           </div>
         </div>
@@ -356,10 +453,16 @@ export default function LandingPage({ onLaunchDemo }) {
       {/* "3 COLUMN FEATURE CARDS" Section */}
       <section id="manfaat" className="py-20 md:py-28 bg-[#080b11] border-b border-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12"
+          >
             
             {/* Feature 1: Keamanan Pembayaran */}
-            <div className="flex flex-col text-left space-y-5">
+            <motion.div variants={fadeInUp} className="flex flex-col text-left space-y-5">
               <div className="w-10 h-10 border border-slate-800 bg-slate-950 flex items-center justify-center text-[#00bfa5]">
                 <ShieldCheck className="w-5 h-5" />
               </div>
@@ -372,10 +475,10 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 Sistem escrow menjamin dana Anda aman hingga barang diterima dengan baik.
               </p>
-            </div>
+            </motion.div>
 
             {/* Feature 2: Driver Terverifikasi */}
-            <div className="flex flex-col text-left space-y-5">
+            <motion.div variants={fadeInUp} className="flex flex-col text-left space-y-5">
               <div className="w-10 h-10 border border-slate-800 bg-slate-950 flex items-center justify-center text-[#00bfa5]">
                 <UserCheck className="w-5 h-5" />
               </div>
@@ -387,10 +490,10 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 Seluruh mitra driver kami telah melewati seleksi ketat dan pelatihan profesional.
               </p>
-            </div>
+            </motion.div>
 
             {/* Feature 3: Kesegaran Terjamin */}
-            <div className="flex flex-col text-left space-y-5">
+            <motion.div variants={fadeInUp} className="flex flex-col text-left space-y-5">
               <div className="w-10 h-10 border border-slate-800 bg-slate-950 flex items-center justify-center text-[#00bfa5]">
                 <Heart className="w-5 h-5" />
               </div>
@@ -403,22 +506,28 @@ export default function LandingPage({ onLaunchDemo }) {
               <p className="text-slate-400 text-xs font-semibold leading-relaxed">
                 Kami bekerja sama langsung dengan tenant pasar untuk memastikan kualitas bahan terbaik.
               </p>
-            </div>
+            </motion.div>
 
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* CTA Section */}
       <section id="testimoni" className="py-20 md:py-24 bg-[#00bfa5] text-slate-950 relative">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+        <motion.div 
+          variants={scaleIn}
+          initial="initial"
+          whileInView="whileInView"
+          viewport={{ once: true, margin: "-100px" }}
+          className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8"
+        >
           
           <h2 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-slate-950 tracking-tight leading-none uppercase">
             SIAP MEMPERMUDAH<br />HIDUP ANDA?
           </h2>
 
           <p className="text-slate-900 text-xs sm:text-sm md:text-base font-extrabold max-w-xl mx-auto leading-relaxed">
-            Gabung dengan ribuan Ibu Rumah Tangga cerdas lainnya yang telah beralih ke PasarAI.
+            Gabung dengan ribuan Ibu Rumah Tangga cerdas lainnya yang telah beralih ke Emak AI.
           </p>
 
           <button
@@ -428,7 +537,7 @@ export default function LandingPage({ onLaunchDemo }) {
             DAFTAR SEKARANG GRATIS
           </button>
 
-        </div>
+        </motion.div>
       </section>
 
       {/* Footer */}
@@ -441,7 +550,7 @@ export default function LandingPage({ onLaunchDemo }) {
             {/* Brand Column */}
             <div className="md:col-span-5 space-y-4 text-left">
               <span className="font-display font-black text-xl tracking-wider text-white">
-                PASAR<span className="text-[#00bfa5]">AI</span>
+                EMAK<span className="text-[#00bfa5]">AI</span>
               </span>
               <p className="text-slate-500 text-[9px] sm:text-[10px] font-bold tracking-wider leading-relaxed uppercase max-w-sm">
                 SOLUSI BELANJA PINTAR UNTUK IBU RUMAH TANGGA INDONESIA. MENGHUBUNGKAN TRADISI PASAR DENGAN TEKNOLOGI MASA DEPAN.
@@ -471,7 +580,7 @@ export default function LandingPage({ onLaunchDemo }) {
             <div className="md:col-span-3 space-y-4 text-left">
               <h5 className="text-white text-[10px] font-black tracking-widest uppercase">Hubungi</h5>
               <div className="text-[10px] font-bold tracking-wider text-slate-500 space-y-2">
-                <span className="block text-slate-400">HALO@PASARAI.ID</span>
+                <span className="block text-slate-400">HALO@EMAKAI.ID</span>
               </div>
             </div>
 
@@ -479,7 +588,7 @@ export default function LandingPage({ onLaunchDemo }) {
 
           {/* Sub Footer Credits */}
           <div className="flex flex-col md:flex-row justify-between items-center pt-8 text-[9px] text-slate-600 font-black tracking-widest gap-4 uppercase">
-            <span>© 2024 PASARAI INDONESIA. ESTABLISHED FOR THE MODERN HOUSEWIFE.</span>
+            <span>© 2024 EMAK AI INDONESIA. ESTABLISHED FOR THE MODERN HOUSEWIFE.</span>
             <div className="flex items-center gap-6">
               <span>JAKARTA, INDONESIA</span>
               <span>EST. 2024</span>
