@@ -3,7 +3,7 @@ import {
   ShoppingBag, ArrowRight, Menu, X, ChevronRight, 
   MessageSquare, Zap, Truck, ShieldCheck, UserCheck, Heart, 
   Search, Bot, Plus, Minus, Trash2, MapPin, CreditCard, 
-  Coins, Check, FileText, RefreshCw, Send, ArrowLeft, Phone
+  Coins, Check, FileText, RefreshCw, Send, ArrowLeft, Phone, Home
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import L from 'leaflet';
@@ -149,7 +149,7 @@ const DEFAULT_GENERAL_CHAT = [
 ];
 
 export default function CustomerApp({ onToggleDevPanel }) {
-  const [activeTab, setActiveTab] = useState('chatbot'); // 'chatbot' | 'beranda' | 'checkout' | 'history'
+  const [activeTab, setActiveTab] = useState('hub'); // 'hub' | 'chatbot' | 'beranda' | 'checkout' | 'history' | 'order_widget'
   const [cart, setCart] = useState([]);
   const [orders, setOrders] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Semua');
@@ -168,6 +168,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const [showMapTrackerId, setShowMapTrackerId] = useState(null);
+  const [selectedDetailOrder, setSelectedDetailOrder] = useState(null);
 
   const [tourStep, setTourStep] = useState(0); // Onboarding Tour Step State (starts at 0)
 
@@ -511,7 +512,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
         if (msg.showPayButton) {
           return {
             ...msg,
-            text: `✅ Pembayaran Berhasil! Dana sebesar Rp ${new Intl.NumberFormat('id-ID').format(newOrder.total)} telah kami amankan di rekening bersama (Escrow).\n\nBahan belanjaan sudah dibayar dan pesanan ${newOrderId} sedang diproses. Silakan ketuk tombol di bawah untuk melacak kurir belanja Anda!`,
+            text: `Pembayaran Berhasil! Dana sebesar Rp ${new Intl.NumberFormat('id-ID').format(newOrder.total)} telah kami amankan di rekening bersama (Escrow).\n\nBahan belanjaan sudah dibayar dan pesanan ${newOrderId} sedang diproses. Silakan ketuk tombol di bawah untuk melacak kurir belanja Anda!`,
             showPayButton: false,
             showTrackButton: true,
             associatedOrderId: newOrderId
@@ -586,7 +587,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
   });
 
   return (
-    <div className="min-h-screen bg-[#080b11] text-white flex flex-col lg:flex-row font-sans selection:bg-[#00bfa5] selection:text-slate-950">
+    <div className="min-h-screen bg-[#f8fafc] text-slate-800 flex flex-col font-sans selection:bg-[#00bfa5] selection:text-white">
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes pulse-highlight {
           0%, 100% { border-color: #00bfa5; box-shadow: 0 0 0 2px #00bfa5, 0 0 15px 4px rgba(0, 191, 165, 0.5); }
@@ -594,7 +595,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
         }
         .tour-highlight {
           animation: pulse-highlight 1.8s infinite !important;
-          border: 2px solid #00e5c1 !important;
+          border: 2px solid #00bfa5 !important;
           border-radius: 8px !important;
           position: relative !important;
           z-index: 100 !important;
@@ -604,75 +605,239 @@ export default function CustomerApp({ onToggleDevPanel }) {
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
       `}} />
       
-      {/* Mobile Top Navbar */}
-      <header className="lg:hidden h-16 bg-[#080b11] border-b border-slate-900 px-4 flex items-center justify-between shrink-0 sticky top-0 z-50">
-        <span className="font-display font-black text-lg tracking-wider">
-          EMAK<span className="text-[#00bfa5]">AI</span>
-        </span>
-        <button
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="p-1.5 border border-slate-800 bg-[#0c101a] text-white rounded shadow-sm cursor-pointer"
-        >
-          {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-        </button>
-      </header>
+      {/* Top Navbar */}
+      <header className="h-16 bg-white/80 backdrop-blur-md px-4 md:px-6 flex items-center justify-between shrink-0 sticky top-0 z-50 shadow-sm border-none">
+        <div className="flex items-center gap-6">
+          {/* Logo */}
+          <span 
+            onClick={() => setActiveTab('hub')}
+            className="font-display font-black text-xl tracking-wider cursor-pointer select-none text-slate-800"
+          >
+            EMAK<span className="text-[#00bfa5]">AI</span>
+          </span>
 
-      {/* Left Navigation Sidebar */}
-      <aside className={`
-        fixed inset-y-0 left-0 z-40 w-64 bg-[#080b11] border-r border-slate-900 flex flex-col transform transition-transform duration-300 ease-in-out shrink-0 h-full
-        lg:static lg:translate-x-0
-        ${mobileMenuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        {/* Brand Banner */}
-        <div className="p-6 border-b border-slate-900 flex items-center justify-between">
-          <div>
-            <h1 className="font-display font-black text-xl tracking-wider text-white">
-              EMAK<span className="text-[#00bfa5]">AI</span>
-            </h1>
-            <span className="text-[9px] text-[#00bfa5] uppercase tracking-widest font-black block mt-0.5 animate-pulse">
-              ● SYSTEM ACTIVE
-            </span>
-          </div>
-          {mobileMenuOpen && (
-            <button onClick={() => setMobileMenuOpen(false)} className="lg:hidden p-1 border border-slate-800 rounded">
-              <X className="w-4 h-4" />
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={() => setActiveTab('chatbot')}
+              className={`px-5 py-2 rounded-full font-black text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border-none ${activeTab === 'chatbot' ? 'bg-[#00bfa5] text-white shadow' : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            >
+              <MessageSquare className="w-4 h-4" />
+              <span>AI Chat Bot</span>
             </button>
-          )}
+            <button
+              onClick={() => setActiveTab('beranda')}
+              className={`px-5 py-2 rounded-full font-black text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border-none ${activeTab === 'beranda' ? 'bg-[#00bfa5] text-white shadow' : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            >
+              <ShoppingBag className="w-4 h-4" />
+              <span>Menu Belanja</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('order_widget')}
+              className={`px-5 py-2 rounded-full font-black text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border-none ${activeTab === 'order_widget' ? 'bg-[#00bfa5] text-white shadow' : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            >
+              <Zap className="w-4 h-4" />
+              <span>Widget Pesanan</span>
+            </button>
+            <button
+              onClick={() => setActiveTab('history')}
+              className={`px-5 py-2 rounded-full font-black text-xs uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer border-none ${activeTab === 'history' ? 'bg-[#00bfa5] text-white shadow' : 'bg-transparent text-slate-500 hover:text-slate-800 hover:bg-slate-100'}`}
+            >
+              <FileText className="w-4 h-4" />
+              <span>Riwayat</span>
+            </button>
+          </div>
         </div>
 
-        {/* Navigation items */}
-        <nav className="flex-1 p-4 space-y-3.5">
+        {/* Right Side: Back to Menu Hub and Dev Panel */}
+        <div className="flex items-center gap-3">
+          {activeTab !== 'hub' && (
+            <button
+              onClick={() => setActiveTab('hub')}
+              className="px-5 py-2 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black text-xs uppercase tracking-wider rounded-full flex items-center gap-1.5 transition-all cursor-pointer border-none shadow active:scale-95"
+            >
+              <Home className="w-4 h-4 text-white" />
+              <span>Menu Utama</span>
+            </button>
+          )}
+
+          {/* Dev Panel Switcher */}
+          <button
+            onClick={() => onToggleDevPanel()}
+            className="p-2 text-amber-600 hover:bg-amber-500/10 transition-all cursor-pointer border-none rounded bg-slate-100"
+            title="Developer Simulator"
+          >
+            <RefreshCw className="w-4 h-4" />
+          </button>
+
+          {/* Mobile Hamburger menu toggle button */}
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="md:hidden p-2 border-none bg-slate-100 text-slate-700 rounded-xl cursor-pointer"
+          >
+            {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile Navigation Dropdown List */}
+      {mobileMenuOpen && (
+        <div className="md:hidden bg-[#f8fafc] border-b border-slate-200 p-4 space-y-2.5 flex flex-col text-left shrink-0 z-40 relative animate-fade-in">
+          <button
+            onClick={() => { setActiveTab('hub'); setMobileMenuOpen(false); }}
+            className={`w-full py-3 px-5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-3 border-none ${activeTab === 'hub' ? 'bg-[#00bfa5] text-white font-black shadow' : 'bg-transparent text-slate-650 hover:bg-slate-200/50 text-slate-600'}`}
+          >
+            <Home className="w-4 h-4" />
+            <span>Menu Utama</span>
+          </button>
           <button
             onClick={() => { setActiveTab('chatbot'); setMobileMenuOpen(false); }}
-            className={`w-full py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all cursor-pointer ${activeTab === 'chatbot' ? 'bg-[#00bfa5]/10 text-[#00bfa5] border border-[#00bfa5]/30 shadow-sm' : 'bg-transparent text-slate-400 hover:text-white hover:bg-slate-900/30'}`}
+            className={`w-full py-3 px-5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-3 border-none ${activeTab === 'chatbot' ? 'bg-[#00bfa5] text-white font-black shadow' : 'bg-transparent text-slate-650 hover:bg-slate-200/50 text-slate-600'}`}
           >
             <MessageSquare className="w-4 h-4" />
             <span>AI Chat Bot</span>
           </button>
-
+          <button
+            onClick={() => { setActiveTab('beranda'); setMobileMenuOpen(false); }}
+            className={`w-full py-3 px-5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-3 border-none ${activeTab === 'beranda' ? 'bg-[#00bfa5] text-white font-black shadow' : 'bg-transparent text-slate-650 hover:bg-slate-200/50 text-slate-600'}`}
+          >
+            <ShoppingBag className="w-4 h-4" />
+            <span>Menu Belanja</span>
+          </button>
+          <button
+            onClick={() => { setActiveTab('order_widget'); setMobileMenuOpen(false); }}
+            className={`w-full py-3 px-5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-3 border-none ${activeTab === 'order_widget' ? 'bg-[#00bfa5] text-white font-black shadow' : 'bg-transparent text-slate-650 hover:bg-slate-200/50 text-slate-600'}`}
+          >
+            <Zap className="w-4 h-4" />
+            <span>Widget Pesanan</span>
+          </button>
           <button
             onClick={() => { setActiveTab('history'); setMobileMenuOpen(false); }}
-            className={`w-full py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-3 transition-all cursor-pointer ${activeTab === 'history' ? 'bg-[#00bfa5]/10 text-[#00bfa5] border border-[#00bfa5]/30 shadow-sm' : 'bg-transparent text-slate-400 hover:text-white hover:bg-slate-900/30'}`}
+            className={`w-full py-3 px-5 rounded-full font-bold text-xs uppercase tracking-wider flex items-center gap-3 border-none ${activeTab === 'history' ? 'bg-[#00bfa5] text-white font-black shadow' : 'bg-transparent text-slate-650 hover:bg-slate-200/50 text-slate-600'}`}
           >
             <FileText className="w-4 h-4" />
             <span>Riwayat Pesanan</span>
           </button>
-
-          {/* Dev Panel Switcher */}
-          <div className="h-px bg-slate-900 my-4" />
-          <button
-            onClick={() => { onToggleDevPanel(); setMobileMenuOpen(false); }}
-            className="w-full py-3 px-4 rounded-md font-bold text-xs uppercase tracking-wider flex items-center gap-3 text-amber-500 bg-amber-500/5 border border-amber-500/10 hover:bg-amber-500/10 transition-all cursor-pointer shadow-sm"
-          >
-            <RefreshCw className="w-4 h-4" />
-            <span>Developer Simulator</span>
-          </button>
-        </nav>
-      </aside>
+        </div>
+      )}
 
       {/* Content Container Panel */}
-      <main className="flex-grow flex flex-col overflow-hidden bg-[#0c101a] h-[calc(100vh-64px)] lg:h-screen relative">
-        
+      <main className="flex-grow flex flex-col overflow-hidden bg-[#f1f5f9] h-[calc(100vh-64px)] relative">
+
+        {/* VIEW 0: SIMPLE CARD HUB VIEW (for non-tech users) */}
+        {activeTab === 'hub' && (
+          <div className="flex-1 p-4 md:p-8 overflow-y-auto space-y-6 md:space-y-8 flex flex-col justify-center max-w-4xl mx-auto w-full text-center">
+            <div className="space-y-2">
+              <span className="text-[10px] text-[#00bfa5] bg-[#00bfa5]/8 border border-[#00bfa5]/15 font-black px-2.5 py-1 rounded-full uppercase tracking-widest block w-max mx-auto animate-pulse">
+                Sistem Jastip Belanja Emak AI
+              </span>
+              <h2 className="font-display font-black text-3xl md:text-4xl text-slate-900 tracking-tight uppercase">
+                Halo Ibu, Mau Belanja Apa?
+              </h2>
+              <p className="text-slate-600 text-xs md:text-sm font-semibold max-w-lg mx-auto leading-relaxed">
+                Kami siap bantu Ibu belanja bahan segar dari pasar. Ketuk salah satu pilihan mudah di bawah untuk memulai!
+              </p>
+            </div>
+
+            {/* Hub Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+              
+              {/* Card 1: Chatbot */}
+              <div className="bg-white rounded-2xl p-6 text-center flex flex-col justify-between items-center transition-all group shadow-[0_15px_30px_rgba(0,0,0,0.03)] hover:shadow-[#00bfa5]/5 hover:scale-[1.02] duration-300 border-none">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5] group-hover:scale-110 transition-transform">
+                    <MessageSquare className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display font-black text-lg text-slate-800 uppercase tracking-wide">
+                      Tanya & Pesan Lewat Chat
+                    </h3>
+                    <p className="text-[11px] text-slate-550 font-semibold leading-relaxed max-w-xs text-slate-500">
+                      Tanya resep, minta rekomendasi menu harian, atau ketik langsung bahan belanjaan Ibu ke AI.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveTab('chatbot')}
+                  className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white text-xs font-black uppercase tracking-wider py-3.5 px-6 rounded-full border-none w-full transition-all cursor-pointer mt-6 active:scale-[0.98] shadow-md"
+                >
+                  Mulai Chat Tanya Emak
+                </button>
+              </div>
+
+              {/* Card 2: Catalog Menu */}
+              <div className="bg-white rounded-2xl p-6 text-center flex flex-col justify-between items-center transition-all group shadow-[0_15px_30px_rgba(0,0,0,0.03)] hover:shadow-[#00bfa5]/5 hover:scale-[1.02] duration-300 border-none">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5] group-hover:scale-110 transition-transform">
+                    <ShoppingBag className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display font-black text-lg text-slate-800 uppercase tracking-wide">
+                      Pilih Menu Belanjaan
+                    </h3>
+                    <p className="text-[11px] text-slate-550 font-semibold leading-relaxed max-w-xs text-slate-500">
+                      Lihat daftar sayur segar, daging segar, ayam, ikan, buah, dan bumbu dapur lengkap dari pasar.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveTab('beranda')}
+                  className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white text-xs font-black uppercase tracking-wider py-3.5 px-6 rounded-full border-none w-full transition-all cursor-pointer mt-6 active:scale-[0.98] shadow-md"
+                >
+                  Lihat Menu & Catalog
+                </button>
+              </div>
+
+              {/* Card 3: Order Widget */}
+              <div className="bg-white rounded-2xl p-6 text-center flex flex-col justify-between items-center transition-all group shadow-[0_15px_30px_rgba(0,0,0,0.03)] hover:shadow-[#00bfa5]/5 hover:scale-[1.02] duration-300 border-none">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5] group-hover:scale-110 transition-transform">
+                    <Zap className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display font-black text-lg text-slate-800 uppercase tracking-wide">
+                      Widget Monitor & Beli Cepat
+                    </h3>
+                    <p className="text-[11px] text-slate-550 font-semibold leading-relaxed max-w-xs text-slate-500">
+                      Pantau proses belanja kurir di pasar, order instan resep masakan, dan bayar lewat widget ringkas.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveTab('order_widget')}
+                  className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white text-xs font-black uppercase tracking-wider py-3.5 px-6 rounded-full border-none w-full transition-all cursor-pointer mt-6 active:scale-[0.98] shadow-md"
+                >
+                  Buka Widget Pesanan
+                </button>
+              </div>
+
+              {/* Card 4: History */}
+              <div className="bg-white rounded-2xl p-6 text-center flex flex-col justify-between items-center transition-all group shadow-[0_15px_30px_rgba(0,0,0,0.03)] hover:shadow-[#00bfa5]/5 hover:scale-[1.02] duration-300 border-none">
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5] group-hover:scale-110 transition-transform">
+                    <FileText className="w-8 h-8" />
+                  </div>
+                  <div className="space-y-1.5">
+                    <h3 className="font-display font-black text-lg text-slate-800 uppercase tracking-wide">
+                      Riwayat Nota Belanjaan
+                    </h3>
+                    <p className="text-[11px] text-slate-550 font-semibold leading-relaxed max-w-xs text-slate-500">
+                      Lihat rincian bon belanjaan Ibu terdahulu yang sudah selesai diantar atau dibatalkan.
+                    </p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setActiveTab('history')}
+                  className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white text-xs font-black uppercase tracking-wider py-3.5 px-6 rounded-full border-none w-full transition-all cursor-pointer mt-6 active:scale-[0.98] shadow-md"
+                >
+                  Lihat Riwayat & Bon
+                </button>
+              </div>
+
+            </div>
+          </div>
+        )}
+
         {/* VIEW 1: CATALOG MENU & CART */}
         {activeTab === 'beranda' && (
           <div className="flex-1 flex flex-col lg:flex-row overflow-hidden h-full">
@@ -680,74 +845,29 @@ export default function CustomerApp({ onToggleDevPanel }) {
             {/* Catalog (Left/Middle area) */}
             <div className="flex-1 flex flex-col p-4 md:p-6 overflow-y-auto space-y-6">
               
-              {/* Back to Chatbot trigger */}
-              <div className="flex items-center">
+              {/* Navigation Back Triggers */}
+              <div className="flex items-center gap-2.5">
                 <button
-                  onClick={() => setActiveTab('chatbot')}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#00bfa5] hover:text-[#00e5c1] cursor-pointer transition-colors bg-[#00bfa5]/5 border border-[#00bfa5]/15 px-3 py-1.5 rounded"
+                  onClick={() => setActiveTab('hub')}
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white hover:bg-[#00e5c1] cursor-pointer transition-colors bg-[#00bfa5] border-none px-5 py-2 rounded-full shadow"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
-                  <span>Kembali ke Chatbot</span>
+                  <span>← Kembali ke Menu Utama</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('chatbot')}
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-slate-700 hover:bg-slate-200 hover:text-slate-900 cursor-pointer transition-colors bg-white border-none shadow-sm px-5 py-2 rounded-full"
+                >
+                  <span>Chatbot Tanya Emak</span>
                 </button>
               </div>
 
-              {/* Promo recommendation banner */}
-              <div className="flex items-center gap-3 bg-slate-950 p-4 border border-slate-900 shadow-sm">
-                <div className="w-10 h-10 rounded-md bg-[#00bfa5]/15 border border-[#00bfa5]/30 flex items-center justify-center text-[#00bfa5] shrink-0">
-                  <Bot className="w-5.5 h-5.5" />
-                </div>
-                <div className="text-left">
-                  <h4 className="text-xs font-black text-white uppercase tracking-wider leading-none">Rekomendasi AI Untuk Anda</h4>
-                  <p className="text-[10px] text-slate-500 mt-1 font-semibold">Berdasarkan rencana makan "Sehat Seminggu" Anda.</p>
-                </div>
-              </div>
 
-              {/* Recommendation row cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Recom Card 1 */}
-                <div className="bg-[#080b11] border border-slate-900 p-4 rounded-md flex justify-between items-center shadow-sm">
-                  <div className="text-left">
-                    <span className="text-[8px] bg-[#00bfa5]/10 border border-[#00bfa5]/30 text-[#00bfa5] font-black tracking-widest px-1.5 py-0.5 rounded block w-max mb-1 uppercase">TRENDING CHOICE</span>
-                    <h5 className="text-xs font-black text-white uppercase tracking-wide">Paket Sayur Organik Fresh</h5>
-                    <p className="text-[10px] text-slate-500 mt-0.5 font-semibold">Hemat 15% dengan langganan mingguan.</p>
-                  </div>
-                  <button 
-                    onClick={() => {
-                      const item = CATALOG_PRODUCTS.find(p => p.id === 'prod_1') || CATALOG_PRODUCTS[0];
-                      handleAddToCart({ ...item, name: "Paket Sayur Organik Fresh", price: 45000 });
-                    }}
-                    className="px-4 py-2 bg-[#00bfa5] text-slate-950 text-[10px] font-black uppercase tracking-wider rounded-md hover:bg-[#00e5c1] transition-all cursor-pointer shadow-sm"
-                  >
-                    Tambah Rp 45k
-                  </button>
-                </div>
-
-                {/* Recom Card 2 */}
-                <div className="bg-[#080b11] border border-slate-900 p-4 rounded-md flex justify-between items-center shadow-sm">
-                  <div className="text-left">
-                    <span className="text-[8px] bg-sky-500/10 border border-sky-500/30 text-sky-400 font-black tracking-widest px-1.5 py-0.5 rounded block w-max mb-1 uppercase">QUICK FILL</span>
-                    <h5 className="text-xs font-black text-white uppercase tracking-wide">Selesaikan belanjaan Anda</h5>
-                    <p className="text-[10px] text-slate-500 mt-0.5 font-semibold">Sisa 8 Item. Est. Rp 124.000</p>
-                  </div>
-                  <button 
-                    onClick={() => {
-                      saveCart([
-                        { ...CATALOG_PRODUCTS[0], qty: 1 },
-                        { ...CATALOG_PRODUCTS[2], qty: 2 },
-                        { ...CATALOG_PRODUCTS[3], qty: 1 }
-                      ]);
-                    }}
-                    className="px-4 py-2 border border-slate-800 text-white text-[10px] font-black uppercase tracking-wider rounded-md hover:bg-slate-900 transition-all cursor-pointer shadow-sm"
-                  >
-                    Auto-Fill All
-                  </button>
-                </div>
-              </div>
 
               {/* Telusuri Produk Section */}
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                  <h3 className="font-display font-black text-lg text-white uppercase tracking-wider">Telusuri Produk</h3>
+                  <h3 className="font-display font-black text-lg text-slate-800 uppercase tracking-wider">Telusuri Produk</h3>
                   
                   {/* Category Filter Buttons */}
                   <div className="flex flex-wrap gap-2 text-[9px] font-bold uppercase tracking-wider">
@@ -755,7 +875,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                       <button
                         key={cat}
                         onClick={() => setSelectedCategory(cat)}
-                        className={`px-3 py-1 border transition-all cursor-pointer ${selectedCategory === cat ? 'bg-[#00bfa5]/10 text-[#00bfa5] border-[#00bfa5]/30' : 'bg-transparent border-slate-800 text-slate-400 hover:text-white'}`}
+                        className={`px-4.5 py-1.5 transition-all cursor-pointer border-none rounded-full ${selectedCategory === cat ? 'bg-[#00bfa5] text-white font-black shadow-sm' : 'bg-white text-slate-650 hover:text-slate-850 hover:bg-slate-100 shadow-sm'}`}
                       >
                         {cat}
                       </button>
@@ -765,30 +885,30 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                 {/* Search Bar Input */}
                 <div className="relative w-full">
-                  <Search className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 transform -translate-y-1/2" />
+                  <Search className="w-4 h-4 text-slate-400 absolute left-4 top-1/2 transform -translate-y-1/2" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Cari bahan masakan segar..."
-                    className="w-full bg-[#080b11] border border-slate-900 rounded-md py-3 pl-10 pr-4 text-xs font-semibold text-white outline-none focus:border-[#00bfa5]"
+                    className="w-full bg-white border-none rounded-2xl py-3.5 pl-11 pr-4 text-xs font-semibold text-slate-800 outline-none shadow-sm focus:ring-2 focus:ring-[#00bfa5]/40"
                   />
                 </div>
 
                 {/* Catalog Grid */}
                 <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                   {filteredProducts.map((prod) => (
-                    <div key={prod.id} className="bg-[#080b11] border border-slate-900 rounded-md overflow-hidden flex flex-col justify-between shadow-sm relative group">
+                    <div key={prod.id} className="bg-white rounded-2xl overflow-hidden flex flex-col justify-between shadow-md relative group border-none hover:shadow-xl hover:scale-[1.02] transition-all duration-300">
                       
                       {/* Badge status */}
                       {prod.badge && (
-                        <span className="absolute top-2.5 left-2.5 z-10 text-[8px] bg-slate-950/90 border border-slate-800 text-white font-black px-1.5 py-0.5 rounded tracking-wide">
+                        <span className="absolute top-2.5 left-2.5 z-10 text-[8px] bg-[#00bfa5] text-white font-black px-1.5 py-0.5 rounded tracking-wide border-none">
                           {prod.badge}
                         </span>
                       )}
 
                       {/* Product Thumbnail */}
-                      <div className="w-full h-32 bg-slate-950 overflow-hidden relative border-b border-slate-950">
+                      <div className="w-full h-32 bg-slate-100 overflow-hidden relative border-none rounded-t-2xl">
                         <img 
                           src={prod.image} 
                           alt={prod.name} 
@@ -799,17 +919,17 @@ export default function CustomerApp({ onToggleDevPanel }) {
                       {/* Metadata */}
                       <div className="p-3 text-left space-y-1.5 flex-1 flex flex-col justify-between">
                         <div>
-                          <h5 className="font-extrabold text-xs text-white truncate uppercase tracking-wider">{prod.name}</h5>
+                          <h5 className="font-extrabold text-xs text-slate-800 truncate uppercase tracking-wider">{prod.name}</h5>
                           <span className="text-[10px] text-slate-500 font-bold block mt-0.5">{prod.unit}</span>
                         </div>
                         <div className="flex justify-between items-center pt-2">
-                          <span className="text-xs font-black text-white">
+                          <span className="text-xs font-black text-slate-800">
                             Rp {new Intl.NumberFormat('id-ID').format(prod.price)}
                           </span>
                           <button
                             id={prod.id === 'prod_1' ? 'tour-add-product' : undefined}
                             onClick={() => handleAddToCart(prod)}
-                            className={`w-7 h-7 rounded-md border border-slate-800 bg-[#0c101a] hover:bg-[#00bfa5] hover:text-slate-950 flex items-center justify-center transition-all cursor-pointer font-black shadow-sm ${tourStep === 1 && prod.id === 'prod_1' ? 'tour-highlight' : ''}`}
+                            className={`w-7 h-7 rounded-full bg-slate-100 hover:bg-[#00bfa5] hover:text-white flex items-center justify-center transition-all cursor-pointer font-black border-none shadow-sm text-slate-800 ${tourStep === 1 && prod.id === 'prod_1' ? 'tour-highlight' : ''}`}
                           >
                             <Plus className="w-4 h-4" />
                           </button>
@@ -825,13 +945,13 @@ export default function CustomerApp({ onToggleDevPanel }) {
             </div>
 
             {/* Cart Right Panel */}
-            <aside className="w-full lg:w-80 border-t lg:border-t-0 lg:border-l border-slate-900 bg-[#080b11] p-4 flex flex-col justify-between shrink-0">
+            <aside className="w-full lg:w-80 bg-white rounded-2xl p-4 lg:m-4 flex flex-col justify-between shrink-0 border-none shadow-[0_15px_30px_rgba(0,0,0,0.05)]">
               
               {/* Cart Header */}
               <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-slate-900 pb-3">
-                  <h3 className="font-display font-black text-sm uppercase tracking-wider">Keranjang</h3>
-                  <span className="bg-[#00bfa5]/10 border border-[#00bfa5]/30 text-[#00bfa5] text-[9px] font-black px-2 py-0.5 rounded uppercase tracking-wide">
+                <div className="flex items-center justify-between pb-3">
+                  <h3 className="font-display font-black text-sm uppercase tracking-wider text-slate-800">Keranjang</h3>
+                  <span className="bg-[#00bfa5]/8 border border-[#00bfa5]/20 text-[#00bfa5] text-[9px] font-black px-2 py-0.5 rounded-full uppercase tracking-wide">
                     {cart.reduce((acc, curr) => acc + curr.qty, 0)} Item
                   </span>
                 </div>
@@ -840,24 +960,24 @@ export default function CustomerApp({ onToggleDevPanel }) {
                 <div className="space-y-3 max-h-[240px] overflow-y-auto pr-1">
                   {cart.length > 0 ? (
                     cart.map((item) => (
-                      <div key={item.id} className="flex items-center justify-between gap-3 bg-[#0c101a] p-2.5 border border-slate-900 rounded-md shadow-sm">
+                      <div key={item.id} className="flex items-center justify-between gap-3 bg-slate-50 p-2.5 rounded-xl border-none shadow-sm">
                         <div className="flex items-center gap-2 flex-1 min-w-0">
-                          <img src={item.image} alt={item.name} className="w-8 h-8 object-cover rounded border border-slate-900" />
+                          <img src={item.image} alt={item.name} className="w-8 h-8 object-cover rounded-lg border-none shadow-sm" />
                           <div className="text-left truncate flex-1">
-                            <span className="font-extrabold text-[11px] text-white block truncate uppercase tracking-wider leading-none">{item.name}</span>
+                            <span className="font-extrabold text-[11px] text-slate-800 block truncate uppercase tracking-wider leading-none">{item.name}</span>
                             <span className="text-[9px] text-slate-500 font-bold block mt-0.5">Rp {new Intl.NumberFormat('id-ID').format(item.price)}</span>
                           </div>
                         </div>
                         {/* Qty selectors */}
                         <div className="flex items-center gap-2">
-                          <button onClick={() => handleUpdateQty(item.id, -1)} className="w-5 h-5 rounded border border-slate-800 bg-[#080b11] flex items-center justify-center text-xs font-black cursor-pointer hover:bg-slate-900">
+                          <button onClick={() => handleUpdateQty(item.id, -1)} className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-xs font-black cursor-pointer hover:bg-slate-300 border-none">
                             <Minus className="w-2.5 h-2.5" />
                           </button>
-                          <span className="text-[10px] font-black text-white w-4 text-center">{item.qty}</span>
-                          <button onClick={() => handleUpdateQty(item.id, 1)} className="w-5 h-5 rounded border border-slate-800 bg-[#080b11] flex items-center justify-center text-xs font-black cursor-pointer hover:bg-slate-900">
+                          <span className="text-[10px] font-black text-slate-800 w-4 text-center">{item.qty}</span>
+                          <button onClick={() => handleUpdateQty(item.id, 1)} className="w-5 h-5 rounded-full bg-slate-200 text-slate-700 flex items-center justify-center text-xs font-black cursor-pointer hover:bg-slate-300 border-none">
                             <Plus className="w-2.5 h-2.5" />
                           </button>
-                          <button onClick={() => handleRemoveFromCart(item.id)} className="text-slate-500 hover:text-red-400 pl-1 cursor-pointer">
+                          <button onClick={() => handleRemoveFromCart(item.id)} className="text-slate-500 hover:text-red-600 pl-1 cursor-pointer">
                             <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
@@ -872,8 +992,8 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                 {/* AI Smart Suggestion */}
                 {cart.length > 0 && !cart.find(item => item.id === 'prod_7') && (
-                  <div className="bg-[#00bfa5]/5 border border-[#00bfa5]/15 p-3 rounded-md text-left space-y-2">
-                    <p className="text-[10px] text-slate-400 font-semibold leading-relaxed">
+                  <div className="bg-[#00bfa5]/5 border border-[#00bfa5]/15 p-3.5 rounded-xl text-left space-y-2">
+                    <p className="text-[10px] text-slate-600 font-semibold leading-relaxed">
                       <span className="text-[#00bfa5] font-black">✦ SARAN CERDAS:</span> Lupa beli Minyak Zaitun? AI mendeteksi ini sering dipasangkan dengan Salmon.
                     </p>
                     <button 
@@ -887,33 +1007,33 @@ export default function CustomerApp({ onToggleDevPanel }) {
               </div>
 
               {/* Checkout Calculation and Trigger */}
-              <div className="space-y-4 border-t border-slate-900 pt-4 mt-4">
+              <div className="space-y-4 border-t border-slate-100 pt-4 mt-4">
                 
                 <div className="space-y-1.5 text-[10px] font-bold tracking-wide">
                   <div className="flex justify-between text-slate-500">
                     <span>Subtotal Produk:</span>
-                    <span className="text-white">Rp {new Intl.NumberFormat('id-ID').format(subtotal)}</span>
+                    <span className="text-slate-800">Rp {new Intl.NumberFormat('id-ID').format(subtotal)}</span>
                   </div>
                   <div className="flex justify-between text-slate-500">
                     <span>Biaya Layanan:</span>
-                    <span className="text-white">Rp {new Intl.NumberFormat('id-ID').format(serviceFee)}</span>
+                    <span className="text-slate-800">Rp {new Intl.NumberFormat('id-ID').format(serviceFee)}</span>
                   </div>
                   <div className="flex justify-between text-slate-500">
                     <span>Biaya Layanan AI:</span>
                     <span className="text-[#00bfa5] flex gap-1 items-center font-black">
-                      <span className="line-through text-slate-600 font-bold">Rp 5.000</span> FREE
+                      <span className="line-through text-slate-400 font-bold">Rp 5.000</span> FREE
                     </span>
                   </div>
-                  <div className="h-px bg-slate-900/60 my-1" />
+                  <div className="h-px bg-slate-200 my-1" />
                   <div className="flex justify-between text-xs font-black">
-                    <span className="text-slate-300">Total Tagihan:</span>
+                    <span className="text-slate-700">Total Tagihan:</span>
                     <span className="text-[#00bfa5]">Rp {new Intl.NumberFormat('id-ID').format(totalBill)}</span>
                   </div>
                 </div>
 
-                <div className="bg-slate-950 p-2.5 border border-slate-900 text-left flex items-start gap-2.5">
+                <div className="bg-slate-50 p-3 rounded-xl border-none shadow-sm text-left flex items-start gap-2.5">
                   <Bot className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" />
-                  <p className="text-[9px] text-slate-500 leading-normal font-semibold">
+                  <p className="text-[9px] text-slate-600 leading-normal font-semibold">
                     "Halo, apa Anda ingin saya mencarikan resep masakan untuk bahan Salmon segar ini?"
                   </p>
                 </div>
@@ -922,8 +1042,8 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   id="tour-checkout"
                   onClick={handleProceedToChatConfirm}
                   disabled={cart.length === 0}
-                  className={`w-full py-3.5 text-[10px] font-black uppercase tracking-widest rounded-md flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer
-                    ${cart.length > 0 ? 'bg-[#00bfa5] text-slate-950 hover:bg-[#00e5c1] hover:scale-[1.01] active:scale-[0.98]' : 'bg-slate-900 text-slate-600 border border-slate-950 cursor-not-allowed'}
+                  className={`w-full py-4 px-6 text-[10px] font-black uppercase tracking-widest rounded-full flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer
+                    ${cart.length > 0 ? 'bg-[#00bfa5] text-white hover:bg-[#00e5c1] hover:scale-[1.01] active:scale-[0.98]' : 'bg-slate-200 text-slate-400 border-none cursor-not-allowed'}
                     ${tourStep === 2 ? 'tour-highlight' : ''}
                   `}
                 >
@@ -938,34 +1058,46 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
         {/* VIEW 2: CHECKOUT PAGE */}
         {activeTab === 'checkout' && (
-          <div className="flex-1 flex flex-col lg:flex-row overflow-hidden h-full p-4 md:p-6 gap-6 overflow-y-auto">
+          <div className="flex-1 flex flex-col overflow-y-auto h-full p-4 md:p-6 gap-6 text-left">
+            {/* Back to Menu trigger */}
+            <div className="flex items-center justify-start shrink-0">
+              <button
+                onClick={() => setActiveTab('hub')}
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white bg-[#00bfa5] hover:bg-[#00e5c1] cursor-pointer transition-all px-5 py-2 rounded-full shadow border-none"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>← Kembali ke Menu Utama</span>
+              </button>
+            </div>
+            
+            <div className="flex flex-col lg:flex-row gap-6 items-start">
             
             {/* Left Block Details */}
             <div className="flex-1 space-y-6">
               
               {/* Alamat Pengiriman */}
-              <div className="bg-[#080b11] border border-slate-900 rounded-md p-5 text-left">
-                <div className="flex items-center justify-between border-b border-slate-900 pb-3.5 mb-4">
+              <div className="bg-white rounded-2xl p-5 text-left shadow-md border-none">
+                <div className="flex items-center justify-between pb-3.5 mb-4">
                   <div className="flex items-center gap-2.5">
                     <MapPin className="w-5 h-5 text-[#00bfa5]" />
-                    <h3 className="font-display font-black text-sm uppercase tracking-wider text-white">Alamat Pengiriman</h3>
+                    <h3 className="font-display font-black text-sm uppercase tracking-wider text-slate-800">Alamat Pengiriman</h3>
                   </div>
                   <button className="text-[10px] font-black text-[#00bfa5] uppercase hover:underline cursor-pointer">
                     Ubah Alamat
                   </button>
                 </div>
                 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 bg-[#0c101a] p-4 border border-slate-900/60 rounded">
-                  <div className="w-20 h-20 bg-slate-950 border border-slate-900 shrink-0 rounded overflow-hidden flex items-center justify-center relative">
-                    <svg viewBox="0 0 100 100" className="w-full h-full text-slate-800">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5 bg-slate-50 p-4 rounded-xl border-none shadow-sm">
+                  <div className="w-20 h-20 bg-slate-200 border-none shrink-0 rounded-xl overflow-hidden flex items-center justify-center relative shadow-inner">
+                    <svg viewBox="0 0 100 100" className="w-full h-full text-slate-350 text-slate-400">
                       <rect width="100" height="100" fill="currentColor"/>
-                      <path stroke="#1e293b" strokeWidth="2" d="M10 50 Q 50 20 90 50" fill="none"/>
+                      <path stroke="#cbd5e1" strokeWidth="2" d="M10 50 Q 50 20 90 50" fill="none"/>
                       <circle cx="50" cy="40" r="4" fill="#ef4444" />
                     </svg>
                   </div>
                   <div className="space-y-1.5">
-                    <span className="font-extrabold text-xs text-white uppercase tracking-wider block">Rumah (Utama)</span>
-                    <p className="text-[11px] text-slate-400 font-semibold leading-relaxed max-w-md">
+                    <span className="font-extrabold text-xs text-slate-800 uppercase tracking-wider block">Rumah (Utama)</span>
+                    <p className="text-[11px] text-slate-650 font-semibold leading-relaxed max-w-md text-slate-600">
                       Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan, Jakarta Selatan, 12730
                     </p>
                     <span className="text-[10px] text-slate-500 block font-semibold">+62 812-3456-7890</span>
@@ -974,11 +1106,11 @@ export default function CustomerApp({ onToggleDevPanel }) {
               </div>
 
               {/* Metode Pembayaran */}
-              <div className="bg-[#080b11] border border-slate-900 rounded-md p-5 text-left">
-                <div className="border-b border-slate-900 pb-3.5 mb-4">
+              <div className="bg-white rounded-2xl p-5 text-left shadow-md border-none">
+                <div className="pb-3.5 mb-4">
                   <div className="flex items-center gap-2.5">
                     <CreditCard className="w-5 h-5 text-[#00bfa5]" />
-                    <h3 className="font-display font-black text-sm uppercase tracking-wider text-white">Metode Pembayaran</h3>
+                    <h3 className="font-display font-black text-sm uppercase tracking-wider text-slate-800">Metode Pembayaran</h3>
                   </div>
                 </div>
 
@@ -987,10 +1119,10 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   {/* GoPay */}
                   <button
                     onClick={() => setSelectedPayment('gopay')}
-                    className={`p-4 border text-left flex justify-between items-center transition-all cursor-pointer shadow-sm
+                    className={`p-4 rounded-xl border-none text-left flex justify-between items-center transition-all cursor-pointer shadow-sm bg-slate-50 hover:bg-slate-100
                       ${selectedPayment === 'gopay' 
-                        ? 'bg-[#0c101a] border-[#00bfa5] text-[#00bfa5]' 
-                        : 'bg-[#0c101a] border-slate-900 text-slate-400 hover:text-white'}`}
+                        ? 'bg-white text-[#00bfa5] ring-2 ring-[#00bfa5]/45 shadow-md' 
+                        : 'text-slate-600 hover:text-slate-800'}`}
                   >
                     <div className="flex items-center gap-3">
                       <Coins className="w-5 h-5 text-[#00bfa5]" />
@@ -1005,13 +1137,13 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   {/* OVO */}
                   <button
                     onClick={() => setSelectedPayment('ovo')}
-                    className={`p-4 border text-left flex justify-between items-center transition-all cursor-pointer shadow-sm
+                    className={`p-4 rounded-xl border-none text-left flex justify-between items-center transition-all cursor-pointer shadow-sm bg-slate-50 hover:bg-slate-100
                       ${selectedPayment === 'ovo' 
-                        ? 'bg-[#0c101a] border-[#00bfa5] text-[#00bfa5]' 
-                        : 'bg-[#0c101a] border-slate-900 text-slate-400 hover:text-white'}`}
+                        ? 'bg-white text-[#00bfa5] ring-2 ring-[#00bfa5]/45 shadow-md' 
+                        : 'text-slate-600 hover:text-slate-800'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <CreditCard className="w-5 h-5 text-purple-400" />
+                      <CreditCard className="w-5 h-5 text-purple-500" />
                       <div>
                         <span className="text-xs font-black uppercase tracking-wider block">OVO</span>
                         <span className="text-[9px] text-slate-500 block font-semibold mt-0.5">SALDO: RP 125.500</span>
@@ -1023,13 +1155,13 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   {/* VA */}
                   <button
                     onClick={() => setSelectedPayment('va')}
-                    className={`p-4 border text-left flex justify-between items-center transition-all cursor-pointer shadow-sm
+                    className={`p-4 rounded-xl border-none text-left flex justify-between items-center transition-all cursor-pointer shadow-sm bg-slate-50 hover:bg-slate-100
                       ${selectedPayment === 'va' 
-                        ? 'bg-[#0c101a] border-[#00bfa5] text-[#00bfa5]' 
-                        : 'bg-[#0c101a] border-slate-900 text-slate-400 hover:text-white'}`}
+                        ? 'bg-white text-[#00bfa5] ring-2 ring-[#00bfa5]/45 shadow-md' 
+                        : 'text-slate-600 hover:text-slate-800'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <Plus className="w-5 h-5 text-blue-400" />
+                      <Plus className="w-5 h-5 text-blue-500" />
                       <span className="text-xs font-black uppercase tracking-wider">Transfer Bank (VA)</span>
                     </div>
                     {selectedPayment === 'va' && <Check className="w-4 h-4 text-[#00bfa5] shrink-0" />}
@@ -1038,13 +1170,13 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   {/* Card */}
                   <button
                     onClick={() => setSelectedPayment('card')}
-                    className={`p-4 border text-left flex justify-between items-center transition-all cursor-pointer shadow-sm
+                    className={`p-4 rounded-xl border-none text-left flex justify-between items-center transition-all cursor-pointer shadow-sm bg-slate-50 hover:bg-slate-100
                       ${selectedPayment === 'card' 
-                        ? 'bg-[#0c101a] border-[#00bfa5] text-[#00bfa5]' 
-                        : 'bg-[#0c101a] border-slate-900 text-slate-400 hover:text-white'}`}
+                        ? 'bg-white text-[#00bfa5] ring-2 ring-[#00bfa5]/45 shadow-md' 
+                        : 'text-slate-600 hover:text-slate-800'}`}
                   >
                     <div className="flex items-center gap-3">
-                      <CreditCard className="w-5 h-5 text-teal-400" />
+                      <CreditCard className="w-5 h-5 text-teal-500" />
                       <span className="text-xs font-black uppercase tracking-wider">Kartu Kredit/Debit</span>
                     </div>
                     {selectedPayment === 'card' && <Check className="w-4 h-4 text-[#00bfa5] shrink-0" />}
@@ -1052,34 +1184,33 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                 </div>
               </div>
-
               {/* Ringkasan Pesanan */}
-              <div className="bg-[#080b11] border border-slate-900 rounded-md p-5 text-left">
-                <div className="flex items-center justify-between border-b border-slate-900 pb-3.5 mb-4">
+              <div className="bg-white rounded-2xl p-5 text-left shadow-md border-none">
+                <div className="flex items-center justify-between pb-3.5 mb-4">
                   <div className="flex items-center gap-2.5">
                     <ShoppingBag className="w-5 h-5 text-[#00bfa5]" />
-                    <h3 className="font-display font-black text-sm uppercase tracking-wider text-white">Ringkasan Pesanan</h3>
+                    <h3 className="font-display font-black text-sm uppercase tracking-wider text-slate-800">Ringkasan Pesanan</h3>
                   </div>
-                  <span className="bg-[#00bfa5]/10 border border-[#00bfa5]/30 text-[#00bfa5] text-[9px] font-black px-2 py-0.5 rounded tracking-wide uppercase">
+                  <span className="bg-[#00bfa5]/8 border border-[#00bfa5]/15 text-[#00bfa5] text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-wide">
                     {checkoutItems.length} Produk
                   </span>
                 </div>
 
                 <div className="space-y-3.5">
                   {checkoutItems.map((item, index) => (
-                    <div key={index} className="flex items-center justify-between gap-3 bg-[#0c101a] p-3 border border-slate-900/60 rounded">
+                    <div key={index} className="flex items-center justify-between gap-3 bg-slate-50 p-3 rounded-xl border-none shadow-sm">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded bg-slate-950 border border-slate-900 flex items-center justify-center text-[10px] font-black text-[#00bfa5]">
+                        <div className="w-8 h-8 rounded bg-slate-200 border-none flex items-center justify-center text-[10px] font-black text-[#00bfa5] shadow-inner">
                           {item.name[0].toUpperCase()}
                         </div>
                         <div className="text-left">
-                          <span className="font-extrabold text-xs text-white uppercase tracking-wider block leading-none">{item.name}</span>
+                          <span className="font-extrabold text-xs text-slate-800 uppercase tracking-wider block leading-none">{item.name}</span>
                           <span className="text-[10px] text-slate-500 font-semibold block mt-1">{item.unit || '1 unit'}</span>
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs font-black text-white block">Rp {new Intl.NumberFormat('id-ID').format(item.price)}</span>
-                        <span className="text-[8px] bg-slate-900 text-slate-400 font-bold px-1.5 py-0.5 rounded block mt-0.5 text-right w-max ml-auto">
+                        <span className="text-xs font-black text-slate-800 block">Rp {new Intl.NumberFormat('id-ID').format(item.price)}</span>
+                        <span className="text-[8px] bg-slate-200 text-slate-600 font-bold px-1.5 py-0.5 rounded block mt-0.5 text-right w-max ml-auto">
                           {item.qty || 1} UNIT
                         </span>
                       </div>
@@ -1087,36 +1218,35 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   ))}
                 </div>
               </div>
-
             </div>
 
             {/* Right Block summary and Action payment */}
-            <aside className="w-full lg:w-80 bg-[#080b11] border border-slate-900 p-5 rounded-md text-left flex flex-col justify-between shrink-0 h-max">
+            <aside className="w-full lg:w-80 bg-white p-5 rounded-2xl text-left flex flex-col justify-between shrink-0 h-max shadow-md border-none">
               
               <div className="space-y-5">
-                <div className="border-b border-slate-900 pb-3.5">
-                  <h3 className="font-display font-black text-sm uppercase tracking-wider text-white">Rincian Pembayaran</h3>
+                <div className="pb-3.5">
+                  <h3 className="font-display font-black text-sm uppercase tracking-wider text-slate-800">Rincian Pembayaran</h3>
                 </div>
 
                 {/* Costs Detail */}
                 <div className="space-y-3 text-[11px] font-bold tracking-wide">
                   <div className="flex justify-between text-slate-500">
                     <span>Subtotal Produk:</span>
-                    <span className="text-white">Rp {new Intl.NumberFormat('id-ID').format(checkoutTotal - 15000)}</span>
+                    <span className="text-slate-800">Rp {new Intl.NumberFormat('id-ID').format(checkoutTotal - 15000)}</span>
                   </div>
                   <div className="flex justify-between text-slate-500">
                     <span>Ongkos Kirim:</span>
-                    <span className="text-white">Rp 15.000</span>
+                    <span className="text-slate-800">Rp 15.000</span>
                   </div>
                   <div className="flex justify-between text-slate-500">
                     <span>Biaya Layanan AI:</span>
                     <span className="text-[#00bfa5] flex gap-1 items-center font-black">
-                      <span className="line-through text-slate-600 font-bold">Rp 5.000</span> FREE
+                      <span className="line-through text-slate-400 font-bold">Rp 5.000</span> FREE
                     </span>
                   </div>
-                  <div className="h-px bg-slate-900 my-1" />
+                  <div className="h-px bg-slate-200 my-1" />
                   <div className="flex justify-between text-sm font-black">
-                    <span className="text-slate-300">Total Tagihan:</span>
+                    <span className="text-slate-800">Total Tagihan:</span>
                     <span className="text-[#00bfa5]">Rp {new Intl.NumberFormat('id-ID').format(checkoutTotal)}</span>
                   </div>
                 </div>
@@ -1126,9 +1256,9 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   <input
                     type="text"
                     placeholder="Gunakan Kode Promo"
-                    className="flex-1 bg-[#0c101a] border border-slate-900 rounded py-2 px-3 text-[10px] text-white outline-none focus:border-[#00bfa5]"
+                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl py-2.5 px-3.5 text-[10px] text-slate-850 outline-none focus:ring-1 focus:ring-[#00bfa5]"
                   />
-                  <button className="px-3 bg-slate-950 hover:bg-slate-900 text-[#00bfa5] border border-slate-900 text-[10px] font-black uppercase rounded cursor-pointer transition-all">
+                  <button className="px-5 bg-slate-100 hover:bg-slate-200 text-[#00bfa5] border-none text-[10px] font-black uppercase rounded-full cursor-pointer transition-all">
                     Apply
                   </button>
                 </div>
@@ -1137,7 +1267,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                 <button
                   id="tour-pay"
                   onClick={handleExecutePayment}
-                  className={`w-full py-4 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black text-xs uppercase tracking-widest rounded transition-all active:scale-[0.98] shadow-lg cursor-pointer ${tourStep === 3 ? 'tour-highlight' : ''}`}
+                  className={`w-full py-4.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black text-xs uppercase tracking-widest rounded-full transition-all active:scale-[0.98] shadow-lg cursor-pointer ${tourStep === 3 ? 'tour-highlight' : ''}`}
                 >
                   BAYAR SEKARANG
                 </button>
@@ -1148,42 +1278,52 @@ export default function CustomerApp({ onToggleDevPanel }) {
               </div>
 
               {/* Bot Pro Tip */}
-              <div className="bg-[#00bfa5]/5 border border-[#00bfa5]/15 p-3 rounded-md mt-6 space-y-1.5 flex flex-col justify-start">
+              <div className="bg-[#00bfa5]/5 border border-[#00bfa5]/15 p-3.5 rounded-xl mt-6 space-y-1.5 flex flex-col justify-start">
                 <div className="flex items-center gap-1.5 text-[9px] font-black text-[#00bfa5] uppercase tracking-wider">
                   <Bot className="w-3.5 h-3.5" />
                   <span>PRO TIP AI</span>
                 </div>
-                <p className="text-[9px] text-slate-400 leading-relaxed font-semibold">
-                  Pesanan ini memenuhi syarat untuk <span className="text-white">Cashback 5%</span> jika dibayar menggunakan GoPay. Ingin lanjut?
+                <p className="text-[9px] text-slate-600 leading-relaxed font-semibold">
+                  Pesanan ini memenuhi syarat untuk <span className="text-slate-800">Cashback 5%</span> jika dibayar menggunakan GoPay. Ingin lanjut?
                 </p>
               </div>
 
             </aside>
-
           </div>
-        )}
+        </div>
+      )}
 
         {/* VIEW 3: RIWAYAT PESANAN */}
         {activeTab === 'history' && (
           <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-6 text-left">
+            {/* Back to Menu trigger */}
+            <div className="flex items-center shrink-0">
+              <button
+                onClick={() => setActiveTab('hub')}
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white bg-[#00bfa5] hover:bg-[#00e5c1] cursor-pointer transition-all px-5 py-2 rounded-full shadow border-none"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>← Kembali ke Menu Utama</span>
+              </button>
+            </div>
             
             {/* Header section with Stats spent */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-900 pb-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border-b border-slate-200 pb-6">
               <div>
-                <h2 className="font-display font-black text-2xl md:text-3xl text-white tracking-tight uppercase">Riwayat Pesanan</h2>
+                <h2 className="font-display font-black text-2xl md:text-3xl text-slate-900 tracking-tight uppercase">Riwayat Pesanan</h2>
                 <p className="text-slate-500 text-xs font-semibold mt-1 max-w-lg leading-relaxed">
                   Kelola logistik rumah tangga Anda dengan presisi. AI kami melacak setiap detail kebutuhan dapur Anda.
                 </p>
               </div>
 
               {/* Stat spend total */}
-              <div className="bg-[#080b11] border border-slate-900 p-4 rounded-md flex items-center gap-3.5 shrink-0 shadow-sm">
-                <div className="w-10 h-10 rounded-md bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
+              <div className="bg-white p-4 rounded-2xl flex items-center gap-3.5 shrink-0 shadow-md border-none">
+                <div className="w-10 h-10 rounded-xl bg-[#00bfa5]/8 border border-[#00bfa5]/15 flex items-center justify-center text-[#00bfa5]">
                   <Coins className="w-5.5 h-5.5" />
                 </div>
                 <div>
                   <span className="text-[9px] text-slate-500 font-extrabold block uppercase tracking-wider">TOTAL PENGELUARAN</span>
-                  <span className="font-display font-black text-white text-base block mt-0.5">
+                  <span className="font-display font-black text-slate-800 text-base block mt-0.5">
                     Rp {new Intl.NumberFormat('id-ID').format(orders.reduce((acc, curr) => curr.status === 'COMPLETED' ? acc + curr.total : acc, 0) + 2450000)}
                   </span>
                 </div>
@@ -1201,7 +1341,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   {['Semua', 'Sedang Berjalan', 'Selesai', 'Dibatalkan'].map((pill) => (
                     <button
                       key={pill}
-                      className="px-4 py-2 bg-[#080b11] text-slate-400 border border-slate-900 rounded-full hover:text-white cursor-pointer hover:bg-slate-900/30 transition-all"
+                      className="px-4 py-2 bg-white text-slate-650 border-none shadow-sm rounded-full hover:text-slate-850 hover:bg-slate-100 cursor-pointer transition-colors text-slate-600"
                     >
                       {pill}
                     </button>
@@ -1218,8 +1358,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                     return (
                       <div 
                         key={ord.id} 
-                        className={`bg-[#080b11] border rounded-md p-5 flex flex-col justify-between gap-5 relative transition-all shadow-sm
-                          ${isActive ? 'border-[#00bfa5] shadow-lg shadow-[#00bfa5]/5' : 'border-slate-900'}`}
+                        className={`bg-white rounded-2xl p-5 flex flex-col justify-between gap-5 relative transition-all shadow-md hover:shadow-lg border-none hover:scale-[1.01] duration-300 ${isActive ? 'shadow-lg bg-[#00bfa5]/5 ring-1 ring-[#00bfa5]/15' : ''}`}
                       >
                         
                         {/* Top Order details row */}
@@ -1227,7 +1366,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           
                           {/* Title & Details (Left side) */}
                           <div className="text-left space-y-1 min-w-0 flex-grow">
-                            <h4 className="font-display font-black text-sm text-white uppercase tracking-wider truncate">{ord.title}</h4>
+                            <h4 className="font-display font-black text-sm text-slate-800 uppercase tracking-wider truncate">{ord.title}</h4>
                             <div className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[10px] text-slate-500 font-semibold uppercase tracking-wide">
                               <span>ID: #{ord.id}</span>
                               <span>•</span>
@@ -1241,8 +1380,8 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           <div className="shrink-0 pt-0.5">
                             <span className={`text-[9px] font-black tracking-widest px-2.5 py-1 rounded uppercase border select-none
                               ${isActive ? 'bg-[#00bfa5]/10 text-[#00bfa5] border-[#00bfa5]/20' : 
-                                isCompleted ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
-                                'bg-red-500/10 text-red-400 border-red-500/20'}`}
+                                isCompleted ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 
+                                'bg-red-50 text-red-600 border-red-200'}`}
                             >
                               {isActive ? 'PROSES' : isCompleted ? 'SELESAI' : 'BATAL'}
                             </span>
@@ -1256,14 +1395,20 @@ export default function CustomerApp({ onToggleDevPanel }) {
                             <>
                               <button
                                 onClick={() => handleTrackProgress(ord)}
-                                className="bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black text-[10px] uppercase tracking-widest px-4 py-2.5 rounded flex items-center gap-1.5 transition-all shadow cursor-pointer active:scale-95 animate-pulse"
+                                className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black text-[10px] uppercase tracking-widest px-6 py-2.5 rounded-full flex items-center gap-1.5 transition-all shadow cursor-pointer active:scale-95 animate-pulse"
                               >
                                 <Truck className="w-3.5 h-3.5" />
                                 <span>Lacak</span>
                               </button>
+                              <button 
+                                onClick={() => setSelectedDetailOrder(ord)}
+                                className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider px-6 py-2.5 rounded-full border-none cursor-pointer transition-all"
+                              >
+                                Detail
+                              </button>
                               <button
                                 onClick={() => handleFinishOrder(ord.id)}
-                                className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[10px] uppercase tracking-widest px-4 py-2.5 rounded flex items-center gap-1.5 transition-all shadow cursor-pointer active:scale-95"
+                                className="bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[10px] uppercase tracking-widest px-6 py-2.5 rounded-full flex items-center gap-1.5 transition-all shadow cursor-pointer active:scale-95"
                               >
                                 <Check className="w-3.5 h-3.5" />
                                 <span>Selesaikan</span>
@@ -1272,7 +1417,10 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           )}
                           {!isActive && !isCancelled && (
                             <>
-                              <button className="border border-slate-800 hover:bg-slate-900 text-slate-400 hover:text-white font-bold text-[10px] uppercase tracking-wider px-3.5 py-2 rounded cursor-pointer transition-all">
+                              <button 
+                                onClick={() => setSelectedDetailOrder(ord)}
+                                className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider px-6 py-2.5 rounded-full border-none cursor-pointer transition-all"
+                              >
                                 Detail
                               </button>
                               <button 
@@ -1290,7 +1438,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                                     setActiveTab('beranda');
                                   }
                                 }}
-                                className="border border-slate-800 hover:bg-slate-900 text-[#00bfa5] font-bold text-[10px] uppercase tracking-wider px-3.5 py-2 rounded cursor-pointer transition-all"
+                                className="bg-[#00bfa5]/10 hover:bg-[#00bfa5]/20 text-[#00bfa5] font-bold text-[10px] uppercase tracking-wider px-6 py-2.5 rounded-full border-none cursor-pointer transition-all"
                               >
                                 Pesan Lagi
                               </button>
@@ -1301,7 +1449,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                               onClick={() => {
                                 handleTrackProgress(ord);
                               }}
-                              className="border border-slate-800 hover:bg-slate-900 text-slate-400 hover:text-white font-bold text-[10px] uppercase tracking-wider px-3.5 py-2 rounded cursor-pointer transition-all"
+                              className="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-[10px] uppercase tracking-wider px-6 py-2.5 rounded-full border-none cursor-pointer transition-all"
                             >
                               Lihat Riwayat Chat
                             </button>
@@ -1310,19 +1458,19 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                         {/* Active Footer en-route update status */}
                         {isActive && (
-                          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] text-slate-500 font-bold tracking-wide gap-2 border-t border-slate-900/60 pt-3">
-                            <span className="flex items-center gap-1.5 text-slate-400">
+                          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center text-[10px] text-slate-500 font-bold tracking-wide gap-2 border-t border-slate-200 pt-3">
+                            <span className="flex items-center gap-1.5 text-slate-650">
                               <MapPin className="w-3.5 h-3.5 text-[#00bfa5] animate-bounce shrink-0" />
                               <span>{ord.courierStatus || 'Kurir sedang memproses belanjaan'}</span>
                             </span>
-                            <span className="text-slate-400 shrink-0 font-mono">
+                            <span className="text-slate-550 shrink-0 font-mono">
                               ETA: {ord.eta || '15 Menit'}
                             </span>
                           </div>
                         )}
 
                         {isCancelled && (
-                          <p className="text-[10px] text-red-400 italic font-semibold border-t border-slate-900/60 pt-3">{ord.cancelReason || 'Dibatalkan oleh sistem'}</p>
+                          <p className="text-[10px] text-red-650 italic font-semibold border-t border-slate-200 pt-3">{ord.cancelReason || 'Dibatalkan oleh sistem'}</p>
                         )}
 
                       </div>
@@ -1347,16 +1495,282 @@ export default function CustomerApp({ onToggleDevPanel }) {
           </div>
         )}
 
+        {/* VIEW 5: ORDER DATA WIDGET PAGE */}
+        {activeTab === 'order_widget' && (
+          <div className="flex-1 p-4 md:p-6 overflow-y-auto space-y-6 text-left">
+            {/* Back to Menu trigger */}
+            <div className="flex items-center shrink-0">
+              <button
+                onClick={() => setActiveTab('hub')}
+                className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-white bg-[#00bfa5] hover:bg-[#00e5c1] cursor-pointer transition-all px-5 py-2 rounded-full shadow border-none"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>← Kembali ke Menu Utama</span>
+              </button>
+            </div>
+            {/* Header */}
+            <div className="border-b border-slate-200 pb-4">
+              <h2 className="font-display font-black text-2xl text-slate-900 tracking-tight uppercase">Widget Data Pesanan</h2>
+              <p className="text-slate-500 text-xs font-semibold mt-1">
+                Pantau pesanan aktif, buat pesanan baru secara instan, dan lihat daftar menu belanjaan Emak AI.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+              {/* Left Column: Orders List (7 cols on large screens) */}
+              <div className="lg:col-span-7 space-y-6">
+                
+                {/* Active and Recent Orders Section */}
+                <div className="bg-white rounded-2xl p-5 space-y-4 shadow-md border-none">
+                  <div className="flex justify-between items-center border-b border-slate-100 pb-3">
+                    <h3 className="font-display font-black text-xs uppercase tracking-widest text-[#00bfa5]">
+                      Daftar Transaksi / Pesanan Anda
+                    </h3>
+                    <button
+                      onClick={() => setActiveTab('beranda')}
+                      className="bg-[#00bfa5] text-white hover:bg-[#00e5c1] text-[9.5px] font-black uppercase tracking-wider px-5 py-2 rounded-full transition-all cursor-pointer flex items-center gap-1 active:scale-95 border-none shadow-sm"
+                    >
+                      <Plus className="w-3.5 h-3.5" />
+                      <span>Buat Pesanan Baru</span>
+                    </button>
+                  </div>
+
+                  {orders.length === 0 ? (
+                    <p className="text-slate-500 text-xs py-4 text-center font-semibold">Tidak ada pesanan.</p>
+                  ) : (
+                    <div className="space-y-3">
+                      {orders.map((ord) => {
+                        const isActive = ord.status === 'IN PROGRESS';
+                        const isCompleted = ord.status === 'COMPLETED';
+                        const isCancelled = ord.status === 'CANCELLED';
+
+                        return (
+                          <div 
+                            key={ord.id} 
+                            className={`p-4 rounded-2xl transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-none shadow-sm ${isActive ? 'bg-[#00bfa5]/10 shadow-md ring-1 ring-[#00bfa5]/15' : 'bg-slate-50 hover:bg-slate-100'}`}
+                          >
+                            <div className="space-y-1">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-black text-slate-800 uppercase tracking-wider">
+                                  #{ord.id}
+                                </span>
+                                <span className={`text-[8px] font-black px-1.5 py-0.5 rounded tracking-wide border select-none ${
+                                  isActive ? 'bg-[#00bfa5]/10 text-[#00bfa5] border-[#00bfa5]/20' : 
+                                  isCompleted ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : 
+                                  'bg-red-50 text-red-600 border-red-200'
+                                }`}>
+                                  {isActive ? 'PROSES' : isCompleted ? 'SELESAI' : 'BATAL'}
+                                </span>
+                              </div>
+                              <p className="text-[10px] text-slate-600 font-semibold">{ord.title} ({ord.itemCount} item)</p>
+                              <p className="text-[9px] text-slate-550 font-bold font-mono text-slate-500">Rp {new Intl.NumberFormat('id-ID').format(ord.total)} • {ord.date}</p>
+                            </div>
+
+                            <div className="flex gap-2 shrink-0">
+                              <button 
+                                onClick={() => setSelectedDetailOrder(ord)}
+                                className="bg-slate-200 text-slate-700 hover:bg-slate-300 text-[9px] font-black uppercase tracking-widest px-5 py-2 rounded-full transition-all cursor-pointer border-none shadow-sm"
+                              >
+                                Detail
+                              </button>
+                              {isActive && (
+                                <button 
+                                  onClick={() => handleTrackProgress(ord)}
+                                  className="bg-[#00bfa5] text-white hover:bg-[#00e5c1] text-[9px] font-black uppercase tracking-widest px-5 py-2 rounded-full transition-all cursor-pointer flex items-center gap-1 border-none shadow-sm"
+                                >
+                                  <Truck className="w-3 h-3" />
+                                  <span>Lacak</span>
+                                </button>
+                              )}
+                              {!isActive && !isCancelled && (
+                                <button 
+                                  onClick={() => {
+                                    if (ord.items && ord.items.length > 0) {
+                                      saveCart(ord.items.map((it, idx) => ({
+                                        id: `reorder_${idx}_${Date.now()}`,
+                                        name: it.name,
+                                        price: it.price || 15000,
+                                        unit: it.unit || 'unit',
+                                        qty: it.quantity || 1,
+                                        image: 'https://images.unsplash.com/photo-1542838132-92c53300491e?q=80&w=200&auto=format&fit=crop'
+                                      })));
+                                      setActiveTab('beranda');
+                                    }
+                                  }}
+                                  className="bg-[#00bfa5] text-white hover:bg-[#00e5c1] text-[9px] font-black uppercase tracking-widest px-5 py-2 rounded-full transition-all cursor-pointer border-none shadow-sm"
+                                >
+                                  Pesan Lagi
+                                </button>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+
+                {/* Quick Recipes Section inside the Widget */}
+                <div className="bg-white rounded-2xl p-5 space-y-4 shadow-md border-none">
+                  <h3 className="font-display font-black text-xs uppercase tracking-widest text-[#00bfa5] pb-3">
+                    Template Belanja Cepat (Resep Rekomendasi)
+                  </h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    {[
+                      {
+                        name: "Salmon Panggang Asparagus",
+                        label: "Salmon Panggang",
+                        desc: "Salmon & Asparagus sehat",
+                        items: [{ id: 'prod_2', qty: 2 }, { id: 'prod_4', qty: 1 }, { id: 'prod_7', qty: 1 }]
+                      },
+                      {
+                        name: "Sop Bayam & Tomat Roma",
+                        label: "Sop Bayam Segar",
+                        desc: "Sayuran bergizi tinggi",
+                        items: [{ id: 'prod_5', qty: 2 }, { id: 'prod_1', qty: 2 }, { id: 'prod_3', qty: 1 }]
+                      },
+                      {
+                        name: "Salad Alpukat & Tomat Salad",
+                        label: "Salad Alpukat Sehat",
+                        desc: "Alpukat mentega & minyak zaitun",
+                        items: [{ id: 'prod_6', qty: 1 }, { id: 'prod_1', qty: 1 }, { id: 'prod_7', qty: 1 }]
+                      }
+                    ].map((recipe, rIdx) => (
+                      <button
+                        key={rIdx}
+                        onClick={() => {
+                          handleQuickOrder(recipe.name, recipe.items);
+                          setActiveTab('chatbot'); // Redirect to general chat chatbot to confirm!
+                        }}
+                        className="bg-slate-50 border-none hover:bg-slate-100 p-3 rounded-xl text-left transition-all cursor-pointer hover:shadow-md hover:scale-[1.02] duration-300 shadow-sm flex flex-col justify-between"
+                      >
+                        <div>
+                          <span className="text-xs font-black text-slate-800 flex items-center gap-1.5 uppercase tracking-wide">
+                            <Zap className="w-3.5 h-3.5 text-[#00bfa5] shrink-0" />
+                            <span>{recipe.label}</span>
+                          </span>
+                          <span className="text-[9px] text-slate-500 font-semibold block mt-1.5 leading-normal">{recipe.desc}</span>
+                        </div>
+                        <span className="text-[8px] text-[#00bfa5] font-black uppercase tracking-widest block mt-3">ORDER INSTAN</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Right Column: Catalog Menu Items (5 cols on large screens) */}
+              <div className="lg:col-span-5 space-y-6">
+                
+                <div className="bg-white rounded-2xl p-5 space-y-4 shadow-md border-none">
+                  <div className="pb-3 flex justify-between items-center">
+                    <h3 className="font-display font-black text-xs uppercase tracking-widest text-[#00bfa5]">
+                      Menu Belanja Emak AI
+                    </h3>
+                    <span className="text-[8.5px] bg-[#00bfa5]/8 border border-[#00bfa5]/15 text-[#00bfa5] font-black px-1.5 py-0.5 rounded uppercase">
+                      CATALOG
+                    </span>
+                  </div>
+
+                  {/* Menu catalog list */}
+                  <div className="space-y-3.5 max-h-[420px] overflow-y-auto pr-1 no-scrollbar">
+                    {CATALOG_PRODUCTS.map((prod) => {
+                      const inCartQty = cart.find(c => c.id === prod.id)?.qty || 0;
+                      return (
+                        <div key={prod.id} className="bg-slate-50 border-none p-3 rounded-xl flex items-center justify-between gap-3 shadow-sm">
+                          <div className="flex items-center gap-3 min-w-0">
+                            <img 
+                              src={prod.image} 
+                              alt={prod.name} 
+                              className="w-10 h-10 object-cover rounded-lg shrink-0"
+                            />
+                            <div className="text-left min-w-0">
+                              <span className="font-extrabold text-xs text-slate-800 uppercase tracking-wider block truncate">
+                                {prod.name}
+                              </span>
+                              <span className="text-[9px] text-slate-500 font-bold block mt-0.5">
+                                Rp {new Intl.NumberFormat('id-ID').format(prod.price)} / {prod.unit.replace('Per ', '')}
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="shrink-0 flex items-center gap-1.5">
+                            {inCartQty > 0 ? (
+                              <div className="flex items-center bg-slate-200 rounded overflow-hidden">
+                                <button 
+                                  onClick={() => handleUpdateQty(prod.id, -1)}
+                                  className="px-2 py-1 hover:bg-slate-300 text-[10px] font-black cursor-pointer text-slate-650 hover:text-slate-800 text-slate-650"
+                                >
+                                  -
+                                </button>
+                                <span className="px-2.5 text-[10px] font-black text-[#00bfa5]">{inCartQty}</span>
+                                <button 
+                                  onClick={() => handleUpdateQty(prod.id, 1)}
+                                  className="px-2 py-1 hover:bg-slate-300 text-[10px] font-black cursor-pointer text-slate-650 hover:text-slate-800 text-slate-650"
+                                >
+                                  +
+                                </button>
+                              </div>
+                            ) : (
+                              <button
+                                onClick={() => handleAddToCart(prod)}
+                                className="bg-[#00bfa5] text-white hover:bg-[#00e5c1] text-[9px] font-black uppercase px-5 py-2 rounded-full cursor-pointer transition-all border-none"
+                              >
+                                Tambah
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Cart Summary & Checkout button */}
+                  {cart.length > 0 && (
+                    <div className="bg-slate-50 border-none p-4 rounded-xl text-left space-y-3.5 pt-3 mt-4 shadow-md">
+                      <div className="flex justify-between items-center">
+                        <div>
+                          <span className="text-[9px] text-slate-500 font-black uppercase tracking-wider">TOTAL KERANJANG</span>
+                          <span className="text-xs font-black text-slate-850 block mt-0.5 text-slate-800">
+                            {cart.reduce((a, b) => a + b.qty, 0)} Item • Rp {new Intl.NumberFormat('id-ID').format(subtotal)}
+                          </span>
+                        </div>
+                        <button
+                          onClick={handleProceedToChatConfirm}
+                          className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white text-[10px] font-black uppercase tracking-widest px-6 py-2.5 rounded-full transition-all cursor-pointer shadow-md active:scale-95"
+                        >
+                          Checkout
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        )}
+
         {/* VIEW 4: DEDICATED CHATBOT PAGE */}
         {activeTab === 'chatbot' && (
           <div className="flex-1 flex overflow-hidden h-full">
             {/* Left side: Chat channel selector list. Visible on desktop, or on mobile when activeChatId is null */}
-            <div className={`w-full lg:w-80 border-r border-slate-900 flex flex-col bg-[#080b11] h-full shrink-0 ${activeChatId !== null ? 'hidden lg:flex' : 'flex'}`}>
-              <div className="p-4 border-b border-slate-900 shrink-0">
+            <div className={`w-full lg:w-[360px] flex flex-col bg-white border-r border-slate-100 h-full shrink-0 shadow-sm border-none ${activeChatId !== null ? 'hidden lg:flex' : 'flex'}`}>
+              <div className="p-4 shrink-0 space-y-3">
+                {/* Back to Menu trigger */}
+                <button
+                  onClick={() => setActiveTab('hub')}
+                  className="w-full py-3 px-5 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black rounded-full uppercase text-[9px] tracking-widest flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow border-none"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5" />
+                  <span>← Kembali ke Menu Utama</span>
+                </button>
                 {/* Buat Pesanan CTA Button */}
                 <button
                   onClick={() => setActiveTab('beranda')}
-                  className="w-full py-3 px-4 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-lg animate-pulse"
+                  className="w-full py-3.5 px-6 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black rounded-full uppercase text-[10px] tracking-widest flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md animate-pulse"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>Buat Pesanan Baru</span>
@@ -1369,22 +1783,22 @@ export default function CustomerApp({ onToggleDevPanel }) {
                 {/* Primary General Chat Channel */}
                 <button
                   onClick={() => setActiveChatId('general')}
-                  className={`w-full p-3.5 border border-slate-900 rounded-lg group text-left shadow-sm cursor-pointer transition-all flex items-center justify-between ${
-                    activeChatId === 'general' ? 'bg-[#00bfa5]/10 border-[#00bfa5]/35' : 'bg-[#0c101a] hover:bg-slate-900/50'
+                  className={`w-full p-3.5 border-none rounded-2xl group text-left shadow-sm cursor-pointer transition-all flex items-center justify-between ${
+                    activeChatId === 'general' ? 'bg-[#00bfa5]/10 text-[#00bfa5]' : 'bg-slate-50 hover:bg-slate-100/80 text-slate-700'
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <div className="w-9 h-9 rounded-full bg-[#00bfa5]/10 border border-[#00bfa5]/20 flex items-center justify-center text-[#00bfa5]">
+                    <div className="w-9 h-9 rounded-full bg-[#00bfa5]/10 flex items-center justify-center text-[#00bfa5]">
                       <Bot className="w-4.5 h-4.5" />
                     </div>
-                    <div>
-                      <span className="font-extrabold text-[11px] text-white block uppercase tracking-wider">Asisten Belanja AI</span>
-                      <span className="text-[10px] text-slate-400 font-semibold block mt-0.5 truncate max-w-[155px]">
+                    <div className="min-w-0">
+                      <span className="font-extrabold text-[11px] text-slate-800 block uppercase tracking-wider">Asisten Belanja AI</span>
+                      <span className="text-[10px] text-slate-500 font-semibold block mt-0.5 truncate max-w-[170px]">
                         {generalMessages.length > 0 ? generalMessages[generalMessages.length - 1].text : "Mulai diskusi belanja baru..."}
                       </span>
                     </div>
                   </div>
-                  <span className="text-[8px] bg-[#00bfa5]/10 border border-[#00bfa5]/20 text-[#00bfa5] font-black px-1.5 py-0.5 rounded tracking-wide uppercase">
+                  <span className="text-[8px] bg-[#00bfa5]/15 text-[#00bfa5] font-black px-1.5 py-0.5 rounded-full uppercase tracking-wide shrink-0">
                     AI BOT
                   </span>
                 </button>
@@ -1406,29 +1820,29 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           setTrackingOrderId(ord.id);
                         }
                       }}
-                      className={`w-full p-3.5 border border-slate-900 rounded-lg group text-left shadow-sm cursor-pointer transition-all flex items-center justify-between ${
-                        isSelected ? 'bg-[#00bfa5]/10 border-[#00bfa5]/35' : 'bg-[#0c101a] hover:bg-slate-900/50'
+                      className={`w-full p-3.5 border-none rounded-2xl group text-left shadow-sm cursor-pointer transition-all flex items-center justify-between ${
+                        isSelected ? 'bg-[#00bfa5]/10 text-[#00bfa5]' : 'bg-slate-50 hover:bg-slate-100/80 text-slate-700'
                       }`}
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-black
-                          ${isProgress ? 'bg-[#00bfa5]/10 text-[#00bfa5] border border-[#00bfa5]/20' : 
-                            isCompleted ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 
-                            'bg-red-500/10 text-red-400 border-red-500/20'}`}
+                          ${isProgress ? 'bg-[#00bfa5]/15 text-[#00bfa5]' : 
+                            isCompleted ? 'bg-emerald-50 text-emerald-600' : 
+                            'bg-red-50 text-red-600'}`}
                         >
-                          {isProgress ? <Truck className="w-4 h-4" /> : '📦'}
+                           {isProgress ? <Truck className="w-4 h-4" /> : isCompleted ? <Check className="w-4 h-4" /> : <X className="w-4 h-4" />}
                         </div>
-                        <div>
-                          <span className="font-extrabold text-[11px] text-white block uppercase tracking-wider">{ord.title}</span>
-                          <span className="text-[10px] text-slate-400 font-semibold block mt-0.5 truncate max-w-[155px]">
+                        <div className="min-w-0 text-left">
+                          <span className="font-extrabold text-[11px] text-slate-800 block uppercase tracking-wider truncate max-w-[170px]">{ord.title}</span>
+                          <span className="text-[10px] text-slate-500 font-semibold block mt-0.5 truncate max-w-[170px]">
                             {lastMsg}
                           </span>
                         </div>
                       </div>
-                      <span className={`text-[8px] font-black px-1.5 py-0.5 rounded border uppercase tracking-wider
-                        ${isProgress ? 'bg-[#00bfa5]/10 text-[#00bfa5] border-[#00bfa5]/20' : 
-                          isCompleted ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 
-                          'bg-red-500/10 text-red-400 border-red-500/20'}`}
+                      <span className={`text-[8px] font-black px-1.5 py-0.5 rounded-full border uppercase tracking-wider shrink-0
+                        ${isProgress ? 'bg-[#00bfa5]/10 text-[#00bfa5] border-[#00bfa5]/25' : 
+                          isCompleted ? 'bg-emerald-100 text-emerald-700 border-emerald-200' : 
+                          'bg-red-100 text-red-700 border-red-200'}`}
                       >
                         {isProgress ? 'PROSES' : isCompleted ? 'SELESAI' : 'BATAL'}
                       </span>
@@ -1439,11 +1853,11 @@ export default function CustomerApp({ onToggleDevPanel }) {
             </div>
 
             {/* Right side: Active Chat Thread Conversation. Visible on desktop, or on mobile when activeChatId is not null */}
-            <div className={`flex-1 flex flex-col h-full bg-[#0c101a]/20 ${activeChatId === null ? 'hidden lg:flex' : 'flex'}`}>
+            <div className={`flex-1 flex flex-col h-full bg-slate-50/50 ${activeChatId === null ? 'hidden lg:flex' : 'flex'}`}>
               {activeChatId === null ? (
                 /* Empty state when no thread is selected on desktop */
                 <div className="flex-1 flex flex-col items-center justify-center p-8 text-center space-y-4">
-                  <div className="w-16 h-16 rounded-full bg-slate-900 flex items-center justify-center text-slate-500">
+                  <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
                     <MessageSquare className="w-8 h-8" />
                   </div>
                   <h3 className="font-display font-black text-sm uppercase text-slate-500 tracking-wider">Belum Ada Chat Terpilih</h3>
@@ -1455,12 +1869,12 @@ export default function CustomerApp({ onToggleDevPanel }) {
                 /* Active thread conversation screen */
                 <>
                   {/* Active Thread Header */}
-                  <div className="bg-[#0c101a] px-4 py-3.5 border-b border-slate-900 flex items-center justify-between shrink-0">
+                  <div className="bg-white px-4 py-3.5 border-b border-slate-100 flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2.5">
                       {/* Back button on mobile to return to list */}
                       <button
                         onClick={() => { setActiveChatId(null); setTrackingOrderId(null); }}
-                        className="lg:hidden text-slate-400 hover:text-white transition-colors mr-1 cursor-pointer"
+                        className="lg:hidden text-slate-500 hover:text-slate-800 transition-colors mr-1 cursor-pointer"
                       >
                         <ArrowLeft className="w-4 h-4" />
                       </button>
@@ -1468,12 +1882,12 @@ export default function CustomerApp({ onToggleDevPanel }) {
                       {activeChatId === 'general' ? (
                         <>
                           <Bot className="w-4 h-4 text-[#00bfa5]" />
-                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Asisten Belanja AI</span>
+                          <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">Asisten Belanja AI</span>
                         </>
                       ) : (
                         <>
-                          <Truck className="w-4 h-4 text-emerald-400" />
-                          <span className="text-[10px] font-black text-white uppercase tracking-widest leading-none">Order Chat #{activeChatId}</span>
+                          <Truck className="w-4 h-4 text-emerald-600" />
+                          <span className="text-[10px] font-black text-slate-800 uppercase tracking-widest leading-none">Order Chat #{activeChatId}</span>
                         </>
                       )}
                     </div>
@@ -1481,19 +1895,19 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                   {/* Tracking info sub-header if en-route */}
                   {activeChatId && trackingOrderId && (
-                    <div className="bg-[#0c101a]/85 p-3 border-b border-slate-900 shrink-0 flex items-center justify-between gap-3 text-[10px] font-bold">
-                      <span className="text-slate-400 flex items-center gap-1.5 truncate">
+                    <div className="bg-white/95 p-3 border-b border-slate-100 shrink-0 flex items-center justify-between gap-3 text-[10px] font-bold shadow-sm">
+                      <span className="text-slate-650 flex items-center gap-1.5 truncate">
                         <span className="w-2 h-2 rounded-full bg-[#00bfa5] animate-ping shrink-0" />
                         <span className="truncate">Kurir sedang mengemas barang di pasar</span>
                       </span>
                       <div className="flex items-center gap-2 shrink-0">
                         <button 
                           onClick={() => setShowMapTrackerId(activeChatId)} 
-                          className="bg-[#00bfa5]/10 border border-[#00bfa5]/30 hover:bg-[#00bfa5] hover:text-slate-950 text-[#00bfa5] px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-wider transition-all cursor-pointer"
+                          className="bg-[#00bfa5] text-white hover:bg-[#00e5c1] px-4.5 py-1.5 rounded-full text-[8px] font-black uppercase tracking-wider transition-all cursor-pointer border-none shadow"
                         >
                           Buka Peta
                         </button>
-                        <span className="text-[#00bfa5] font-mono text-[9px] shrink-0 bg-[#00bfa5]/10 border border-[#00bfa5]/20 px-1.5 py-0.5 rounded uppercase font-black animate-pulse">
+                        <span className="text-[#00bfa5] font-mono text-[9px] shrink-0 bg-[#00bfa5]/10 px-1.5 py-0.5 rounded uppercase font-black animate-pulse">
                           ETA: 12m
                         </span>
                       </div>
@@ -1507,12 +1921,12 @@ export default function CustomerApp({ onToggleDevPanel }) {
                         key={msg.id || index}
                         className={`flex flex-col max-w-[85%] ${msg.sender === 'user' ? 'self-end ml-auto' : 'self-start mr-auto'}`}
                       >
-                        <div className={`p-3 rounded-lg text-[11px] leading-relaxed font-semibold shadow-sm text-left
+                        <div className={`p-3 rounded-2xl text-[11px] leading-relaxed font-semibold shadow-sm text-left
                           ${msg.sender === 'user' 
-                            ? 'bg-slate-800 border border-slate-700/50 text-slate-200' 
+                            ? 'bg-slate-100 text-slate-800 border-none' 
                             : msg.sender === 'courier'
-                              ? 'bg-slate-900 border border-slate-800 text-white font-extrabold'
-                              : 'bg-[#00bfa5] text-slate-950 font-extrabold'}`}
+                              ? 'bg-slate-200 text-slate-900 border-none font-extrabold'
+                              : 'bg-[#00bfa5] text-white border-none font-extrabold'}`}
                         >
                           {msg.sender === 'courier' && (
                             <span className="block text-[8px] text-[#00bfa5] uppercase font-black tracking-widest mb-1">
@@ -1526,7 +1940,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                             <div className="mt-3.5 pt-2.5 border-t border-slate-950/10 flex">
                               <button
                                 onClick={handleProceedToPayment}
-                                className="bg-slate-950 text-white font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded hover:bg-slate-900 flex items-center gap-1.5 transition-all shadow cursor-pointer"
+                                className="bg-slate-900 text-white font-black uppercase text-[8px] tracking-widest px-5 py-2.5 rounded-full hover:bg-slate-950 flex items-center gap-1.5 transition-all shadow cursor-pointer border-none"
                               >
                                 <span>Lanjut Ke Pembayaran</span>
                                 <ArrowRight className="w-3.5 h-3.5" />
@@ -1546,22 +1960,22 @@ export default function CustomerApp({ onToggleDevPanel }) {
                                     handleTrackProgress(targetOrd);
                                   }
                                 }}
-                                className="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded transition-all flex items-center gap-1.5 transition-all shadow cursor-pointer"
+                                className="bg-slate-800 hover:bg-slate-900 text-white font-black uppercase text-[8px] tracking-widest px-5 py-2.5 rounded-full transition-all flex items-center gap-1.5 shadow cursor-pointer border-none"
                               >
                                 <span>Lacak Kurir Belanja</span>
-                                <MapPin className="w-3.5 h-3.5 text-slate-950" />
+                                <MapPin className="w-3.5 h-3.5 text-white" />
                               </button>
                             </div>
                           )}
 
                           {/* Redirect to Catalog / Order Menu button */}
                           {msg.showOrderMenuButton && (
-                            <div className="mt-3.5 pt-2.5 border-t border-[#00bfa5]/25 flex">
+                            <div className="mt-3.5 pt-2.5 border-t border-white/20 flex">
                               <button
                                 onClick={() => {
                                   setActiveTab('beranda');
                                 }}
-                                className="bg-slate-950 text-white border border-[#00bfa5]/35 font-black uppercase text-[8px] tracking-widest px-3.5 py-2 rounded hover:bg-slate-900 flex items-center gap-1.5 transition-all shadow cursor-pointer animate-bounce"
+                                className="bg-slate-800 hover:bg-slate-900 text-white font-black uppercase text-[8px] tracking-widest px-5 py-2.5 rounded-full flex items-center gap-1.5 transition-all shadow cursor-pointer border-none animate-bounce"
                                 style={{ animationDuration: '2s' }}
                               >
                                 <span>Mulai Order Baru</span>
@@ -1580,14 +1994,14 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                   {/* Active Order Quick Action Bar */}
                   {activeChatId !== 'general' && orders.find(o => o.id === activeChatId)?.status === 'IN PROGRESS' && (
-                    <div className="bg-[#0c101a] px-3.5 py-2.5 border-t border-slate-900 flex items-center justify-between shrink-0">
-                      <span className="text-[9px] text-slate-400 font-bold uppercase tracking-wider">
+                    <div className="bg-white px-3.5 py-2.5 border-t border-slate-100 flex items-center justify-between shrink-0">
+                      <span className="text-[9px] text-slate-500 font-bold uppercase tracking-wider">
                         Pesanan sudah Ibu terima?
                       </span>
                       <button
                         id="tour-finish-order"
                         onClick={() => handleFinishOrder(activeChatId)}
-                        className={`bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-[9px] uppercase tracking-widest px-3 py-1 rounded transition-all cursor-pointer shadow-sm active:scale-95 ${tourStep === 6 ? 'tour-highlight' : ''}`}
+                        className={`bg-emerald-600 hover:bg-emerald-700 text-white font-black text-[9px] uppercase tracking-widest px-5 py-2 rounded-full transition-all cursor-pointer shadow-sm active:scale-95 border-none ${tourStep === 6 ? 'tour-highlight' : ''}`}
                       >
                         Selesaikan Pesanan
                       </button>
@@ -1596,7 +2010,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
 
                   {/* Quick Order Recipes & Tracking Templates */}
                   {activeChatId === 'general' && (
-                    <div className="px-3 pt-2 pb-1.5 bg-[#080b11] border-t border-slate-900 shrink-0 flex flex-col space-y-1.5 text-left">
+                    <div className="px-3 pt-2 pb-1.5 bg-slate-50 border-t border-slate-100 shrink-0 flex flex-col space-y-1.5 text-left">
                       <span className="text-[8.5px] text-slate-500 font-extrabold uppercase tracking-widest">
                         Pesan Cepat & Akses Lacak:
                       </span>
@@ -1608,9 +2022,10 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           return (
                             <button
                               onClick={() => handleTrackProgress(currentActiveOrder)}
-                              className="bg-emerald-500/10 border border-emerald-500/35 hover:bg-emerald-500/20 hover:border-emerald-500/60 text-emerald-400 text-[9.5px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded transition-all cursor-pointer shrink-0 flex items-center gap-1 active:scale-95 shadow-sm animate-pulse"
+                              className="bg-emerald-600 text-white hover:bg-emerald-700 text-[9.5px] font-black uppercase tracking-wider px-4 py-1.5 rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1 active:scale-95 border-none shadow-sm animate-pulse"
                             >
-                              <span>📍 Lacak Kurir</span>
+                              <MapPin className="w-3.5 h-3.5 text-white" />
+                              <span>Lacak Kurir</span>
                             </button>
                           );
                         })()}
@@ -1618,25 +2033,26 @@ export default function CustomerApp({ onToggleDevPanel }) {
                         {[
                           {
                             name: "Salmon Panggang Asparagus",
-                            label: "🍣 Salmon Panggang",
+                            label: "Salmon Panggang",
                             items: [{ id: 'prod_2', qty: 2 }, { id: 'prod_4', qty: 1 }, { id: 'prod_7', qty: 1 }]
                           },
                           {
                             name: "Sop Bayam & Tomat Roma",
-                            label: "🥬 Sop Bayam Segar",
+                            label: "Sop Bayam Segar",
                             items: [{ id: 'prod_5', qty: 2 }, { id: 'prod_1', qty: 2 }, { id: 'prod_3', qty: 1 }]
                           },
                           {
                             name: "Salad Alpukat & Tomat Salad",
-                            label: "🥑 Salad Alpukat Sehat",
+                            label: "Salad Alpukat Sehat",
                             items: [{ id: 'prod_6', qty: 1 }, { id: 'prod_1', qty: 1 }, { id: 'prod_7', qty: 1 }]
                           }
                         ].map((recipe, rIdx) => (
                           <button
                             key={rIdx}
                             onClick={() => handleQuickOrder(recipe.name, recipe.items)}
-                            className="bg-[#00bfa5]/5 border border-[#00bfa5]/20 hover:bg-[#00bfa5]/15 hover:border-[#00bfa5]/40 text-[#00bfa5] text-[9.5px] font-black uppercase tracking-wider px-2.5 py-1.5 rounded transition-all cursor-pointer shrink-0 flex items-center gap-1 active:scale-95 shadow-sm"
+                            className="bg-white text-slate-700 hover:bg-slate-100 text-[9.5px] font-black uppercase tracking-wider px-4 py-1.5 rounded-full transition-all cursor-pointer shrink-0 flex items-center gap-1.5 active:scale-95 border border-slate-200/50 shadow-sm"
                           >
+                            <Zap className="w-3 h-3 text-[#00bfa5]" />
                             <span>{recipe.label}</span>
                           </button>
                         ))}
@@ -1645,7 +2061,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                   )}
 
                   {/* Input box */}
-                  <div className="p-3 bg-[#080b11] border-t border-slate-900 shrink-0 flex items-center gap-2">
+                  <div className="p-3 bg-white border-t border-slate-100 shrink-0 flex items-center gap-2">
                     <input
                       id="tour-chat-input"
                       type="text"
@@ -1653,11 +2069,11 @@ export default function CustomerApp({ onToggleDevPanel }) {
                       onChange={(e) => setChatInput(e.target.value)}
                       onKeyDown={(e) => { if (e.key === 'Enter') handleSendMessage(); }}
                       placeholder={activeChatId === 'general' ? "Tulis daftar belanjaan Ibu..." : "Kirim chat balasan ke Kurir..."}
-                      className={`flex-grow bg-[#0c101a] border border-slate-900 rounded py-2 px-3 text-[11px] font-semibold text-white outline-none focus:border-[#00bfa5] ${tourStep === 4 ? 'tour-highlight' : ''}`}
+                      className={`flex-grow bg-slate-50 border-none rounded-2xl py-2.5 px-4 text-[11px] font-semibold text-slate-800 outline-none focus:ring-1 focus:ring-[#00bfa5] shadow-inner ${tourStep === 4 ? 'tour-highlight' : ''}`}
                     />
                     <button
                       onClick={handleSendMessage}
-                      className="p-2 bg-[#00bfa5] text-slate-950 rounded hover:bg-[#00e5c1] transition-all cursor-pointer flex items-center justify-center shadow-md active:scale-95"
+                      className="p-2.5 bg-[#00bfa5] text-white rounded-full hover:bg-[#00e5c1] transition-all cursor-pointer flex items-center justify-center shadow-md active:scale-95 border-none"
                     >
                       <Send className="w-3.5 h-3.5" />
                     </button>
@@ -1670,10 +2086,10 @@ export default function CustomerApp({ onToggleDevPanel }) {
       </main>
 
       {/* Dynamic Payment processing loader modal */}
-      <div id="payment_loading" className="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm">
-        <div className="bg-[#080b11] border border-slate-900 p-8 rounded-md text-center space-y-4 max-w-xs w-full shadow-2xl">
+      <div id="payment_loading" className="hidden fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-sm">
+        <div className="bg-white border-none p-8 rounded-2xl text-center space-y-4 max-w-xs w-full shadow-2xl">
           <RefreshCw className="w-8 h-8 text-[#00bfa5] animate-spin mx-auto" />
-          <h4 className="text-sm font-black uppercase tracking-wider text-white">Memproses Pembayaran</h4>
+          <h4 className="text-sm font-black uppercase tracking-wider text-slate-800">Memproses Pembayaran</h4>
           <p className="text-[10px] text-slate-500 font-bold">Mengamankan deposit saldo Anda di Escrow...</p>
         </div>
       </div>
@@ -1692,46 +2108,186 @@ export default function CustomerApp({ onToggleDevPanel }) {
         />
       )}
 
+      {/* High-Fidelity Order Details Modal */}
+      <AnimatePresence>
+        {selectedDetailOrder && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4"
+          >
+            <motion.div 
+              initial={{ scale: 0.95, y: 15 }}
+              animate={{ scale: 1, y: 0 }}
+              exit={{ scale: 0.95, y: 15 }}
+              className="bg-white border-none rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden flex flex-col text-left max-h-[90vh]"
+            >
+              {/* Modal Header */}
+              <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div>
+                  <h3 className="font-display font-black text-xs uppercase tracking-wider text-slate-800">
+                    Rincian Pesanan #{selectedDetailOrder.id}
+                  </h3>
+                  <span className="text-[9px] text-slate-500 font-semibold block mt-1">
+                    Dipesan pada {selectedDetailOrder.date}
+                  </span>
+                </div>
+                <button 
+                  onClick={() => setSelectedDetailOrder(null)}
+                  className="p-1.5 text-slate-500 hover:text-slate-800 border-none rounded bg-slate-100 hover:bg-slate-200 cursor-pointer transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-5 overflow-y-auto space-y-5 flex-1 bg-white">
+                
+                {/* Status Card */}
+                <div className="bg-slate-50 border-none p-4 rounded-xl flex items-center justify-between shadow-inner">
+                  <div>
+                    <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider block">STATUS TRANSAKSI</span>
+                    <span className={`text-[9px] font-black px-2 py-0.5 rounded-full tracking-wide border inline-block mt-1 uppercase ${
+                      selectedDetailOrder.status === 'IN PROGRESS' ? 'bg-[#00bfa5]/10 text-[#00bfa5] border-[#00bfa5]/20' : 
+                      selectedDetailOrder.status === 'COMPLETED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 
+                      'bg-red-50 text-red-650 border-red-100'
+                    }`}>
+                      {selectedDetailOrder.status === 'IN PROGRESS' ? 'SEDANG DIPROSES' : selectedDetailOrder.status === 'COMPLETED' ? 'SELESAI' : 'DIBATALKAN'}
+                    </span>
+                  </div>
+
+                  {selectedDetailOrder.status === 'IN PROGRESS' && (
+                    <div className="text-right">
+                      <span className="text-[8px] text-[#00bfa5] font-black uppercase tracking-wider block">ETA KIRIM</span>
+                      <span className="text-xs font-mono font-black text-slate-800 mt-1 block">{selectedDetailOrder.eta || '15 Menit'}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Shipping Address */}
+                <div className="space-y-1.5 text-xs font-semibold">
+                  <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider block">ALAMAT PENGIRIMAN</span>
+                  <p className="text-slate-700 text-[11px] leading-relaxed bg-slate-50 p-3 border-none rounded-xl">
+                    Jl. Kemang Raya No. 12, Bangka, Mampang Prapatan, Jakarta Selatan, 12730
+                  </p>
+                </div>
+
+                {/* Items List */}
+                <div className="space-y-2.5">
+                  <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider block">BARANG BELANJAAN</span>
+                  <div className="space-y-2 max-h-48 overflow-y-auto pr-1 no-scrollbar">
+                    {selectedDetailOrder.items && selectedDetailOrder.items.length > 0 ? (
+                      selectedDetailOrder.items.map((item, idx) => (
+                        <div key={idx} className="bg-slate-50 p-3.5 border-none rounded-xl flex justify-between items-center text-xs shadow-sm">
+                          <div>
+                            <span className="font-extrabold text-slate-800 uppercase tracking-wider block">{item.name}</span>
+                            <span className="text-[10px] text-slate-500 font-semibold block mt-0.5">{item.quantity || 1} x {item.unit || 'unit'}</span>
+                          </div>
+                          <span className="font-black text-slate-800">
+                            Rp {new Intl.NumberFormat('id-ID').format((item.price || 15000) * (item.quantity || 1))}
+                          </span>
+                        </div>
+                      ))
+                    ) : (
+                      <p className="text-slate-500 text-xs italic">Tidak ada item belanjaan.</p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Cost Summary */}
+                <div className="space-y-2 border-t border-slate-100 pt-4 text-xs font-semibold">
+                  <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider block">RINCIAN BIAYA</span>
+                  <div className="space-y-1.5 font-bold bg-white">
+                    <div className="flex justify-between text-slate-500">
+                      <span>Subtotal Belanja:</span>
+                      <span className="text-slate-800">Rp {new Intl.NumberFormat('id-ID').format(selectedDetailOrder.total - 15000)}</span>
+                    </div>
+                    <div className="flex justify-between text-slate-500">
+                      <span>Ongkos Kirim (Flat):</span>
+                      <span className="text-slate-800">Rp 15.000</span>
+                    </div>
+                    <div className="flex justify-between text-slate-500">
+                      <span>Biaya Layanan AI:</span>
+                      <span className="text-[#00bfa5] font-black">GRATIS</span>
+                    </div>
+                    <div className="h-px bg-slate-100 my-1" />
+                    <div className="flex justify-between text-sm font-black">
+                      <span className="text-slate-700">Total Pembayaran:</span>
+                      <span className="text-[#00bfa5]">Rp {new Intl.NumberFormat('id-ID').format(selectedDetailOrder.total)}</span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="p-5 border-t border-slate-100 bg-slate-50 flex justify-end gap-2.5">
+                <button 
+                  onClick={() => setSelectedDetailOrder(null)}
+                  className="px-6 py-2.5 bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 font-black text-[10px] uppercase tracking-widest rounded-full transition-all cursor-pointer"
+                >
+                  Tutup
+                </button>
+                {selectedDetailOrder.status === 'IN PROGRESS' && (
+                  <button 
+                    onClick={() => {
+                      handleTrackProgress(selectedDetailOrder);
+                      setSelectedDetailOrder(null);
+                    }}
+                    className="px-6 py-2.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black text-[10px] uppercase tracking-widest rounded-full transition-all cursor-pointer flex items-center gap-1.5 shadow border-none"
+                  >
+                    <Truck className="w-3.5 h-3.5" />
+                    <span>Lacak Kurir</span>
+                  </button>
+                )}
+              </div>
+
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* TOUR BACKDROP MASK */}
       {tourStep >= 0 && (
-        <div className="fixed inset-0 bg-slate-950/75 backdrop-blur-[1px] z-[90] pointer-events-auto transition-all duration-300 animate-fade-in" />
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-[1px] z-[90] pointer-events-auto transition-all duration-300 animate-fade-in" />
       )}
 
       {/* TOUR WALKTHROUGH POPUP CARD */}
       {tourStep >= 0 && (
         <div 
-          className={`fixed bg-slate-950/95 border-2 border-[#00bfa5] p-5 rounded-xl shadow-2xl max-w-sm w-11/12 text-left backdrop-blur-md transition-all duration-300 z-[100] ${
+          className={`fixed bg-white border-2 border-[#00bfa5] p-5 rounded-2xl shadow-2xl max-w-sm w-11/12 text-left transition-all duration-300 z-[100] ${
             tourStep === 0 
               ? 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2' 
-              : 'top-24 left-3 lg:top-16 lg:left-[268px]'
+              : 'top-24 left-3 lg:top-20 lg:left-[24px]'
           }`}
         >
           <div className="flex items-start gap-3.5">
-            <div className="w-10 h-10 rounded-full bg-[#00bfa5]/15 border border-[#00bfa5]/35 flex items-center justify-center text-[#00bfa5] shrink-0 animate-bounce">
+            <div className="w-10 h-10 rounded-full bg-[#00bfa5]/10 flex items-center justify-center text-[#00bfa5] shrink-0 animate-bounce">
               <Bot className="w-5.5 h-5.5" />
             </div>
             <div className="flex-grow min-w-0">
-              <h4 className="font-display font-black text-xs text-white uppercase tracking-widest leading-none flex items-center justify-between">
+              <h4 className="font-display font-black text-xs text-slate-800 uppercase tracking-widest leading-none flex items-center justify-between">
                 <span>Panduan Belanja Emak AI</span>
-                <span className="text-[10px] text-slate-500 font-bold">Langkah {tourStep === 0 ? "Persiapan" : `${tourStep}/6`}</span>
+                <span className="text-[10px] text-slate-400 font-bold">Langkah {tourStep === 0 ? "Persiapan" : `${tourStep}/6`}</span>
               </h4>
-              <p className="text-[11px] text-slate-300 font-semibold leading-relaxed mt-2.5">
+              <p className="text-[11px] text-slate-650 font-semibold leading-relaxed mt-2.5">
                 {tourStep === 0 && "Selamat datang di Emak AI! Mari kita coba simulasi jastip belanja pasar tradisional. Kami akan memandu Ibu langkah demi langkah agar tidak bingung."}
                 {tourStep === 1 && "Langkah 1: Klik tombol '+ Keranjang' (atau icon keranjang) pada produk makanan (misal 'Salmon Fillet') untuk memasukkannya ke keranjang belanja."}
                 {tourStep === 2 && "Langkah 2: Keranjang belanja terisi. Klik tombol 'Checkout' di bagian paling bawah untuk memproses pesanan."}
-                {tourStep === 3 && "Langkah 3: Periksa total tagihan. Klik tombol hijau 'BAYAR SEKARANG' untuk menyimpan deposit di rekening bersama (Escrow)."}
-                {tourStep === 4 && "Langkah 4: Pembayaran sukses! Buka Asisten AI / Obrolan Kurir di pojok kanan bawah untuk mengobrol dengan AI atau melacak kurir."}
+                {tourStep === 3 && "Langkah 3: Periksa total tagihan. Klik tombol 'BAYAR SEKARANG' untuk menyimpan deposit di rekening bersama (Escrow)."}
+                {tourStep === 4 && "Langkah 4: Pembayaran sukses! Buka tab 'AI Chat Bot' pada navigasi di atas untuk mengobrol dengan Asisten AI."}
                 {tourStep === 5 && "Langkah 5: Di sisi kanan Riwayat Pesanan, perhatikan widget 'Mini Lacak Map'. Kurir bergerak dari pasar tradisional menuju ke alamat Ibu secara real-time."}
                 {tourStep === 6 && "Langkah 6 (Terakhir): Jika kurir telah mengantar belanjaan ke rumah Ibu, klik tombol 'Selesaikan Pesanan' pada chat untuk mencairkan dana Escrow."}
               </p>
               
-              <div className="flex items-center justify-between gap-4 mt-4 pt-3 border-t border-slate-900">
+              <div className="flex items-center justify-between gap-4 mt-4 pt-3 border-t border-slate-100">
                 <button
                   onClick={() => {
                     setTourStep(-1);
                     localStorage.setItem('emak_tour_completed', 'true');
                   }}
-                  className="text-[9px] font-black uppercase text-slate-500 hover:text-slate-400 cursor-pointer"
+                  className="text-[9px] font-black uppercase text-slate-400 hover:text-slate-650 cursor-pointer border-none bg-transparent"
                 >
                   Lewati Tur
                 </button>
@@ -1752,7 +2308,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           setTourStep(4);
                         }
                       }}
-                      className="px-3 py-1.5 border border-slate-850 hover:bg-slate-900 rounded text-slate-400 hover:text-white font-bold uppercase text-[9px] cursor-pointer"
+                      className="px-4.5 py-1.5 border border-slate-200 hover:bg-slate-50 rounded-full text-slate-500 hover:text-slate-800 font-bold uppercase text-[9px] cursor-pointer bg-white transition-all"
                     >
                       Kembali
                     </button>
@@ -1764,7 +2320,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                         setActiveTab('beranda');
                         setTourStep(1);
                       }}
-                      className="px-4.5 py-1.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[9px] cursor-pointer shadow-md"
+                      className="px-5 py-2 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black rounded-full uppercase text-[9px] cursor-pointer shadow-md border-none transition-all"
                     >
                       Mulai Sekarang
                     </button>
@@ -1788,7 +2344,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                           setTourStep(6);
                         }
                       }}
-                      className="px-4.5 py-1.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[9px] cursor-pointer shadow-md"
+                      className="px-5 py-2 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black rounded-full uppercase text-[9px] cursor-pointer shadow-md border-none transition-all"
                     >
                       Lanjut
                     </button>
@@ -1800,7 +2356,7 @@ export default function CustomerApp({ onToggleDevPanel }) {
                         setTourStep(-1);
                         localStorage.setItem('emak_tour_completed', 'true');
                       }}
-                      className="px-4.5 py-1.5 bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black rounded uppercase text-[9px] cursor-pointer shadow-md animate-pulse"
+                      className="px-5 py-2 bg-[#00bfa5] hover:bg-[#00e5c1] text-white font-black rounded-full uppercase text-[9px] cursor-pointer shadow-md animate-pulse border-none transition-all"
                     >
                       Selesai Tur
                     </button>
@@ -1842,8 +2398,8 @@ function MapTracker({ orderId, onClose, onOpenChat, orders }) {
     
     mapInstanceRef.current = map;
     
-    // Premium dark-styled tiles (CartoDB Dark Matter) matching the Obsidian Black theme
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    // Premium light-styled tiles (CartoDB Voyager) matching the light theme
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
       maxZoom: 20
     }).addTo(map);
@@ -1853,24 +2409,30 @@ function MapTracker({ orderId, onClose, onOpenChat, orders }) {
       position: 'topright'
     }).addTo(map);
     
-    // Custom DIV Icons matching obsidian/emerald/amber color scheme
+    // Custom DIV Icons matching light theme layout and replacing emojis with proper SVG icons
     const pickupIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-10 h-10 rounded-full bg-[#080b11] border-2 border-[#00bfa5] flex items-center justify-center text-lg shadow-lg shadow-emerald-950/20 select-none">🛒</div>`,
+      html: `<div class="w-10 h-10 rounded-full bg-white border-2 border-[#00bfa5] flex items-center justify-center shadow-lg select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#00bfa5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </div>`,
       iconSize: [40, 40],
       iconAnchor: [20, 20]
     });
 
     const deliveryIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-10 h-10 rounded-full bg-[#080b11] border-2 border-amber-500 flex items-center justify-center text-lg shadow-lg shadow-amber-950/20 select-none">🏠</div>`,
+      html: `<div class="w-10 h-10 rounded-full bg-white border-2 border-amber-500 flex items-center justify-center shadow-lg select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>`,
       iconSize: [40, 40],
       iconAnchor: [20, 20]
     });
 
     const driverIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-12 h-12 rounded-full bg-[#00bfa5] border-2 border-slate-950 flex items-center justify-center text-xl shadow-xl shadow-emerald-500/20 animate-bounce select-none">🛵</div>`,
+      html: `<div class="w-12 h-12 rounded-full bg-[#00bfa5] border-2 border-white flex items-center justify-center shadow-xl animate-bounce select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v10"/><polygon points="14 8 20 8 22 14 14 14"/><circle cx="7.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/></svg>
+      </div>`,
       iconSize: [48, 48],
       iconAnchor: [24, 24]
     });
@@ -1919,23 +2481,23 @@ function MapTracker({ orderId, onClose, onOpenChat, orders }) {
   }, [orderId]);
 
   return (
-    <div className="fixed inset-0 z-[100] bg-[#080b11] flex flex-col font-sans">
+    <div className="fixed inset-0 z-[100] bg-[#f8fafc] flex flex-col font-sans">
       {/* Top Header Navbar */}
-      <div className="h-16 bg-[#080b11]/90 backdrop-blur border-b border-slate-900 px-4 flex items-center justify-between shrink-0 sticky top-0 z-[101]">
+      <div className="h-16 bg-white/95 backdrop-blur border-b border-slate-100 px-4 flex items-center justify-between shrink-0 sticky top-0 z-[101] shadow-sm">
         <button 
           onClick={onClose}
-          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors cursor-pointer text-xs font-black uppercase tracking-wider"
+          className="flex items-center gap-2 text-slate-500 hover:text-slate-800 transition-colors cursor-pointer text-xs font-black uppercase tracking-wider bg-transparent border-none"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Kembali</span>
         </button>
         <div className="text-center">
           <span className="text-xs text-[#00bfa5] font-black uppercase tracking-widest block">Live Tracking</span>
-          <span className="text-[10px] text-slate-400 font-semibold">{orderId}</span>
+          <span className="text-[10px] text-slate-550 font-semibold">{orderId}</span>
         </div>
         <button
           onClick={onOpenChat}
-          className="bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 px-3.5 py-1.5 rounded text-[10px] uppercase font-black tracking-widest transition-all cursor-pointer flex items-center gap-1.5 shadow"
+          className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white px-5 py-2 rounded-full text-[10px] uppercase font-black tracking-widest transition-all cursor-pointer flex items-center gap-1.5 shadow border-none"
         >
           <MessageSquare className="w-3.5 h-3.5" />
           <span>Chat Kurir</span>
@@ -1943,51 +2505,51 @@ function MapTracker({ orderId, onClose, onOpenChat, orders }) {
       </div>
 
       {/* Map Display area */}
-      <div className="flex-1 relative bg-[#0c101a] overflow-hidden">
+      <div className="flex-1 relative bg-[#f1f5f9] overflow-hidden">
         <div ref={mapRef} className="absolute inset-0 z-0" />
 
         {/* Courier Details Floating Overlay Card */}
-        <div className="absolute bottom-6 left-6 right-6 md:left-6 md:right-auto md:w-[360px] z-[1000] bg-[#0c101a]/95 border border-slate-900 backdrop-blur-md rounded-xl p-5 shadow-2xl flex flex-col gap-4 text-left">
+        <div className="absolute bottom-6 left-6 right-6 md:left-6 md:right-auto md:w-[360px] z-[1000] bg-white border-none rounded-2xl p-5 shadow-2xl flex flex-col gap-4 text-left">
           
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <img 
                 src="/3d_driver_vecteezy.png" 
                 alt="Driver Profile" 
-                className="w-12 h-12 rounded-full border border-slate-800 bg-[#080b11] object-contain p-1 shadow-inner" 
+                className="w-12 h-12 rounded-full border border-slate-200 bg-slate-50 object-contain p-1 shadow-inner" 
                 onError={(e) => {
                   e.target.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop";
                 }}
               />
               <div>
-                <span className="font-extrabold text-xs text-white block uppercase tracking-wider">{driverName}</span>
-                <span className="text-[10px] text-slate-400 font-bold block mt-0.5">{driverRating} • Mitra Kurir</span>
+                <span className="font-extrabold text-xs text-slate-800 block uppercase tracking-wider">{driverName}</span>
+                <span className="text-[10px] text-slate-500 font-bold block mt-0.5">{driverRating} • Mitra Kurir</span>
               </div>
             </div>
             
             <a 
               href={`tel:${driverPhone}`}
-              className="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center text-[#00bfa5] hover:bg-[#00bfa5]/10 hover:border-[#00bfa5]/20 transition-all cursor-pointer shadow-sm"
+              className="w-9 h-9 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center text-[#00bfa5] hover:bg-[#00bfa5]/10 hover:border-[#00bfa5]/20 transition-all cursor-pointer shadow-sm"
               title="Hubungi via Telepon"
             >
               <Phone className="w-4 h-4" />
             </a>
           </div>
 
-          <hr className="border-slate-900" />
+          <hr className="border-slate-100" />
 
           <div className="space-y-1.5">
             <span className="text-[9px] text-[#00bfa5] font-black uppercase tracking-widest flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00bfa5] animate-ping" />
               Status Pengantaran
             </span>
-            <p className="text-xs text-white font-extrabold leading-normal">{courierStatus}</p>
+            <p className="text-xs text-slate-850 font-extrabold leading-normal">{courierStatus}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3.5 mt-1 bg-[#080b11]/60 p-3 rounded-lg border border-slate-950">
+          <div className="grid grid-cols-2 gap-3.5 mt-1 bg-slate-50 p-3.5 rounded-xl border-none shadow-inner">
             <div>
               <span className="text-[8px] text-slate-500 font-extrabold uppercase tracking-widest block">Estimasi Tiba</span>
-              <span className="text-xs text-white font-black font-mono block mt-0.5 animate-pulse">{eta}</span>
+              <span className="text-xs text-slate-800 font-black font-mono block mt-0.5 animate-pulse">{eta}</span>
             </div>
             <div>
               <span className="text-[8px] text-slate-500 font-extrabold uppercase tracking-widest block">Metode Pembayaran</span>
@@ -2033,27 +2595,33 @@ function MiniTrackerWidget({ orders, onTrackProgress, onFinishOrder, onStartShop
     
     miniMapInstanceRef.current = map;
     
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       maxZoom: 20
     }).addTo(map);
     
     const pickupIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-7 h-7 rounded-full bg-[#080b11] border-2 border-[#00bfa5] flex items-center justify-center text-xs select-none">🛒</div>`,
+      html: `<div class="w-7 h-7 rounded-full bg-white border-2 border-[#00bfa5] flex items-center justify-center shadow select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#00bfa5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+      </div>`,
       iconSize: [28, 28],
       iconAnchor: [14, 14]
     });
 
     const deliveryIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-7 h-7 rounded-full bg-[#080b11] border-2 border-amber-500 flex items-center justify-center text-xs select-none">🏠</div>`,
+      html: `<div class="w-7 h-7 rounded-full bg-white border-2 border-amber-500 flex items-center justify-center shadow select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </div>`,
       iconSize: [28, 28],
       iconAnchor: [14, 14]
     });
 
     const driverIcon = L.divIcon({
       className: 'custom-div-icon',
-      html: `<div class="w-8 h-8 rounded-full bg-[#00bfa5] border border-slate-950 flex items-center justify-center text-xs shadow-md animate-bounce select-none">🛵</div>`,
+      html: `<div class="w-8 h-8 rounded-full bg-[#00bfa5] border border-white flex items-center justify-center shadow-md animate-bounce select-none">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 18H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v10"/><polygon points="14 8 20 8 22 14 14 14"/><circle cx="7.5" cy="18.5" r="2.5"/><circle cx="17.5" cy="18.5" r="2.5"/></svg>
+      </div>`,
       iconSize: [32, 32],
       iconAnchor: [16, 16]
     });
@@ -2097,19 +2665,19 @@ function MiniTrackerWidget({ orders, onTrackProgress, onFinishOrder, onStartShop
 
   if (!activeOrder) {
     return (
-      <div className="bg-[#080b11] border border-slate-900 rounded-md p-6 text-center space-y-4 shadow-sm">
-        <div className="w-12 h-12 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center mx-auto text-slate-600">
+      <div className="bg-white border border-slate-100 rounded-2xl p-6 text-center space-y-4 shadow-sm">
+        <div className="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center mx-auto text-slate-400 border-none">
           <Truck className="w-6 h-6" />
         </div>
         <div className="space-y-1.5">
-          <h4 className="font-extrabold text-xs text-white uppercase tracking-wider">Tidak Ada Pengiriman</h4>
+          <h4 className="font-extrabold text-xs text-slate-850 uppercase tracking-wider">Tidak Ada Pengiriman</h4>
           <p className="text-[10px] text-slate-500 font-bold leading-relaxed">
             Semua pesanan belanja telah selesai. Belanja sekarang di catalog untuk melacak kurir live di sini.
           </p>
         </div>
         <button 
           onClick={onStartShopping}
-          className="w-full bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 font-black text-[9px] uppercase tracking-widest py-2.5 rounded transition-all cursor-pointer shadow active:scale-95"
+          className="w-full bg-white border border-[#00bfa5]/30 text-[#00bfa5] hover:bg-slate-50 font-black text-[9px] uppercase tracking-widest py-3 px-5 rounded-full transition-all cursor-pointer shadow-sm active:scale-95"
         >
           Mulai Belanja
         </button>
@@ -2122,18 +2690,18 @@ function MiniTrackerWidget({ orders, onTrackProgress, onFinishOrder, onStartShop
   const eta = activeOrder.eta || "15 Menit";
 
   return (
-    <div className="bg-[#080b11] border border-[#00bfa5] rounded-md overflow-hidden flex flex-col shadow-lg shadow-[#00bfa5]/5 text-left">
+    <div className="bg-white border border-[#00bfa5]/25 rounded-2xl overflow-hidden flex flex-col shadow-md text-left">
       
-      <div className="bg-[#0c101a] px-4 py-3 border-b border-slate-900 flex items-center justify-between">
+      <div className="bg-slate-50 px-4 py-3 border-b border-slate-100 flex items-center justify-between">
         <span className="text-[9px] text-[#00bfa5] font-black uppercase tracking-widest flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-[#00bfa5] animate-ping" />
           Pelacakan Aktif
         </span>
-        <span className="text-[9px] text-slate-500 font-mono font-bold">{activeOrder.id}</span>
+        <span className="text-[9px] text-slate-550 font-mono font-bold">{activeOrder.id}</span>
       </div>
 
       {/* Mini static map container */}
-      <div className="h-56 relative bg-[#0c101a] border-b border-slate-900 overflow-hidden">
+      <div className="h-56 relative bg-[#f1f5f9] border-b border-slate-100 overflow-hidden">
         <div ref={miniMapRef} className="absolute inset-0 z-0" />
       </div>
 
@@ -2143,20 +2711,20 @@ function MiniTrackerWidget({ orders, onTrackProgress, onFinishOrder, onStartShop
             <img 
               src="/3d_driver_vecteezy.png" 
               alt="Courier profile" 
-              className="w-9 h-9 rounded-full border border-slate-800 bg-[#080b11] object-contain p-0.5"
+              className="w-9 h-9 rounded-full border border-slate-200 bg-slate-50 object-contain p-0.5"
               onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=100&auto=format&fit=crop"; }}
             />
             <div>
-              <span className="text-[10px] font-black text-white block uppercase tracking-wider">{driverName}</span>
+              <span className="text-[10px] font-black text-slate-800 block uppercase tracking-wider">{driverName}</span>
               <span className="text-[8px] text-[#00bfa5] font-black block tracking-wider uppercase">Mitra Kurir</span>
             </div>
           </div>
-          <span className="bg-[#00bfa5]/10 border border-[#00bfa5]/20 text-[#00bfa5] font-mono text-[9px] font-black px-1.5 py-0.5 rounded tracking-wide animate-pulse">
+          <span className="bg-[#00bfa5]/10 border border-[#00bfa5]/25 text-[#00bfa5] font-mono text-[9px] font-black px-1.5 py-0.5 rounded tracking-wide animate-pulse">
             ETA: {eta}
           </span>
         </div>
 
-        <div className="bg-[#0c101a] p-3 rounded border border-slate-950 text-[10px] font-bold leading-normal text-slate-400">
+        <div className="bg-slate-50 p-3 rounded-xl border-none text-[10px] font-bold leading-normal text-slate-650 shadow-inner">
           <span className="text-slate-500 text-[8px] uppercase tracking-wider block mb-1">Status Terkini:</span>
           {courierStatus}
         </div>
@@ -2164,13 +2732,13 @@ function MiniTrackerWidget({ orders, onTrackProgress, onFinishOrder, onStartShop
         <div className="grid grid-cols-2 gap-2 text-[9px] font-black tracking-widest uppercase">
           <button
             onClick={() => onTrackProgress(activeOrder)}
-            className="bg-[#00bfa5] hover:bg-[#00e5c1] text-slate-950 py-2.5 rounded text-center transition-all cursor-pointer shadow active:scale-95"
+            className="bg-[#00bfa5] hover:bg-[#00e5c1] text-white py-3 px-5 rounded-full text-center transition-all cursor-pointer shadow active:scale-95 border-none"
           >
             Lacak Detail
           </button>
           <button
             onClick={() => onFinishOrder(activeOrder.id)}
-            className="border border-emerald-500 hover:bg-emerald-500 hover:text-slate-950 text-emerald-400 py-2.5 rounded text-center transition-all cursor-pointer active:scale-95"
+            className="border border-emerald-500 hover:bg-emerald-600 hover:text-white text-emerald-650 py-3 px-5 rounded-full text-center transition-all cursor-pointer active:scale-95 bg-white"
           >
             Selesaikan
           </button>
